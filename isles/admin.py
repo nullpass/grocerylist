@@ -1,3 +1,6 @@
+# tickets/admin.py
 from django.contrib import admin
 
-# Register your models here.
+from isles.models import Isle
+admin.site.register(Isle)
+

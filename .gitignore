@@ -36,3 +36,5 @@ Icon
 .Trashes
 
 grocerylist/settings.py
+db.sqlite3
+*.pyc

@@ -1,0 +1,25 @@
+{% extends "Root.html" %}
+
+{% block linkbox %}
+<a href="{% url 'index' %}">Store List</a><br>
+<hr>
+<a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>
+{% endblock linkbox %}
+
+
+
+
+
+{% block content %}
+
+<h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ renderdata.buttontext }}</a></h3>
+<p class="list-group-item">{{ object.address }}</p>
+<p class="well">{{ object.notes|linebreaksbr }}</p>
+
+{% for I in isles %}
+<h3> Isle: {{ I }}<a href="{% url 'stores:isle:update' slug=object.slug pk=I.id %}" class="btn btn-xs btn-success">edit</a></h3>
+{% if I.notes %}<p class="well">{{ I.notes|linebreaksbr }}</p>{% endif %}
+
+
+{% endfor %}
+{% endblock content %}

@@ -12,3 +12,6 @@ class Isle(UltraModel):
     name = models.CharField(max_length=2)
     description = models.TextField(max_length=1024)
     store = models.ForeignKey(Store, related_name='isle')
+
+    class Meta:
+        unique_together = (("name", "store"),)

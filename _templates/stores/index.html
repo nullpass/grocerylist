@@ -1,0 +1,10 @@
+{% extends "Root.html" %}
+{% block content %}
+{% if stores %}
+<ul>
+{% for c in stores %}
+    <li><a href="{% url 'stores:detail' slug=c.slug %}">{{ c.name }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
