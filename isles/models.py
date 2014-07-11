@@ -15,3 +15,4 @@ class Isle(UltraModel):
 
     class Meta:
         unique_together = (("name", "store"),)
+

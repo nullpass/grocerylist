@@ -8,6 +8,9 @@ from django.contrib import messages
 
 from core.mixins import RenderdataMixin
 
+from items.forms import ItemCreateForm
+from items.models import Item
+
 from isles.models import Isle
 
 from .forms import StoreForm
@@ -62,14 +65,22 @@ class StoreDetailView(RenderdataMixin,generic.DetailView):
     template_name = 'stores/StoreDetailView.html'
     this = 'Store'
     renderdata = { 'this' : this,
-        'pagetitle' : '%s details' % this,
+        
         'buttontext' : 'Edit %s' % this,
         'link_box' : link_box,
     }
 
     def get_context_data(self, **kwargs):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
-        context['isles'] = Isle.objects.filter(store=self.object.id)
+        context['pagetitle'] = self.object.name
+        context['Items'] = Item.objects.filter(store=self.object.id)
+        context['ItemForm'] = ItemCreateForm()
+        #
+        # Only show isles that belong to this store.
+        temp = Isle.objects.filter(store=self.object.id).order_by('name')
+        context['isles'] = temp
+        context['ItemForm'].fields['isle'].queryset = temp
+        context['ItemForm'].fields['isle'].initial = temp[0]
         #
         # Everything about this is SO STUPID- but I love it!
         try:

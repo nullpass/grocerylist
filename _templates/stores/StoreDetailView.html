@@ -15,11 +15,20 @@
 <h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ renderdata.buttontext }}</a></h3>
 <p class="list-group-item">{{ object.address }}</p>
 <p class="well">{{ object.notes|linebreaksbr }}</p>
+<form action="{% url 'stores:item-create' slug=object.slug %}" method="post">{{ ItemForm.errors }}
+<input type="submit" class="btn btn-sm btn-info" value="Add Item" /> Name:{{ ItemForm.name }}
+${{ ItemForm.price }}
+{{ ItemForm.isle }}
+{% csrf_token %}</form>
 
 {% for I in isles %}
-<h3> Isle: {{ I }}<a href="{% url 'stores:isle:update' slug=object.slug pk=I.id %}" class="btn btn-xs btn-success">edit</a></h3>
+<h4> Isle: {{ I }}<a href="{% url 'stores:isle:update' slug=object.slug pk=I.id %}" class="btn btn-xs btn-success">edit</a></h4>
 {% if I.notes %}<p class="well">{{ I.notes|linebreaksbr }}</p>{% endif %}
 
 
+{% for b in Items %}
+    {% if b.isle == I %}{{ b }} ${{ b.price }}<br>{% endif %}
 {% endfor %}
+{% endfor %}
+
 {% endblock content %}

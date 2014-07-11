@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from django.conf.urls import patterns, include, url
 
 from isles.views import IsleDetailView, IsleUpdateView, IsleCreateView
+from items.views import ItemCreateView
 
 from . import views
 
@@ -45,5 +46,7 @@ urlpatterns = patterns('',
     #
     # /s/<store slug>/isle-create/
     url(r'^isle/create/$',  IsleCreateView.as_view(), name='isle-create'),
-
+    #
+    # /s/<store slug>/item-create/
+    url(r'^item/create/$',  ItemCreateView.as_view(), name='item-create'),
 )
