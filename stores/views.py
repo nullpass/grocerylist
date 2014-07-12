@@ -80,7 +80,11 @@ class StoreDetailView(RenderdataMixin,generic.DetailView):
         temp = Isle.objects.filter(store=self.object.id).order_by('name')
         context['isles'] = temp
         context['ItemForm'].fields['isle'].queryset = temp
-        context['ItemForm'].fields['isle'].initial = temp[0]
+        try:
+            context['ItemForm'].fields['isle'].initial = temp[0]
+        except IndexError:
+            # "dey aint no isles yet, fool!" --Sr. Bug Reporter
+            pass
         #
         # Everything about this is SO STUPID- but I love it!
         try:

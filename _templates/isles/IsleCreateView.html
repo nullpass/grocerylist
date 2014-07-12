@@ -7,5 +7,6 @@
       </ul>
       {% csrf_token %}
       <input type="submit" class="btn btn-sm btn-info" value="{{ renderdata.buttontext }}" />
+        <a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a>
     </form>
 {% endblock %}

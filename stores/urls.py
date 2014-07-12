@@ -38,6 +38,9 @@ urlpatterns = patterns('',
     # /s/<store slug>/
     url(r'^$',         views.StoreDetailView.as_view(), name='detail'),
     #
+    # /s/<store slug>/generate/
+    url(r'^$',         views.StoreDetailView.as_view(), name='generate'),
+    #
     # /s/<store slug>/update/    
     url(r'^update/$',  views.StoreUpdateView.as_view(), name='update'),
     #

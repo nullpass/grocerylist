@@ -23,6 +23,13 @@ class IsleCreateView(RenderdataMixin,generic.CreateView):
         'buttontext' : 'New %s' % this,
     }
 
+    def get_context_data(self, **kwargs):
+        context = super(IsleCreateView, self).get_context_data(**kwargs)
+        #
+        # the 'cancel' button during isle create, there's a better way to do this but i ran out of s
+        context['back'] = reverse_lazy('stores:detail', kwargs = {'slug' : self.kwargs.get('slug')})
+        return context
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))

@@ -15,3 +15,4 @@ class Item(UltraModel):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     store = models.ForeignKey(Store, related_name='item')
     isle = models.ForeignKey(Isle, related_name='isle')
+    selected = models.BooleanField(default=False)

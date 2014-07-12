@@ -11,9 +11,17 @@ class ItemCreateForm(ModelForm):
         fields = (
             'name',
             'price',
-            #'store',
             'isle',
             'notes',
             )
         model = models.Item
 
+
+class ItemForm(ModelForm):
+    class Meta:
+        fields = (
+            'name',
+            'price',
+            'selected',
+            )
+        model = models.Item
