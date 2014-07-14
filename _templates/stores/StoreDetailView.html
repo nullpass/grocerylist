@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ renderdata.buttontext }}</a></h3>
+<h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ buttontext }}</a></h3>
 <p class="list-group-item">{{ object.address }}</p>
 <p class="well">{{ object.notes|linebreaksbr }}</p>
 <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">{{ ItemForm.errors }}
@@ -18,27 +18,46 @@
 ${{ ItemForm.price }}
 {{ ItemForm.isle }}
 {% csrf_token %}</form>
+<hr>
+    
+{# ListCreateForm #}
 
 <hr>
+<!--
+<label for="id_name">Name:</label>
+<input id="id_name" maxlength="64" name="name" type="text" />
 
-<form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ItemForm.errors }}
+<tr><th><label for="id_items_0">Items:</label></th><td><ul id="id_items">
+<li><label for="id_items_0"><input id="id_items_0" name="items" type="checkbox" value="10" /> Toothbrushes</label></li>
+<li><label for="id_items_1"><input id="id_items_1" name="items" type="checkbox" value="11" /> Pro-Health Mouthwash</label></li>
+<li><label for="id_items_2"><input id="id_items_2" name="items" type="checkbox" value="12" /> Paper plates</label></li>
+<li><label for="id_items_3"><input id="id_items_3" name="items" type="checkbox" value="13" /> Ruffles Chips</label></li>
+<li><label for="id_items_4"><input id="id_items_4" name="items" type="checkbox" value="14" /> Fried Crispy Chicken</label></li>
+<li><label for="id_items_5"><input id="id_items_5" name="items" type="checkbox" value="15" /> Apple Juice</label></li>
+<li><label for="id_items_6"><input id="id_items_6" name="items" type="checkbox" value="16" /> Shreaded Cheese</label></li>
+<li><label for="id_items_7"><input id="id_items_7" name="items" type="checkbox" value="17" /> milk</label></li>
+</ul></td></tr>
+-->
+<hr>
 
+<form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
+
+Name this List: {{ ListCreateForm.name }}
 <table border="1" width="100%">
     <tr>
-        <th>Get?</th>
         <th>Item</th>
         <th>Cost</th>
-        <th>isle</th>
     </tr>
-    {% for thisitem in Items %}
+    {% for thisitem in ListCreateForm.items %}
     <tr>
-        <td>{{ thisitem.selected }}</td>
-        <td>{{ thisitem.name  }}</td>
+        <td>{{ thisitem }}</td>
         <td>${{ thisitem.price }}</td>
-        <td><a href="{% url 'stores:isle:update' slug=object.slug pk=thisitem.isle.id %}">{{ thisitem.isle }}</a></td>
     </tr>
     {% endfor %}
 </table>
 <input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
 </form>
+
+
+
 {% endblock content %}

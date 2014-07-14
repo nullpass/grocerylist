@@ -2,7 +2,7 @@
 
 from __future__ import absolute_import
 
-from django.forms import ModelForm
+from django.forms import ModelForm, CheckboxSelectMultiple
 
 from . import models
 
@@ -13,3 +13,4 @@ class ListCreateForm(ModelForm):
             'items',
             )
         model = models.List
+        widgets = { 'items' : CheckboxSelectMultiple() }

@@ -13,6 +13,9 @@ from items.models import Item
 
 from isles.models import Isle
 
+from lists.models import List
+from lists.forms import ListCreateForm
+
 from .forms import StoreForm
 from .models import Store
 
@@ -63,16 +66,17 @@ class StoreDetailView(RenderdataMixin,generic.DetailView):
     """View a Store"""
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreDetailView.html'
-    this = 'Store'
-    renderdata = { 'this' : this,
-        
-        'buttontext' : 'Edit %s' % this,
-        'link_box' : link_box,
-    }
 
     def get_context_data(self, **kwargs):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         context['pagetitle'] = self.object.name
+        context['this'] = 'Store'
+        context['buttontext'] = 'Edit %s' % context['this']
+        context['link_box'] = link_box
+        #
+        context['ListCreateForm'] = ListCreateForm()
+        context['ListCreateForm'].fields['items'].queryset = Item.objects.filter(store=self.object.id)
+        #
         context['Items'] = Item.objects.filter(store=self.object.id)
         context['ItemForm'] = ItemCreateForm()
         #
