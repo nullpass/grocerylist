@@ -9,7 +9,6 @@
 
 
 {% block content %}
-
 <h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ buttontext }}</a></h3>
 <p class="list-group-item">{{ object.address }}</p>
 <p class="well">{{ object.notes|linebreaksbr }}</p>
@@ -19,26 +18,6 @@ ${{ ItemForm.price }}
 {{ ItemForm.isle }}
 {% csrf_token %}</form>
 <hr>
-    
-{# ListCreateForm #}
-
-<hr>
-<!--
-<label for="id_name">Name:</label>
-<input id="id_name" maxlength="64" name="name" type="text" />
-
-<tr><th><label for="id_items_0">Items:</label></th><td><ul id="id_items">
-<li><label for="id_items_0"><input id="id_items_0" name="items" type="checkbox" value="10" /> Toothbrushes</label></li>
-<li><label for="id_items_1"><input id="id_items_1" name="items" type="checkbox" value="11" /> Pro-Health Mouthwash</label></li>
-<li><label for="id_items_2"><input id="id_items_2" name="items" type="checkbox" value="12" /> Paper plates</label></li>
-<li><label for="id_items_3"><input id="id_items_3" name="items" type="checkbox" value="13" /> Ruffles Chips</label></li>
-<li><label for="id_items_4"><input id="id_items_4" name="items" type="checkbox" value="14" /> Fried Crispy Chicken</label></li>
-<li><label for="id_items_5"><input id="id_items_5" name="items" type="checkbox" value="15" /> Apple Juice</label></li>
-<li><label for="id_items_6"><input id="id_items_6" name="items" type="checkbox" value="16" /> Shreaded Cheese</label></li>
-<li><label for="id_items_7"><input id="id_items_7" name="items" type="checkbox" value="17" /> milk</label></li>
-</ul></td></tr>
--->
-<hr>
 
 <form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
 
@@ -47,17 +26,20 @@ Name this List: {{ ListCreateForm.name }}
     <tr>
         <th>Item</th>
         <th>Cost</th>
+        <th>Isle</th>
     </tr>
-    {% for thisitem in ListCreateForm.items %}
+    {% for q in ListCreateForm.items %}
     <tr>
-        <td>{{ thisitem }}</td>
-        <td>${{ thisitem.price }}</td>
+        <td>{{ q }}</td>
+        {% for P in Items %}
+            {% if q.choice_label == P.name %}
+                <td>${{ P.price }}</td>
+                <td>{{ P.isle }} ({{ P.isle.notes }})</td>
+            {%endif%}
+        {%endfor%}
     </tr>
     {% endfor %}
 </table>
 <input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
-</form>
-
-
-
+{% csrf_token %}</form>
 {% endblock content %}

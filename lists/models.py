@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from core.models import UltraModel
 
 from items.models import Item
+from stores.models import Store
 
 class List(UltraModel):
     """
@@ -16,6 +17,7 @@ class List(UltraModel):
     
     """
     name = models.CharField(max_length=64)
+    store = models.ForeignKey(Store, related_name='list')
     items = models.ManyToManyField(Item, related_name='list')
 
     def get_absolute_url(self):

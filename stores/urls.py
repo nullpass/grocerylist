@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 
 from isles.views import IsleDetailView, IsleUpdateView, IsleCreateView
 from items.views import ItemCreateView
+from lists.views import ListCreateView
 
 from . import views
 
@@ -39,7 +40,7 @@ urlpatterns = patterns('',
     url(r'^$',         views.StoreDetailView.as_view(), name='detail'),
     #
     # /s/<store slug>/generate/
-    url(r'^$',         views.StoreDetailView.as_view(), name='generate'),
+    url(r'^generate/$',   ListCreateView.as_view(), name='generate'),
     #
     # /s/<store slug>/update/    
     url(r'^update/$',  views.StoreUpdateView.as_view(), name='update'),

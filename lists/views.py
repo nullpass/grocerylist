@@ -1,3 +1,8 @@
+# lists/views.py
+
 from django.shortcuts import render
 
-# Create your views here.
+from django.views import generic
+
+class ListCreateView(generic.CreateView):
+    pass

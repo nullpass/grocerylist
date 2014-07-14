@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import
 
+from itertools import izip
+
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
