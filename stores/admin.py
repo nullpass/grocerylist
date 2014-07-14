@@ -1,4 +1,4 @@
-# tickets/admin.py
+# lists/admin.py
 from django.contrib import admin
 
 from stores.models import Store
