@@ -5,11 +5,11 @@ admin.autodiscover()
 
 from stores import views
 
-from lists.views import ListListView
+from lists.views import ListDetailView
 
 list_pats = patterns('',
     #
-    url(r'^(?P<pk>\d+)/$', ListListView.as_view(), name='detail')
+    url(r'^(?P<pk>\d+)/$', ListDetailView.as_view(), name='detail')
 )
 
 urlpatterns = patterns('',
@@ -22,4 +22,6 @@ urlpatterns = patterns('',
     url(r'^create/', views.StoreCreateView.as_view(), name='create'),
     #
     url(r'^lists/', include(list_pats, namespace='lists')),
+    #
+    # url(r'^recent/', views.RecentView.as_view(), name='recent'),
 )
