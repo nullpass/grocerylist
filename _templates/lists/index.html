@@ -1,0 +1,12 @@
+list create view. index.html
+
+{{ form.errors }}
+<hr>
+Self.name == {{ object }}<br>
+{{ object.store }}<br>
+<hr>
+List Contents<br>
+{% for A in object.items.all %}
+    {{ A }} {{ A.isle }}<br>
+{% endfor %}
+

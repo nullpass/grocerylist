@@ -120,5 +120,3 @@ class StoreUpdateView(RenderdataMixin,generic.UpdateView):
     def form_valid(self, form):
         messages.success(self.request, 'Changes saved!')
         return super(StoreUpdateView, self).form_valid(form)
-
-    

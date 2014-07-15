@@ -21,6 +21,14 @@ ${{ ItemForm.price }}
 
 <form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
 
+
+Here [
+
+{{ ListCreateForm.store }}
+
+]
+
+
 Name this List: {{ ListCreateForm.name }}
 <table border="1" width="100%">
     <tr>
