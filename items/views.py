@@ -32,18 +32,6 @@ class ItemCreateView(RenderdataMixin,generic.CreateView):
         return super(ItemCreateView, self).form_valid(form)
 
 
-class ItemDetailView(RenderdataMixin,generic.DetailView):
-    """View a Item"""
-    form_class, model = ItemCreateForm, Item
-    template_name = 'items/ItemDetailView.html'
-    slug_field = 'store_slug'
-    this = 'Item'
-    renderdata = { 'this' : this,
-        'pagetitle' : '%s details' % this,
-        'buttontext' : 'Edit %s' % this,
-    }
-
-
 class ItemUpdateView(RenderdataMixin,generic.UpdateView):
     """Edit a Item"""
     form_class, model = ItemCreateForm, Item
@@ -59,5 +47,3 @@ class ItemUpdateView(RenderdataMixin,generic.UpdateView):
         self.success_url = self.object.store.get_absolute_url()
         messages.success(self.request, 'Changes saved!')
         return super(ItemUpdateView, self).form_valid(form)
-
-    

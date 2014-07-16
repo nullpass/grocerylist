@@ -2,36 +2,27 @@
 from __future__ import absolute_import
 from django.conf.urls import patterns, include, url
 
-from isles.views import IsleDetailView, IsleUpdateView, IsleCreateView
-from items.views import ItemCreateView
+from isles.views import IsleUpdateView, IsleCreateView
+from items.views import ItemCreateView, ItemUpdateView
 from lists.views import ListCreateView
 
 from . import views
 
-"""
 item_patterns = patterns('',
-    #
-    # /s/<store slug>/<isle id>/<item slug>/
-    url(r'^$',         ItemDetailView.as_view(), name='detail'),
     #
     # /s/<store slug>/<isle id>/<item slug>/update
     url(r'^update/$',  ItemUpdateView.as_view(), name='update'),
 )
-"""
+
 
 isle_patterns = patterns('',
     #
-    # /s/<store slug>/<isle id>/
-    url(r'^$',         IsleDetailView.as_view(), name='detail'),
     #
     # /s/<store slug>/<isle id>/update
     url(r'^update/$',  IsleUpdateView.as_view(), name='update'),
     #
-    # /s/<store slug>/<isle id>/update
-    url(r'^create/$',  IsleCreateView.as_view(), name='create'),
-    #
     # /s/<store slug>/<isle id>/<item slug>
-    # url(r'^(?P<slug>[\w-]+)/', include(item_patterns, namespace='item')),
+    url(r'^(?P<slug>[\w-]+)/', include(item_patterns, namespace='item')),
 )
 
 urlpatterns = patterns('',

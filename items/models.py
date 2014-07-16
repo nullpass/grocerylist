@@ -17,6 +17,3 @@ class Item(UltraModel):
     isle = models.ForeignKey(Isle, related_name='isle')
     selected = models.BooleanField(default=False)
 
-    def gibb(self):
-        return '%s %s' % (self.name, self.price)
-

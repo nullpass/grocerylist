@@ -38,18 +38,6 @@ class IsleCreateView(RenderdataMixin,generic.CreateView):
         return super(IsleCreateView, self).form_valid(form)
 
 
-class IsleDetailView(RenderdataMixin,generic.DetailView):
-    """View a Isle"""
-    form_class, model = IsleForm, Isle
-    template_name = 'isles/IsleDetailView.html'
-    slug_field = 'store_slug'
-    this = 'Isle'
-    renderdata = { 'this' : this,
-        'pagetitle' : '%s details' % this,
-        'buttontext' : 'Edit %s' % this,
-    }
-
-
 class IsleUpdateView(RenderdataMixin,generic.UpdateView):
     """Edit a Isle"""
     form_class, model = IsleForm, Isle

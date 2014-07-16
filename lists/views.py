@@ -27,7 +27,7 @@ class ListCreateView(generic.CreateView):
         return super(ListCreateView, self).form_valid(form)
 
 class ListDetailView(generic.DetailView):
-    """ List a List List """
+    """ List a List List, Lists of Listing """
     form_class, model = ListCreateForm, List
     template_name = 'lists/index.html'
 
