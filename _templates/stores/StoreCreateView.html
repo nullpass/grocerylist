@@ -1,11 +1,18 @@
 {% extends "Root.html" %}
+{% block pagetitle %}Create a Store{% endblock %}
+{% block sectiontitle %}Create a Store{% endblock %}
+
+{% block linkbox %}
+<a href="{% url 'index' %}">Store List</a><br>
+{% endblock linkbox %}
+
+
 {% block content %}
-  <h3>{{ renderdata.pagetitle }}</h3>
     <form action="" method="post">
       <ul>
       {{ form.as_ul }}
       </ul>
       {% csrf_token %}
-      <input type="submit" class="btn btn-sm btn-info" value="{{ renderdata.buttontext }}" />
+      <input type="submit" class="btn btn-sm btn-info" value="Create!" />
     </form>
 {% endblock %}

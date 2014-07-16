@@ -17,7 +17,6 @@ item_patterns = patterns('',
 
 isle_patterns = patterns('',
     #
-    #
     # /s/<store slug>/<isle id>/update
     url(r'^update/$',  IsleUpdateView.as_view(), name='update'),
     #

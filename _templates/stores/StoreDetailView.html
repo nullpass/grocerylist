@@ -1,44 +1,69 @@
 {% extends "Root.html" %}
 
+
+{% block pagetitle %}{{object}} @ {{ object.address }}{% endblock pagetitle %}
+
+
 {% block linkbox %}
-<a href="{% url 'index' %}">Store List</a><br>
-<hr>
-<a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>
+    <a href="{% url 'index' %}">Store List</a><br>
+    <br>
+    <a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>
 {% endblock linkbox %}
 
 
-
 {% block content %}
-<h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">{{ buttontext }}</a></h3>
-<p class="list-group-item">{{ object.address }}</p>
-<p class="well">{{ object.notes|linebreaksbr }}</p>
-<form action="{% url 'stores:item-create' slug=object.slug %}" method="post">{{ ItemForm.errors }}
-<input type="submit" class="btn btn-sm btn-info" value="Add Item" /> Name:{{ ItemForm.name }}
-${{ ItemForm.price }}
-{{ ItemForm.isle }}
-{% csrf_token %}</form>
-<hr>
-
-<form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
-Name this List: {{ ListCreateForm.name }}
-<table border="1" width="100%">
-    <tr>
-        <th>Item</th>
-        <th>Cost</th>
-        <th>Isle</th>
-    </tr>
-    {% for q in ListCreateForm.items %}
-    <tr>
-        <td>{{ q }}</td>
-        {% for P in Items %}
-            {% if q.choice_label == P.name %}
-                <td>${{ P.price }}</td>
-                <td>{{ P.isle }} ({{ P.isle.notes }})</td>
-            {%endif%}
-        {%endfor%}
-    </tr>
-    {% endfor %}
-</table>
-<input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
-{% csrf_token %}</form>
+    <h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a></h3>
+    <p class="list-group-item">{{ object.address }}</p>
+    <p class="well">{{ object.notes|linebreaksbr }}</p>
+    
+    {% if not isles %}
+        <center>
+            This store does not have any isles defined. Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.
+        </center>
+        <hr width="75%">
+    {% endif %}
+    
+    
+    {% if ListCreateForm.items %}
+        <form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
+            Name this List: {{ ListCreateForm.name }}
+            <table border="1" width="100%">
+                <tr>
+                    <th>Item</th>
+                    <th>Cost</th>
+                    <th>Isle</th>
+                </tr>
+                {% for q in ListCreateForm.items %}
+                <tr>
+                    <td>{{ q }}</td>
+                    {% for P in Items %}
+                        {% if q.choice_label == P.name %}
+                            <td><a href="{ url 'stores:item:update' slug=object.slug pk=P.pk %}">${{ P.price }}</a></td>
+                            <td><a href="{% url 'stores:isle:update' slug=object.slug pk=P.isle.pk %}">{{ P.isle }} ({{ P.isle.notes }})</a></td>
+                        {%endif%}
+                    {%endfor%}
+                </tr>
+                {% endfor %}
+            </table>
+            <input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
+            {% csrf_token %}
+        </form>
+    {% endif %}
+    
+    {% if isles and not ListCreateForm.items %}
+        <center>No items found, add them here:</center>
+    {% endif %}
+    
+    {% if isles %}
+        <center>
+            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
+                Item Name:{{ ItemCreateForm.name }}
+                ${{ ItemCreateForm.price }}
+                {{ ItemCreateForm.isle }}
+                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
+                {% csrf_token %}
+            </form>
+        </center>
+        <hr width="75%">
+    {% endif %}
 {% endblock content %}

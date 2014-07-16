@@ -1,10 +1,22 @@
 {% extends "Root.html" %}
+
+{% block pagetitle %}Store List{% endblock %}
+
+{% block sectiontitle %}Store List{% endblock %}
+
+
+{% block linkbox %}
+<a href="{% url 'create' %}">Create Store</a><br>
+{% endblock linkbox %}
+
+
+
 {% block content %}
-{% if stores %}
 <ul>
-{% for c in stores %}
-    <li><a href="{% url 'stores:detail' slug=c.slug %}">{{ c.name }}</a></li>
+{% for a in stores %}
+    <li><a href="{% url 'stores:detail' slug=a.slug %}">{{ a.name }}</a></li>
+{% empty %}
+    <li>You have not created any stores, click <a href="{% url 'create' %}">here</a> to get started!</li>
 {% endfor %}
 </ul>
-{% endif %}
 {% endblock %}
