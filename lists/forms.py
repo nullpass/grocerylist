@@ -6,7 +6,7 @@ from django.forms import ModelForm, CheckboxSelectMultiple
 
 from . import models
 
-class ListCreateForm(ModelForm):
+class ListForm(ModelForm):
     class Meta:
         fields = (
             'name',

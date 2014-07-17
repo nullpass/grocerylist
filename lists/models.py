@@ -16,7 +16,7 @@ class List(UltraModel):
     M2M pointing to items
     
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, blank=True, null=True) # in views defaults to self.created
     store = models.ForeignKey(Store, related_name='list')
     items = models.ManyToManyField(Item, related_name='list')
 

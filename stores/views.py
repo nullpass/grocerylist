@@ -9,7 +9,7 @@ from items.models import Item
 
 from isles.models import Isle
 
-from lists.forms import ListCreateForm
+from lists.forms import ListForm
 
 from .forms import StoreForm
 from .models import Store
@@ -37,8 +37,8 @@ class StoreDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         #
-        context['ListCreateForm'] = ListCreateForm()
-        context['ListCreateForm'].fields['items'].queryset = Item.objects.filter(store=self.object.id)
+        context['ListForm'] = ListForm()
+        context['ListForm'].fields['items'].queryset = Item.objects.filter(store=self.object.id)
         #
         context['ItemCreateForm'] = ItemCreateForm()
         context['Items'] = Item.objects.filter(store=self.object.id)

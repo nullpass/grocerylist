@@ -1,11 +1,28 @@
 {% extends "Root.html" %}
+
+{% block pagetitle %}Update Store: {{ object }}{% endblock %}
+
+{% block sectiontitle %}Update Store: <i>{{ object }}</i>{% endblock %}
+
+
+{% block linkbox %}
+    <a href="{% url 'index' %}">Store List</a><br>
+{% endblock linkbox %}
+
+
 {% block content %}
-  <h3>{{ renderdata.pagetitle }}</h3>
-    <form action="" method="post">
-      <ul>
-      {{ form.as_ul }}
-      </ul>
-      {% csrf_token %}
-      <input type="submit" class="btn btn-sm btn-info" value="{{ renderdata.buttontext }}" /> <a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a>
-    </form>
+<form action="" method="post">{% csrf_token %}
+  <table class="table ">
+    <tr><td><b>Name:</b></td><td>{{ form.name }}{{form.name.errors}}</td></tr>
+    <tr><td><b>Address:</b></td><td>{{ form.address }}{{form.address.errors}}</td></tr>
+    <tr>
+      <td></td>
+      <td><i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
+    </tr>
+  </table>
+</form>
 {% endblock %}

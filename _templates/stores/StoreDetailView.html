@@ -3,6 +3,8 @@
 
 {% block pagetitle %}{{object}} @ {{ object.address }}{% endblock pagetitle %}
 
+{% block sectiontitle %}{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>{% endblock %}
+
 
 {% block linkbox %}
     <a href="{% url 'index' %}">Store List</a><br>
@@ -12,8 +14,7 @@
 
 
 {% block content %}
-    <h3>{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a></h3>
-    <p class="list-group-item">{{ object.address }}</p>
+    <p class="list-group-item"><i>{{ object.address }}</i></p>
     <p class="well">{{ object.notes|linebreaksbr }}</p>
     
     {% if not isles %}
@@ -24,16 +25,16 @@
     {% endif %}
     
     
-    {% if ListCreateForm.items %}
-        <form action="{% url 'stores:generate' slug=object.slug %}" method="post">{{ ListCreateForm.errors }}
-            Name this List: {{ ListCreateForm.name }}
-            <table border="1" width="100%">
+    {% if ListForm.items %}
+        <hr width="80%">
+        <form action="{% url 'stores:generate' slug=object.slug %}" method="post">
+            <table class="table table-striped">
                 <tr>
                     <th>Item</th>
                     <th>Cost</th>
                     <th>Isle</th>
                 </tr>
-                {% for q in ListCreateForm.items %}
+                {% for q in ListForm.items %}
                 <tr>
                     <td>{{ q }}</td>
                     {% for P in Items %}
@@ -50,7 +51,7 @@
         </form>
     {% endif %}
     
-    {% if isles and not ListCreateForm.items %}
+    {% if isles and not ListForm.items %}
         <center>No items found, add them here:</center>
     {% endif %}
     

@@ -13,15 +13,10 @@ from stores.models import Store
 from .forms import IsleForm
 from .models import Isle
 
-class IsleCreateView(RenderdataMixin,generic.CreateView):
+class IsleCreateView(generic.CreateView):
     """Make a new Isle"""
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleCreateView.html'
-    this = 'Isle'
-    renderdata = { 'this' : this,
-        'pagetitle' : 'Create %s' % this,
-        'buttontext' : 'New %s' % this,
-    }
 
     def get_context_data(self, **kwargs):
         context = super(IsleCreateView, self).get_context_data(**kwargs)
@@ -42,11 +37,6 @@ class IsleUpdateView(RenderdataMixin,generic.UpdateView):
     """Edit a Isle"""
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'
-    this = 'Isle'
-    renderdata = { 'this' : this,
-        'pagetitle' : 'Edit a %s' % this,
-        'buttontext' : 'Save Changes',
-    }
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

@@ -1,34 +1,34 @@
 # lists/views.py
+from __future__ import absolute_import
 
 import decimal
+import time
 
 from django.views import generic
-from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 
 from stores.models import Store
 from isles.models import Isle
 
 from .models import List
-from .forms import ListCreateForm
+from .forms import ListForm
 
 
 class ListCreateView(generic.CreateView):
     """Make a new grocery list!"""
-    form_class, model = ListCreateForm, List
+    form_class, model = ListForm, List
     template_name = 'lists/index.html'
-    this = 'G List'
-    #
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
-        messages.success(self.request, '%s %s added!' % (self.this, form.cleaned_data['name'] ) )
+        self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
         return super(ListCreateView, self).form_valid(form)
+
 
 class ListDetailView(generic.DetailView):
     """ List a List List, Lists of Listing """
-    form_class, model = ListCreateForm, List
+    form_class, model = ListForm, List
     template_name = 'lists/index.html'
 
     def get_context_data(self, **kwargs):

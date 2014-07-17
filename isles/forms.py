@@ -12,3 +12,9 @@ class IsleForm(ModelForm):
             'notes',
             )
         model = models.Isle
+
+    def __init__(self, *args, **kwargs):
+        super(IsleForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['size'] = 2
+        self.fields['notes'].widget.attrs['rows'] = 8
+        self.fields['notes'].widget.attrs['cols'] = 16
