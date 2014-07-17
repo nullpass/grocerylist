@@ -3,10 +3,8 @@
 from __future__ import absolute_import
 
 from django.views import generic
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
-
-from core.mixins import RenderdataMixin
 
 from stores.models import Store
 
@@ -14,7 +12,7 @@ from .forms import IsleForm
 from .models import Isle
 
 class IsleCreateView(generic.CreateView):
-    """Make a new Isle"""
+    """ Make a new Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleCreateView.html'
 
@@ -33,8 +31,8 @@ class IsleCreateView(generic.CreateView):
         return super(IsleCreateView, self).form_valid(form)
 
 
-class IsleUpdateView(RenderdataMixin,generic.UpdateView):
-    """Edit a Isle"""
+class IsleUpdateView(generic.UpdateView):
+    """ Edit an Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'
 
@@ -43,5 +41,3 @@ class IsleUpdateView(RenderdataMixin,generic.UpdateView):
         self.success_url = self.object.store.get_absolute_url()
         messages.success(self.request, 'Changes saved!')
         return super(IsleUpdateView, self).form_valid(form)
-
-    

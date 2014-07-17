@@ -12,7 +12,6 @@ class ItemCreateForm(ModelForm):
             'name',
             'price',
             'isle',
-            'notes',
             )
         model = models.Item
 

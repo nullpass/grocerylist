@@ -1,10 +1,8 @@
 {% extends "Root.html" %}
 
-
 {% block pagetitle %}{{object}} @ {{ object.address }}{% endblock pagetitle %}
 
 {% block sectiontitle %}{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>{% endblock %}
-
 
 {% block linkbox %}
     <a href="{% url 'index' %}">Store List</a><br>
@@ -12,7 +10,9 @@
     <a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>
 {% endblock linkbox %}
 
-
+{% block rellists %}
+{% endblock rellists %}
+    
 {% block content %}
     <p class="list-group-item"><i>{{ object.address }}</i></p>
     <p class="well">{{ object.notes|linebreaksbr }}</p>
@@ -23,7 +23,6 @@
         </center>
         <hr width="75%">
     {% endif %}
-    
     
     {% if ListForm.items %}
         <hr width="80%">
@@ -39,7 +38,7 @@
                     <td>{{ q }}</td>
                     {% for P in Items %}
                         {% if q.choice_label == P.name %}
-                            <td><a href="{ url 'stores:item:update' slug=object.slug pk=P.pk %}">${{ P.price }}</a></td>
+                            <td><a href="{% url 'items:update' pk=P.pk %}">${{ P.price }}</a></td>
                             <td><a href="{% url 'stores:isle:update' slug=object.slug pk=P.isle.pk %}">{{ P.isle }} ({{ P.isle.notes }})</a></td>
                         {%endif%}
                     {%endfor%}

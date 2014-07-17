@@ -25,7 +25,13 @@ def navbar(request):
         ('Add A Store',     'create'),
         
     ]
+    nav_lists = [
+        ('Lists',           'index'),
+        ('Search',          'index'),
+        ('Recent',          'index'),
+    ]
     navbar = [
-        ('Stores', nav_stores),
+        ('Stores',   nav_stores),
+        ('My Lists', nav_lists),
     ]
     return { 'navbar' : navbar }

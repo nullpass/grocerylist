@@ -4,11 +4,9 @@
 
 {% block sectiontitle %}Update Isle {{ object }}{% endblock %}
 
-
 {% block linkbox %}
     <a href="{% url 'index' %}">Store List</a><br>
 {% endblock linkbox %}
-
 
 {% block content %}
     <form action="" method="post">
@@ -21,6 +19,3 @@
         <a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a>
     </form>
 {% endblock %}
-
-
-

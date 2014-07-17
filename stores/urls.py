@@ -21,7 +21,7 @@ isle_patterns = patterns('',
     url(r'^update/$',  IsleUpdateView.as_view(), name='update'),
     #
     # /s/<store slug>/<isle id>/<item slug>
-    url(r'^(?P<slug>[\w-]+)/', include(item_patterns, namespace='item')),
+    # url(r'^(?P<slug>[\w-]+)/', include(item_patterns, namespace='item')),
 )
 
 urlpatterns = patterns('',

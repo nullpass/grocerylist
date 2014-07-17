@@ -9,6 +9,7 @@ from items.models import Item
 
 from isles.models import Isle
 
+from lists.models import List
 from lists.forms import ListForm
 
 from .forms import StoreForm
@@ -35,6 +36,9 @@ class StoreDetailView(generic.DetailView):
     template_name = 'stores/StoreDetailView.html'
 
     def get_context_data(self, **kwargs):
+        """
+            Ugg....
+        """
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         #
         context['ListForm'] = ListForm()
@@ -52,6 +56,12 @@ class StoreDetailView(generic.DetailView):
         except IndexError:
             # "dey aint no isles yet, fool!" --Sr. Bug Reporter
             pass
+        #
+        try:
+            context['related_lists'] = List.objects.filter(store=self.object.id).order_by('-pk')
+        except List.DoesNotExist:
+            context['related_lists'] = None
+        
         return context
 
 

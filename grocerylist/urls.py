@@ -6,11 +6,18 @@ admin.autodiscover()
 from stores import views
 
 from lists.views import ListDetailView
+from items.views import ItemUpdateView
 
 list_pats = patterns('',
     #
     url(r'^(?P<pk>\d+)/$', ListDetailView.as_view(), name='detail')
 )
+
+item_patterns = patterns('',
+    #
+    url(r'^(?P<pk>\d+)/$', ItemUpdateView.as_view(), name='update')
+)
+
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
@@ -24,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^lists/', include(list_pats, namespace='lists')),
     #
     # url(r'^recent/', views.RecentView.as_view(), name='recent'),
+    url(r'^i/', include(item_patterns, namespace='items')),
 )
