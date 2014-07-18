@@ -14,3 +14,4 @@ class ListForm(ModelForm):
             )
         model = models.List
         widgets = { 'items' : CheckboxSelectMultiple() }
+

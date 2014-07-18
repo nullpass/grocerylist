@@ -13,8 +13,8 @@
 
 {% block content %}
 <ul>
-{% for a in stores %}
-    <li><a href="{% url 'stores:detail' slug=a.slug %}">{{ a.name }}</a></li>
+{% for this_store in stores %}
+    <li><a href="{% url 'stores:detail' slug=this_store.slug %}">{{ this_store.name }}</a></li>
 {% empty %}
     <li>You have not created any stores, click <a href="{% url 'create' %}">here</a> to get started!</li>
 {% endfor %}

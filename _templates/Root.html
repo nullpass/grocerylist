@@ -111,7 +111,11 @@
                 </div>
                 <div class="panel-body">
                   {% for this_list in related_lists %}
-                    <p class="small"><a href="{% url 'lists:detail' pk=this_list.pk %}">{{ this_list }}</a> (<i>{{ this_list.created|date:"M d `y" }}</i>)</p>
+                    <p class="small">
+                      {% if this_list.done %}<s>{% endif %}
+                        <a href="{% url 'lists:detail' pk=this_list.pk %}">{{ this_list }}</a> (<i>{{ this_list.created|date:"M d `y" }}</i>)
+                      {% if this_list.done %}</s>{% endif %}
+                    </p>
                   {% endfor %}
                 </div>
             </div> <!-- /.panel-primary -->

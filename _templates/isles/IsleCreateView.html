@@ -9,13 +9,13 @@
     <a href="{% url 'index' %}">Store List</a><br>
 {% endblock linkbox %}
 
-
 {% block content %}
     <form action="" method="post">
-      <ul>
-      {{ form.as_ul }}
-      </ul>
-      {% csrf_token %}
+      <b>Isle #: </b>{{ form.name }}{{form.name.errors}} (1-99) <br>
+      <br>
+      <i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}
+      {% csrf_token %}<br>
+      <br>
       <input type="submit" class="btn btn-sm btn-info" value="New Isle" />
         <a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a>
     </form>

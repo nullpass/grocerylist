@@ -19,6 +19,7 @@ class List(UltraModel):
     name = models.CharField(max_length=64, blank=True, null=True) # in views defaults to self.created
     store = models.ForeignKey(Store, related_name='list')
     items = models.ManyToManyField(Item, related_name='list')
+    done = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('lists:detail', kwargs={'pk' : self.pk})

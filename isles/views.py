@@ -27,7 +27,7 @@ class IsleCreateView(generic.CreateView):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
         self.success_url = self.object.store.get_absolute_url()
-        messages.success(self.request, '%s %s added!' % (self.this, form.cleaned_data['name'] ) )
+        messages.success(self.request, 'Isle %s added!' % form.cleaned_data['name'])
         return super(IsleCreateView, self).form_valid(form)
 
 

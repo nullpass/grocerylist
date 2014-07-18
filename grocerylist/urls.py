@@ -1,35 +1,76 @@
+# grocerylist/urls.py
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
 admin.autodiscover()
 
-from stores import views
+from lists.views import ListCreateView, ListUpdateView, ListDetailView, ListIndex
 
-from lists.views import ListDetailView
-from items.views import ItemUpdateView
+from items.views import ItemCreateView, ItemUpdateView
 
-list_pats = patterns('',
-    #
-    url(r'^(?P<pk>\d+)/$', ListDetailView.as_view(), name='detail')
-)
+from isles.views import IsleCreateView, IsleUpdateView
+
+from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, StoreIndex
 
 item_patterns = patterns('',
     #
-    url(r'^(?P<pk>\d+)/$', ItemUpdateView.as_view(), name='update')
+    # /i/<item pk>/update/
+    url(r'^(?P<pk>\d+)/update/$', ItemUpdateView.as_view(), name='update'),
 )
 
+isle_patterns = patterns('',
+    #
+    # /s/<store slug>/<isle id>/update
+    url(r'^update/$',  IsleUpdateView.as_view(), name='update'),
+)
+
+store_patterns = patterns('',
+    #
+    # /s/<store slug>/
+    url(r'^$',         StoreDetailView.as_view(), name='detail'),
+    #
+    # /s/<store slug>/generate/
+    url(r'^generate/$',   ListCreateView.as_view(), name='generate'),
+    #
+    # /s/<store slug>/update/    
+    url(r'^update/$',  StoreUpdateView.as_view(), name='update'),
+    #
+    # /s/<store slug>/<isle id>/
+    url(r'^(?P<pk>[\d]+)/', include(isle_patterns, namespace='isle')),
+    #
+    # /s/<store slug>/isle-create/
+    url(r'^isle/create/$',  IsleCreateView.as_view(), name='isle-create'),
+    #
+    # /s/<store slug>/item-create/
+    url(r'^item/create/$',  ItemCreateView.as_view(), name='item-create'),
+)
+
+mylist_patterns = patterns('',
+    #
+    # /mylists/
+    url(r'^$', ListIndex.as_view(), name='index'),
+    #
+    # /mylists/<item pk>/
+    url(r'^(?P<pk>\d+)/$', ListDetailView.as_view(), name='detail'),
+    #
+    # /mylists/<item pk>/update/
+    url(r'^(?P<pk>\d+)/update/$', ListUpdateView.as_view(), name='update'),
+)
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     #
-    url(r'^$', views.Index.as_view(), name='index'),
+    # /
+    url(r'^$', StoreIndex.as_view(), name='index'),
     #
-    url(r'^s/(?P<slug>[\w-]+)/', include('stores.urls',   namespace='stores')),
+    # /create/ 
+    url(r'^create/', StoreCreateView.as_view(), name='create'),
     #
-    url(r'^create/', views.StoreCreateView.as_view(), name='create'),
+    # /s/<store slug>/
+    url(r'^s/(?P<slug>[\w-]+)/', include(store_patterns,   namespace='stores')),
     #
-    url(r'^lists/', include(list_pats, namespace='lists')),
+    # /mylists/
+    url(r'^mylists/', include(mylist_patterns, namespace='lists')),
     #
-    # url(r'^recent/', views.RecentView.as_view(), name='recent'),
+    # /i/
     url(r'^i/', include(item_patterns, namespace='items')),
 )

@@ -6,8 +6,6 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 
-from core.mixins import RenderdataMixin
-
 from stores.models import Store
 from isles.models import Isle
 
@@ -22,6 +20,13 @@ class ItemCreateView(generic.CreateView):
     """
     form_class, model = ItemCreateForm, Item
     template_name = 'items/ItemCreateView.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemCreateView, self).get_context_data(**kwargs)
+        #
+        # the 'cancel' button during isle create, there's a better way to do this but i ran out of s
+        context['back'] = reverse_lazy('stores:detail', kwargs = {'slug' : self.kwargs.get('slug')})
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

@@ -1,25 +1,22 @@
 """
-
 TODO:
 
-I'm moving linkbox, page/section titles and all that junk to blocks
-    keep updating views and templates
+Continue to contemplate if I'm the only devel who uses the base
+    init file as a master todo list.
 
-Finish removing RenderdataMixin from views that generate dynamic output
-    OK to keep for semi-static pages like Create and Update where we
-    don't have stuff to draw from already.
-
-Store Detail View has become a fscking monster, trim and refactor her.
-
-Either commit to making base.urls a giant beast, or break stores.urls out to
-    their related apps.
-
-
-@migration required
-lists.status (new|done)
-    if 'done' then `strike-through` in storedetail.related_lists and lists.index
+lists.done
     add listUpdateview
+
+lists
+    Errors in list creation are not handled properly.
     
 
+/recent/
+    Not sure if I want to go the whole .logging() route or not, could probably
+    just cheat and give recent by object type
+
+
+
+/base/urls.py is a monster, keep her that way. kthnx
 
 """

@@ -16,22 +16,21 @@ from .forms import StoreForm
 from .models import Store
 
 
-class Index(generic.TemplateView):
+class StoreIndex(generic.TemplateView):
     """ The default view for /s/ ; a list of stores """
     form_class, model = StoreForm, Store
     template_name = 'stores/index.html'
 
     def get_context_data(self, **kwargs):
-        context = super(Index, self).get_context_data(**kwargs)
-        try:
-            context['stores'] = Store.objects.all().values('slug', 'name')
-        except Store.DoesNotExist:
-            context['stores'] = None
+        context = super(StoreIndex, self).get_context_data(**kwargs)
+        context['stores'] = Store.objects.all().values('slug', 'name')
         return context
 
 
 class StoreDetailView(generic.DetailView):
-    """View a Store"""
+    """ View a Store
+    And show a ton of dynamic data
+    """
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreDetailView.html'
 
@@ -41,27 +40,24 @@ class StoreDetailView(generic.DetailView):
         """
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         #
-        context['ListForm'] = ListForm()
-        context['ListForm'].fields['items'].queryset = Item.objects.filter(store=self.object.id)
+        # Items that belong to this store.
+        local_items = Item.objects.filter(store=self.object.id).order_by('isle')
+        if local_items:
+            context['Items'] = local_items
+            context['ListForm'] = ListForm()
+            context['ListForm'].fields['items'].queryset = local_items
+            
         #
-        context['ItemCreateForm'] = ItemCreateForm()
-        context['Items'] = Item.objects.filter(store=self.object.id)
-        #
-        # Only show isles that belong to this store.
-        local_isles = Isle.objects.filter(store=self.object.id).order_by('name')
-        context['isles'] = local_isles
-        context['ItemCreateForm'].fields['isle'].queryset = local_isles
-        try:
+        # Isles that belong to this store
+        local_isles = Isle.objects.filter(store=self.object.id)
+        if local_isles:
+            context['isles'] = local_isles
+            context['ItemCreateForm'] = ItemCreateForm()
+            context['ItemCreateForm'].fields['isle'].queryset = local_isles
             context['ItemCreateForm'].fields['isle'].initial = local_isles[0]
-        except IndexError:
-            # "dey aint no isles yet, fool!" --Sr. Bug Reporter
-            pass
         #
-        try:
-            context['related_lists'] = List.objects.filter(store=self.object.id).order_by('-pk')
-        except List.DoesNotExist:
-            context['related_lists'] = None
-        
+        # My Grocery Lists that reference this store, newest first
+        context['related_lists'] = List.objects.filter(store=self.object.id).order_by('-pk')
         return context
 
 
