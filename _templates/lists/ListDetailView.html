@@ -42,7 +42,7 @@
           {% endfor %}
         {% endfor %}
         </table>
-        <p class="small text-center"><em>{{ object.modified }}</em></p>
+        <p class="small text-center"><em>{{ object.modified }}</em> - <a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-xs btn-info">Edit</a></p>
       </div>
     </div><!-- /.container -->
 

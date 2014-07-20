@@ -15,3 +15,15 @@ class ListForm(ModelForm):
         model = models.List
         widgets = { 'items' : CheckboxSelectMultiple() }
 
+
+
+class ListUpdateForm(ModelForm):
+    class Meta:
+        fields = (
+            'name',
+            'items',
+            'done',
+            )
+        model = models.List
+        widgets = { 'items' : CheckboxSelectMultiple() }
+

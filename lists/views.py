@@ -9,9 +9,10 @@ from django.contrib import messages
 
 from stores.models import Store
 from isles.models import Isle
+from items.models import Item
 
 from .models import List
-from .forms import ListForm
+from .forms import ListForm, ListUpdateForm
 
 class ListIndex(generic.TemplateView):
     """ The default view for /mylists/ ; a list of lists """
@@ -56,5 +57,12 @@ class ListDetailView(generic.DetailView):
 
 class ListUpdateView(generic.UpdateView):
     """ Edit a grocery list """
-    form_class, model = ListForm, List
+    form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
+
+    def get_context_data(self,  **kwargs):
+        context = super(ListUpdateView, self).get_context_data(**kwargs)
+        #
+        # Ensure you only show items that exist in the store for which this list belongs.
+        self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
+        return context
