@@ -37,7 +37,8 @@ class ListCreateView(generic.CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
-        self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
+        if not self.object.name:
+            self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
         return super(ListCreateView, self).form_valid(form)
 
 

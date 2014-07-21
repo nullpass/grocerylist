@@ -1,4 +1,26 @@
-{# Right now I only get called if form_invalid #}
+{% extends "Root.html" %}
 
+{% block pagetitle %}Create grocery list: {{ object }}{% endblock %}
 
-{{ form.errors }}
+{% block sectiontitle %}Create grocery list: <i>{{ object }}</i>{% endblock %}
+
+{% block linkbox %}
+    <a href="{% url 'index' %}">Store List</a><br>
+{% endblock linkbox %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+  <table class="table table-hover ">
+    <tr>
+      <td><b>Name:</b></td><td>{{ form.name }}{{ form.name.errors}}</td>
+    </tr>
+    <tr>
+      <td><b>Items:</b></td><td>{% for t in form.items %}{{ t }}<br>{% endfor %}{{form.items.errors}}</td>
+      <td></td>
+    </tr>
+      <td></td>
+      <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a></td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
