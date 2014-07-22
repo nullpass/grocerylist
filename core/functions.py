@@ -26,7 +26,7 @@ def navbar(request):
         
     ]
     nav_lists = [
-        ('Lists',           'index'),
+        ('Lists',           'lists:index'),
         ('Search',          'index'),
         ('Recent',          'index'),
     ]

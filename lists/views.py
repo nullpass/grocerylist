@@ -21,11 +21,8 @@ class ListIndex(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListIndex, self).get_context_data(**kwargs)
-        context['mylists'] = List.objects.filter()
-        try:
-            context['stores'] = List.objects.all()
-        except Store.DoesNotExist:
-            context['stores'] = None
+        context['mylists'] = List.objects.all()
+        context['stores'] = Store.objects.all()
         return context
 
 
@@ -34,7 +31,17 @@ class ListCreateView(generic.CreateView):
     form_class, model = ListForm, List
     template_name = 'lists/ListCreateView.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ListCreateView, self).get_context_data(**kwargs)
+        context['store'] = Store.objects.get(slug=self.kwargs.get('slug'))
+        return context
+
     def form_valid(self, form):
+        """
+        By default we do not present this form.name
+        to the user in StoreDetailView, so if it is
+        empty then set it to Today.
+        """
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
         if not self.object.name:
