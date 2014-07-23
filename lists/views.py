@@ -27,7 +27,14 @@ class ListIndex(generic.TemplateView):
 
 
 class ListCreateView(generic.CreateView):
-    """Make a new grocery list!"""
+    """
+    Make a new grocery list!
+    
+    LCV is presented in two different ways. First it is included in StoreDetailView to let a user
+    easily create a list while viewing a store. Second it has its on CreateView template which is
+    usually used if there is an error in the form included on StoreDetailView (for example if a
+    user hits 'genereate list' without checking any items.)
+    """
     form_class, model = ListForm, List
     template_name = 'lists/ListCreateView.html'
 
@@ -38,7 +45,7 @@ class ListCreateView(generic.CreateView):
 
     def form_valid(self, form):
         """
-        By default we do not present this form.name
+        By default we do not present form.name
         to the user in StoreDetailView, so if it is
         empty then set it to Today.
         """
@@ -50,7 +57,7 @@ class ListCreateView(generic.CreateView):
 
 
 class ListDetailView(generic.DetailView):
-    """ List a List List, Lists of Listing """
+    """ View a grocery list in a mobile-friendly way """
     form_class, model = ListForm, List
     template_name = 'lists/ListDetailView.html'
 
@@ -69,8 +76,7 @@ class ListUpdateView(generic.UpdateView):
     template_name = 'lists/ListUpdateView.html'
 
     def get_context_data(self,  **kwargs):
+        """ Include all items that belong to the store found in the URL """
         context = super(ListUpdateView, self).get_context_data(**kwargs)
-        #
-        # Ensure you only show items that exist in the store for which this list belongs.
         self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
         return context

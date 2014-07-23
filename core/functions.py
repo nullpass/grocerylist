@@ -18,17 +18,18 @@ def navbar(request):
         seperating things
     """
     nav_stores = [
-        ('Home'  ,          'index'),
-        ('Search',          'index'),
-        ('Recent',          'index'),
-        ('class_divider',   'class_divider'),
-        ('Add A Store',     'create'),
+        ('Home'  ,         'index'),
+        ('Search',         'index'),
+        ('Recent',         'index'),
+        ('class_divider',  'class_divider'),
+        ('Add A Store',    'create'),
         
     ]
     nav_lists = [
-        ('Lists',           'lists:index'),
-        ('Search',          'index'),
-        ('Recent',          'index'),
+        ('My Lists',       'lists:index'),
+        ('class_divider',  'class_divider'),
+        ('Search',         'index'),
+        ('Recent',         'index'),
     ]
     navbar = [
         ('Stores',   nav_stores),
