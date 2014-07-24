@@ -80,3 +80,11 @@ class ListUpdateView(generic.UpdateView):
         context = super(ListUpdateView, self).get_context_data(**kwargs)
         self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
         return context
+
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        if form.cleaned_data['delete_me']:
+            self.success_url = self.object.store.get_absolute_url()
+            messages.success(self.request, 'List "%s" deleted!' % self.object.name )
+        return super(ListUpdateView, self).form_valid(form)
