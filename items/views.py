@@ -13,8 +13,6 @@ from .forms import ItemCreateForm
 from .models import Item
 
 
-
-
 class ItemCreateView(generic.CreateView):
     """ Make a new Item
     If the form that is embedded in storeDetailView is

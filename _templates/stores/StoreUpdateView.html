@@ -9,18 +9,18 @@
 {% endblock linkbox %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-  <table class="table ">
-    <tr><td><b>Name:</b></td><td>{{ form.name }}{{form.name.errors}}</td></tr>
-    <tr><td><b>Address:</b></td><td>{{ form.address }}{{form.address.errors}}</td></tr>
-    <tr>
-      <td></td>
-      <td><i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
-    </tr>
-  </table>
-</form>
+    <form action="" method="post">{% csrf_token %}
+        <table class="table ">
+            <tr><td><b>Name:</b></td><td>{{ form.name }}{{form.name.errors}}</td></tr>
+            <tr><td><b>Address:</b></td><td>{{ form.address }}{{form.address.errors}}</td></tr>
+            <tr>
+                <td></td>
+                <td><i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
+            </tr>
+        </table>
+    </form>
 {% endblock %}

@@ -3,9 +3,10 @@
 {% block sectiontitle %}Create a Store{% endblock %}
 
 {% block linkbox %}
-<a href="{% url 'index' %}">Store List</a><br>
+  <a href="{% url 'index' %}">Store List</a><br>
+  <hr>
+  <a href="{% url 'lists:index' %}">My Lists</a><br>
 {% endblock linkbox %}
-
 
 {% block content %}
     <form action="" method="post">
