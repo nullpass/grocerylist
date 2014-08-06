@@ -1,6 +1,18 @@
 """
 TODO:
 
+
+
+
+Project halted, 2014.08
+
+
+
+
+
+
+
+
 Continue to contemplate if I'm the only devel who uses the base
     init file as a master todo list.
 
