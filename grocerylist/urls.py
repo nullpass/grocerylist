@@ -74,5 +74,5 @@ urlpatterns = patterns('',
     # /i/
     url(r'^i/', include(item_patterns, namespace='items')),
     #
-    url(r'', include('social.apps.django_app.urls', namespace='social'))
+    ###url(r'', include('social.apps.django_app.urls', namespace='social'))
 )

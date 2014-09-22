@@ -16,7 +16,6 @@ class IsleForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(IsleForm, self).__init__(*args, **kwargs)
-        print dir(self.fields['name'].widget)
         self.fields['name'].widget.attrs['size'] = 1
         self.fields['name'].widget.attrs['maxlength'] = 2 # This is enforced by a regex in models. *sad panda*
         self.fields['notes'].widget.attrs['rows'] = 8
