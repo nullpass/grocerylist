@@ -1,6 +1,10 @@
 """
 TODO:
 
+Gotta update all models to include object owner == user
+    then update views to assign owner
+
+
 
 
 Continue to contemplate if I'm the only devel who uses the base
@@ -26,5 +30,22 @@ lists.
 
 
 /base/urls.py is a monster, keep her that way. kthnx
+
+
+
+
+urlpatterns = patterns('social.apps.django_app.views',
+    # authentication / association
+    url(r'^login/(?P<backend>[^/]+)/$', 'auth',
+        name='begin'),
+    url(r'^complete/(?P<backend>[^/]+)/$', 'complete',
+        name='complete'),
+    # disconnection
+    url(r'^disconnect/(?P<backend>[^/]+)/$', 'disconnect',
+        name='disconnect'),
+    url(r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>[^/]+)/$',
+        'disconnect', name='disconnect_individual'),
+)
+
 
 """

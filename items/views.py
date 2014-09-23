@@ -6,6 +6,8 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 
+from core.mixins import RequireUserMixin
+
 from stores.models import Store
 from isles.models import Isle
 
@@ -13,7 +15,7 @@ from .forms import ItemCreateForm
 from .models import Item
 
 
-class ItemCreateView(generic.CreateView):
+class ItemCreateView(RequireUserMixin, generic.CreateView):
     """ Make a new Item
     If the form that is embedded in storeDetailView is
     invalid it will redirect here, so give a standard
@@ -37,7 +39,7 @@ class ItemCreateView(generic.CreateView):
         return super(ItemCreateView, self).form_valid(form)
 
 
-class ItemUpdateView(generic.UpdateView):
+class ItemUpdateView(RequireUserMixin, generic.UpdateView):
     """Edit a Item"""
     form_class, model = ItemCreateForm, Item
     template_name = 'items/ItemUpdateView.html'

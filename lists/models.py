@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from core.models import UltraModel
@@ -17,6 +18,7 @@ class List(UltraModel):
     
     """
     name = models.CharField(max_length=64, blank=True, null=True) # in views defaults to self.created
+    user = models.ForeignKey(User, related_name='list')
     store = models.ForeignKey(Store, related_name='list')
     items = models.ManyToManyField(Item, related_name='list')
     done = models.BooleanField(default=False)

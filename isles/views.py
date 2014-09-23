@@ -6,12 +6,14 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 
+from core.mixins import RequireUserMixin
+
 from stores.models import Store
 
 from .forms import IsleForm
 from .models import Isle
 
-class IsleCreateView(generic.CreateView):
+class IsleCreateView(RequireUserMixin, generic.CreateView):
     """ Make a new Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleCreateView.html'
@@ -31,7 +33,7 @@ class IsleCreateView(generic.CreateView):
         return super(IsleCreateView, self).form_valid(form)
 
 
-class IsleUpdateView(generic.UpdateView):
+class IsleUpdateView(RequireUserMixin, generic.UpdateView):
     """ Edit an Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'

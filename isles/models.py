@@ -1,6 +1,7 @@
 # isles/models.py
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 
@@ -11,6 +12,7 @@ from stores.models import Store
 class Isle(UltraModel):
     """ Item -> ( Isle ) -> Store """
     name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
+    user = models.ForeignKey(User, related_name='isle')
     description = models.TextField(max_length=1024)
     store = models.ForeignKey(Store, related_name='isle')
 

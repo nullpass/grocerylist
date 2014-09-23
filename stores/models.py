@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.core.validators import RegexValidator
@@ -13,6 +14,7 @@ class Store(UltraModel):
     
     """
     name = models.CharField(max_length=64, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')])
+    user = models.ForeignKey(User, related_name='store')
     address = models.CharField(max_length=1024, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')], unique=True)
     slug = models.SlugField(max_length=64, blank=True)
 

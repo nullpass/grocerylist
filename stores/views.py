@@ -3,6 +3,9 @@ from __future__ import absolute_import
 
 from django.views import generic
 from django.contrib import messages
+from django.http import Http404
+
+from core.mixins import RequireUserMixin, RequireOwnerMixin
 
 from items.forms import ItemCreateForm
 from items.models import Item
@@ -16,18 +19,19 @@ from .forms import StoreForm
 from .models import Store
 
 
-class StoreIndex(generic.TemplateView):
+class StoreIndex(RequireUserMixin, generic.TemplateView):
     """ The default view for /s/ ; a list of stores """
     form_class, model = StoreForm, Store
     template_name = 'stores/index.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super(StoreIndex, self).get_context_data(**kwargs)
-        context['stores'] = Store.objects.all().values('slug', 'name')
+        context['stores'] = Store.objects.filter(user=self.request.user).values('slug', 'name')
+        context['user'] = self.request.user
         return context
 
 
-class StoreDetailView(generic.DetailView):
+class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     """ View a Store
     And show a ton of dynamic data
     """
@@ -46,7 +50,6 @@ class StoreDetailView(generic.DetailView):
             context['Items'] = local_items
             context['ListForm'] = ListForm()
             context['ListForm'].fields['items'].queryset = local_items
-            
         #
         # Isles that belong to this store
         local_isles = Isle.objects.filter(store=self.object.id)
@@ -61,7 +64,7 @@ class StoreDetailView(generic.DetailView):
         return context
 
 
-class StoreUpdateView(generic.UpdateView):
+class StoreUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """Edit a Store"""
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreUpdateView.html'
@@ -71,11 +74,14 @@ class StoreUpdateView(generic.UpdateView):
         return super(StoreUpdateView, self).form_valid(form)
 
 
-class StoreCreateView(generic.CreateView):
+class StoreCreateView(RequireUserMixin, generic.CreateView):
     """Make a new Store"""
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreCreateView.html'
 
     def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
         messages.success(self.request, 'Store "%s" added!' % form.cleaned_data['name'] )
         return super(StoreCreateView, self).form_valid(form)

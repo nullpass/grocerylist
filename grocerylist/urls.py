@@ -1,5 +1,6 @@
 # grocerylist/urls.py
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
@@ -10,6 +11,8 @@ from items.views import ItemCreateView, ItemUpdateView
 from isles.views import IsleCreateView, IsleUpdateView
 
 from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, StoreIndex
+
+from human.views import LogoutView
 
 item_patterns = patterns('',
     #
@@ -62,6 +65,9 @@ urlpatterns = patterns('',
     # /
     url(r'^$', StoreIndex.as_view(), name='index'),
     #
+    url(r'^auth/$', TemplateView.as_view(template_name='auth3p.html'), name='auth3p'), # Choose your auth, Twitter/Google/Etc
+    url(r'^auth/logout$', LogoutView.as_view(), name='logout'), 
+    #
     # /create/ 
     url(r'^create/', StoreCreateView.as_view(), name='create'),
     #
@@ -74,5 +80,5 @@ urlpatterns = patterns('',
     # /i/
     url(r'^i/', include(item_patterns, namespace='items')),
     #
-    ###url(r'', include('social.apps.django_app.urls', namespace='social'))
+    url(r'', include('social.apps.django_app.urls', namespace='social'))
 )

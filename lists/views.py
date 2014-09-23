@@ -7,6 +7,8 @@ import time
 from django.views import generic
 from django.contrib import messages
 
+from core.mixins import RequireUserMixin
+
 from stores.models import Store
 from isles.models import Isle
 from items.models import Item
@@ -14,7 +16,7 @@ from items.models import Item
 from .models import List
 from .forms import ListForm, ListUpdateForm
 
-class ListIndex(generic.TemplateView):
+class ListIndex(RequireUserMixin, generic.TemplateView):
     """ The default view for /mylists/ ; a list of lists """
     form_class, model = ListForm, List
     template_name = 'lists/index.html'
@@ -26,7 +28,7 @@ class ListIndex(generic.TemplateView):
         return context
 
 
-class ListCreateView(generic.CreateView):
+class ListCreateView(RequireUserMixin, generic.CreateView):
     """
     Make a new grocery list!
     
@@ -56,7 +58,7 @@ class ListCreateView(generic.CreateView):
         return super(ListCreateView, self).form_valid(form)
 
 
-class ListDetailView(generic.DetailView):
+class ListDetailView(RequireUserMixin, generic.DetailView):
     """ View a grocery list in a mobile-friendly way """
     form_class, model = ListForm, List
     template_name = 'lists/ListDetailView.html'
@@ -70,7 +72,7 @@ class ListDetailView(generic.DetailView):
         return context
 
 
-class ListUpdateView(generic.UpdateView):
+class ListUpdateView(RequireUserMixin, generic.UpdateView):
     """ Edit a grocery list """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'

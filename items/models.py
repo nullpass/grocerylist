@@ -1,6 +1,7 @@
 # items/models.py
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from core.models import UltraModel
 
@@ -11,6 +12,7 @@ class Item(UltraModel):
     """
     """
     name = models.CharField(max_length=64)
+    user = models.ForeignKey(User, related_name='item')
     description = models.TextField(max_length=1024)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     store = models.ForeignKey(Store, related_name='item')
