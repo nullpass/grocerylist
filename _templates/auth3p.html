@@ -1,11 +1,15 @@
-  {% for message in messages %}
-    <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-  {% endfor %}
+{% extends "Root.html" %}
 
+{% block pagetitle %}Authentication | Log-In/Log-Out{% endblock %}
 
+{% block sectiontitle %}{% endblock %}
+
+{% block content %}
+<h4>Foo <i>Bar</i></h4>
 {% if user.is_authenticated %}
     <a href="{% url 'logout' %}">Logout</a>
 {% else %}
     You need to log in to use any part of the app. <hr>
 <a href="{% url 'social:begin' 'twitter' %}?next={% url 'index' %}">Login with Twitter!</a>
 {% endif %}
+{% endblock %}
