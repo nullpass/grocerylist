@@ -7,7 +7,7 @@ import time
 from django.views import generic
 from django.contrib import messages
 
-from core.mixins import RequireUserMixin
+from core.mixins import RequireUserMixin, RequireOwnerMixin
 
 from stores.models import Store
 from isles.models import Isle
@@ -52,13 +52,14 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         empty then set it to Today.
         """
         self.object = form.save(commit=False)
+        self.object.user = self.request.user
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
         return super(ListCreateView, self).form_valid(form)
 
 
-class ListDetailView(RequireUserMixin, generic.DetailView):
+class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     """ View a grocery list in a mobile-friendly way """
     form_class, model = ListForm, List
     template_name = 'lists/ListDetailView.html'
@@ -72,7 +73,7 @@ class ListDetailView(RequireUserMixin, generic.DetailView):
         return context
 
 
-class ListUpdateView(RequireUserMixin, generic.UpdateView):
+class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """ Edit a grocery list """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'

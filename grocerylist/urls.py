@@ -65,8 +65,8 @@ urlpatterns = patterns('',
     # /
     url(r'^$', StoreIndex.as_view(), name='index'),
     #
-    url(r'^auth/$', TemplateView.as_view(template_name='auth3p.html'), name='auth3p'), # Choose your auth, Twitter/Google/Etc
-    url(r'^auth/logout$', LogoutView.as_view(), name='logout'), 
+    url(r'^auth3p$', TemplateView.as_view(template_name='auth3p.html'), name='auth3p'), # Choose your auth, Twitter/Google/Etc
+    url(r'^logout$', LogoutView.as_view(), name='logout'), 
     #
     # /create/ 
     url(r'^create/', StoreCreateView.as_view(), name='create'),

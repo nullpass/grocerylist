@@ -1,17 +1,16 @@
 # isles/views.py
 
-from __future__ import absolute_import
-
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 
-from core.mixins import RequireUserMixin
+from core.mixins import RequireUserMixin, RequireOwnerMixin
 
 from stores.models import Store
 
 from .forms import IsleForm
 from .models import Isle
+
 
 class IsleCreateView(RequireUserMixin, generic.CreateView):
     """ Make a new Isle """
@@ -29,11 +28,12 @@ class IsleCreateView(RequireUserMixin, generic.CreateView):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
         self.success_url = self.object.store.get_absolute_url()
+        self.object.user = self.request.user
         messages.success(self.request, 'Isle %s added!' % form.cleaned_data['name'])
         return super(IsleCreateView, self).form_valid(form)
 
 
-class IsleUpdateView(RequireUserMixin, generic.UpdateView):
+class IsleUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """ Edit an Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'

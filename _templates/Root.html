@@ -28,7 +28,6 @@
   </head>
   <body>
     <div class="container">
-{{ user }}
       <!-- Static navbar -->
       <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
@@ -43,6 +42,12 @@
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        </ul>
+                    </li>
               {# Save for later if you need to highlight something <li class="active"><a href="/hosted/">|</a></li> #}
 {# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
             {% if navbar %}

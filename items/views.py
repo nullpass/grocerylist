@@ -6,7 +6,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 
-from core.mixins import RequireUserMixin
+from core.mixins import RequireUserMixin, RequireOwnerMixin
 
 from stores.models import Store
 from isles.models import Isle
@@ -35,11 +35,12 @@ class ItemCreateView(RequireUserMixin, generic.CreateView):
         self.object = form.save(commit=False)
         self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
         self.success_url = self.object.store.get_absolute_url()
+        self.object.user = self.request.user
         messages.success(self.request, 'Item "%s" added!' % form.cleaned_data['name'])
         return super(ItemCreateView, self).form_valid(form)
 
 
-class ItemUpdateView(RequireUserMixin, generic.UpdateView):
+class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """Edit a Item"""
     form_class, model = ItemCreateForm, Item
     template_name = 'items/ItemUpdateView.html'

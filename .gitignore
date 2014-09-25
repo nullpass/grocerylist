@@ -39,3 +39,4 @@ settings.py
 db.*
 *.pyc
 [0-9][0-9][0-9]*.py
+keys.py

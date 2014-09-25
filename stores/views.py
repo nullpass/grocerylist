@@ -1,5 +1,4 @@
 # stores/views.py
-from __future__ import absolute_import
 
 from django.views import generic
 from django.contrib import messages
@@ -82,6 +81,5 @@ class StoreCreateView(RequireUserMixin, generic.CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
-        self.object.save()
         messages.success(self.request, 'Store "%s" added!' % form.cleaned_data['name'] )
         return super(StoreCreateView, self).form_valid(form)
