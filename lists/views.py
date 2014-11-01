@@ -91,3 +91,10 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
             self.success_url = self.object.store.get_absolute_url()
             messages.success(self.request, 'List "%s" deleted!' % self.object.name )
         return super(ListUpdateView, self).form_valid(form)
+
+
+class ListDeleteView(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
+    """ Delete a grocery list """
+    form_class, model = ListUpdateForm, List
+    template_name = 'lists/ListUpdateView.html'
+    

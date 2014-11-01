@@ -4,6 +4,10 @@ TODO:
 
 auth3p.html needs a lot -o- love
 
+Oh yeah-- I forgot to actually enabled list_delete. doh!
+    Going to move delete from checkbox to url and add deleteview
+    
+
 
 Audit urls
     maximize urls per page to minimize chance of user getting psudo-lost
