@@ -59,7 +59,7 @@ class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
             context['ItemCreateForm'].fields['isle'].initial = local_isles[0]
         #
         # My Grocery Lists that reference this store, newest first
-        context['related_lists'] = List.objects.filter(store=self.object.id).order_by('-pk')
+        context['related_lists'] = List.objects.filter(store=self.object.id).filter(delme=False).order_by('-pk')
         return context
 
 

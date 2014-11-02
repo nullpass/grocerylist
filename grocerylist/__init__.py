@@ -1,12 +1,10 @@
 """
 TODO:
 
+1. Make list_item, a sub object of List that is [id|quantity|key-to-item]
+2. There are ownership landmines, clean them up
+    foo = This.objects.filter(user=self.request.user).etc
 
-auth3p.html needs a lot -o- love
-
-Oh yeah-- I forgot to actually enabled list_delete. doh!
-    Going to move delete from checkbox to url and add deleteview
-    
 
 
 Audit urls

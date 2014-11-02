@@ -23,8 +23,8 @@ class ListIndex(RequireUserMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListIndex, self).get_context_data(**kwargs)
-        context['mylists'] = List.objects.all()
-        context['stores'] = Store.objects.all()
+        context['mylists'] = List.objects.filter(user=self.request.user).filter(delme=False)
+        context['stores'] = Store.objects.filter(user=self.request.user)
         return context
 
 
@@ -89,12 +89,6 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         self.object = form.save(commit=False)
         if form.cleaned_data['delete_me']:
             self.success_url = self.object.store.get_absolute_url()
+            self.object.delme = True
             messages.success(self.request, 'List "%s" deleted!' % self.object.name )
         return super(ListUpdateView, self).form_valid(form)
-
-
-class ListDeleteView(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
-    """ Delete a grocery list """
-    form_class, model = ListUpdateForm, List
-    template_name = 'lists/ListUpdateView.html'
-    

@@ -22,6 +22,7 @@ class List(UltraModel):
     store = models.ForeignKey(Store, related_name='list')
     items = models.ManyToManyField(Item, related_name='list')
     done = models.BooleanField(default=False)
+    delme = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('lists:detail', kwargs={'pk' : self.pk})
