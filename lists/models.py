@@ -10,6 +10,16 @@ from core.models import UltraModel
 from items.models import Item
 from stores.models import Store
 
+class Line(UltraModel):
+    """
+    2014.11
+    
+    
+    """
+    quantity = models.IntegerField(default=0)
+    item = models.ForeignKey(Item, related_name='line') # ( name and price of item ) 
+    
+
 class List(UltraModel):
     """
     name of list
@@ -23,6 +33,7 @@ class List(UltraModel):
     items = models.ManyToManyField(Item, related_name='list')
     done = models.BooleanField(default=False)
     delme = models.BooleanField(default=False)
+    lines = models.ManyToManyField(Line, related_name='list')
 
     def get_absolute_url(self):
         return reverse('lists:detail', kwargs={'pk' : self.pk})
