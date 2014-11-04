@@ -16,7 +16,7 @@
 {% block content %}
     <p class="list-group-item"><i>{{ object.address }}</i></p>
     <p class="well">{{ object.notes|linebreaksbr }}</p>
-    
+
     {% if not isles %}
         <center>
             This store does not have any isles defined. Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.
@@ -36,7 +36,7 @@
                 {% for q in ListForm.items %}
                 <tr>
                     <td>{{ q }}</td>
-                    {% for P in Items %}
+                    {% for P in Items %} {# local_items #}
                         {% if q.choice_label == P.name %}
                             <td><a href="{% url 'items:update' pk=P.pk %}">${{ P.price }}</a></td>
                             <td><a href="{% url 'stores:isle:update' slug=object.slug pk=P.isle.pk %}">{{ P.isle }} ({{ P.isle.notes }})</a></td>

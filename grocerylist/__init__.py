@@ -1,4 +1,9 @@
 """
+
+goddamnit, what a fsckign mess I've made of this. 
+
+
+
 TODO:
 
 1. Make list_item, a sub object of List that is [id|quantity|key-to-item]
@@ -27,6 +32,11 @@ lists.
 /base/urls.py is a monster, keep her that way. kthnx
 
 
+store
+    >list
+        >line
+            >item
+    
 
 
 

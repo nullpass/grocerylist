@@ -10,12 +10,11 @@ from isles.models import Isle
 
 class Item(UltraModel):
     """
+    Description == UltraModel.notes
     """
-    name = models.CharField(max_length=64)
-    user = models.ForeignKey(User, related_name='item')
-    description = models.TextField(max_length=1024)
+    name  = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=5, decimal_places=2)
+    #
+    user  = models.ForeignKey(User,  related_name='item')
     store = models.ForeignKey(Store, related_name='item')
-    isle = models.ForeignKey(Isle, related_name='isle')
-    selected = models.BooleanField(default=False)
-
+    isle  = models.ForeignKey(Isle,  related_name='item')

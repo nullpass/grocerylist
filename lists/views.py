@@ -23,7 +23,7 @@ class ListIndex(RequireUserMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListIndex, self).get_context_data(**kwargs)
-        context['mylists'] = List.objects.filter(user=self.request.user).filter(delme=False)
+        context['mylists'] = List.objects.filter(user=self.request.user).filter(deleteme=False)
         context['stores'] = Store.objects.filter(user=self.request.user)
         return context
 
@@ -78,12 +78,13 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
 
-    def get_context_data(self,  **kwargs):
-        """ Include all items that belong to the store found in the URL """
+    def get_context_data(self, **kwargs):
+        """ Include all items that belong to the store that this list belongs to. """
         context = super(ListUpdateView, self).get_context_data(**kwargs)
-        self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
+        #self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
+        #messages.info(self.request, context.items())
+        #context['items'].queryset = Item.objects.filter(store=self.object.store.id)
         return context
-
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

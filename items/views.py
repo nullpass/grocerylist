@@ -1,7 +1,5 @@
 # items/views.py
 
-from __future__ import absolute_import
-
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages

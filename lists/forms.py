@@ -1,8 +1,4 @@
 # lists/forms.py
-
-from __future__ import absolute_import
-
-#from django.forms import ModelForm, CheckboxSelectMultiple
 from django import forms
 
 from . import models
@@ -11,21 +7,29 @@ class ListForm(forms.ModelForm):
     class Meta:
         fields = (
             'name',
-            'items',
+            'line',
             )
         model = models.List
-        widgets = { 'items' : forms.CheckboxSelectMultiple() }
+        #widgets = { 'items' : forms.CheckboxSelectMultiple() }
 
 
 
 class ListUpdateForm(forms.ModelForm):
-    delete_me = forms.BooleanField(required=False)
+    deleteme = forms.BooleanField(required=False)
     class Meta:
         fields = (
             'name',
-            'items',
+            'line',
             'done',
-            'delete_me',
+            'deleteme',
             )
         model = models.List
-        widgets = { 'items' : forms.CheckboxSelectMultiple() }
+        #widgets = { 'items' : forms.CheckboxSelectMultiple() }
+
+class LineForm(forms.ModelForm):
+    class Meta:
+        fields = (
+            'quantity',
+            'item',
+            )
+        model = models.Line
