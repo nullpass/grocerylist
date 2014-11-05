@@ -1,6 +1,6 @@
 # items/forms.py
 
-from django.forms import ModelForm
+from django.forms import ModelForm, CheckboxSelectMultiple
 
 from . import models
 
@@ -13,6 +13,7 @@ class ItemCreateForm(ModelForm):
             'isle',
             )
         model = models.Item
+        widgets = { 'item' : CheckboxSelectMultiple() }
 
 
 class ItemForm(ModelForm):

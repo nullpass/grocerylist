@@ -33,9 +33,9 @@ lists.
 
 
 store
-    >list
-        >line
-            >item
+    >list.fkey
+        >line.fkey
+            (quantity, item.fkey)
     
 
 

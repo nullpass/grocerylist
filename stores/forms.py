@@ -2,7 +2,10 @@
 
 from __future__ import absolute_import
 
-from django.forms import ModelForm
+from django.forms import ModelForm, Form, CheckboxSelectMultiple
+from django.db.models import BooleanField, ManyToManyField
+
+from items.models import Item
 
 from . import models
 

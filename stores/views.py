@@ -12,7 +12,7 @@ from items.models import Item
 from isles.models import Isle
 
 from lists.models import List
-from lists.forms import ListForm
+from lists.forms import ListForm, LineForm
 
 from .forms import StoreForm
 from .models import Store
@@ -44,11 +44,12 @@ class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         #
         # Items that belong to this store.
-        local_items = Item.objects.filter(store=self.object.id).order_by('isle')
+        local_items = Item.objects.filter(store=self.object.id).order_by('isle').values()
         if local_items:
             context['Items'] = local_items
-            #context['ItemForm'] = ItemForm()
-            #context['ItemForm'].fields['Items'].queryset = local_items
+            context['Foo'] = list()
+            for this in local_items:
+                context['Foo'].append(ItemCreateForm(initial=this))
         #
         # Isles that belong to this store
         local_isles = Isle.objects.filter(store=self.object.id)

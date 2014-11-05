@@ -24,7 +24,7 @@
         <hr width="75%">
     {% endif %}
     
-    {% if ListForm.items %}
+    {% if LineForm.item %}
         <hr width="80%">
         <form action="{% url 'stores:generate' slug=object.slug %}" method="post">
             <table class="table table-striped">
@@ -33,10 +33,10 @@
                     <th>Cost</th>
                     <th>Isle</th>
                 </tr>
-                {% for q in ListForm.items %}
+                {% for q in LineForm.item %}
                 <tr>
                     <td>{{ q }}</td>
-                    {% for P in Items %} {# local_items #}
+                    {% for P in Items %}
                         {% if q.choice_label == P.name %}
                             <td><a href="{% url 'items:update' pk=P.pk %}">${{ P.price }}</a></td>
                             <td><a href="{% url 'stores:isle:update' slug=object.slug pk=P.isle.pk %}">{{ P.isle }} ({{ P.isle.notes }})</a></td>
@@ -50,7 +50,8 @@
         </form>
     {% endif %}
     
-    {% if isles and not ListForm.items %}
+    {% if isles and not LineForm.item %}
+        {% for tis in Foo %}{{ tis.as_p }}<hr>{% endfor %}
         <center>No items found, add them here:</center>
     {% endif %}
     
