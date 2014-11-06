@@ -16,7 +16,7 @@
       <td class="success font-align-right"><b>Done? </b>{{ form.done }}{{form.items.errors}}</td>
     </tr>
     <tr>
-      <td><b>Items:{{ form.items.errors }}</b></td><td>{% for t in form.items %}{{ t }}<br>{% endfor %}</td>
+      <td><b>Items:{{ form.content.errors }}</b></td><td>{% for this in form.content %}{{ this }}<br>{% endfor %}</td>
       <td></td>
     </tr>
       <td></td>

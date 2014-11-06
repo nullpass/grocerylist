@@ -24,7 +24,7 @@
         <hr width="75%">
     {% endif %}
     
-    {% if LineForm.item %}
+    {% if inventory %}
         <hr width="80%">
         <form action="{% url 'stores:generate' slug=object.slug %}" method="post">
             <table class="table table-striped">
@@ -33,15 +33,11 @@
                     <th>Cost</th>
                     <th>Isle</th>
                 </tr>
-                {% for q in LineForm.item %}
+                {% for this in inventory %}
                 <tr>
-                    <td>{{ q }}</td>
-                    {% for P in Items %}
-                        {% if q.choice_label == P.name %}
-                            <td><a href="{% url 'items:update' pk=P.pk %}">${{ P.price }}</a></td>
-                            <td><a href="{% url 'stores:isle:update' slug=object.slug pk=P.isle.pk %}">{{ P.isle }} ({{ P.isle.notes }})</a></td>
-                        {%endif%}
-                    {%endfor%}
+                    <td><input class="action-select" name="content" type="checkbox" value="{{ this.id }}" />{{ this }}</td>
+                    <td><a href="{% url 'items:update' pk=this.id %}">${{ this.price }}</a></td>
+                    <td><a href="{% url 'stores:isle:update' slug=object.slug pk=this.isle.id %}">{{ this.isle }} ({{ this.isle.notes }})</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -50,8 +46,7 @@
         </form>
     {% endif %}
     
-    {% if isles and not LineForm.item %}
-        {% for tis in Foo %}{{ tis.as_p }}<hr>{% endfor %}
+    {% if isles and not Items %}
         <center>No items found, add them here:</center>
     {% endif %}
     

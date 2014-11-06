@@ -35,7 +35,7 @@
         <table class="table table-striped table-bordered">
         {% for this_isle in localisles.all %}
           <th colspan=3 class="info">{{ this_isle }} ({{ this_isle.notes }})</th>
-          {% for this_item in object.items.all %}
+          {% for this_item in object.content.all %}
             {% if this_isle.id == this_item.isle.id %}
               <tr><td>&nbsp;&nbsp;</td><td><a href="">{{ this_item }}</a></td><td class="text-right">${{ this_item.price }}</td></tr>
             {% endif %}

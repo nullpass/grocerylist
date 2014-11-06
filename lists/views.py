@@ -1,6 +1,4 @@
 # lists/views.py
-from __future__ import absolute_import
-
 import decimal
 import time
 
@@ -53,7 +51,9 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         """
         self.object = form.save(commit=False)
         self.object.user = self.request.user
-        self.object.store = Store.objects.get(slug=self.kwargs.get('slug'))
+        #
+        # Require 1 result matching slug and owned by current user. TODO: fail pretty-ly
+        self.object.store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
         return super(ListCreateView, self).form_valid(form)
@@ -68,8 +68,8 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         context = super(ListDetailView, self).get_context_data(**kwargs)
         context['localisles'] = Isle.objects.filter(store=self.object.store).order_by('name')
         context['total_cost'] = decimal.Decimal(0.00)
-        for X in self.object.items.all():
-            context['total_cost'] += X.price
+        for this in self.object.content.all():
+            context['total_cost'] += this.price
         return context
 
 
@@ -77,13 +77,11 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """ Edit a grocery list """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
-
+    
     def get_context_data(self, **kwargs):
         """ Include all items that belong to the store that this list belongs to. """
         context = super(ListUpdateView, self).get_context_data(**kwargs)
-        #self.form_class.base_fields['items'].queryset = Item.objects.filter(store=self.object.store.id)
-        #messages.info(self.request, context.items())
-        #context['items'].queryset = Item.objects.filter(store=self.object.store.id)
+        context['form'].base_fields['content'].queryset = Item.objects.filter(store=self.object.store.id)
         return context
 
     def form_valid(self, form):
