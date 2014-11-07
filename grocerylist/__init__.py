@@ -19,6 +19,7 @@ lists.
     Delete == remove from visibility
 
 An empty isle gets smushed upwards, need to inject a break
+    If isle 1 is empty, but isle 2 has items then isle 2 gets pushed up into isle 1
     
 /recent/
     Not sure if I want to go the whole .logging() route or not, could probably

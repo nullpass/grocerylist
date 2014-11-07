@@ -40,7 +40,7 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListCreateView, self).get_context_data(**kwargs)
-        context['store'] = Store.objects.get(slug=self.kwargs.get('slug'))
+        context['store'] = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         return context
 
     def form_valid(self, form):
@@ -51,8 +51,6 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         """
         self.object = form.save(commit=False)
         self.object.user = self.request.user
-        #
-        # Require 1 result matching slug and owned by current user. TODO: fail pretty-ly
         self.object.store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
@@ -86,8 +84,8 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
-        if form.cleaned_data['delete_me']:
+        if form.cleaned_data['deleteme']:
             self.success_url = self.object.store.get_absolute_url()
-            self.object.delme = True
+            self.object.deleteme = True
             messages.success(self.request, 'List "%s" deleted!' % self.object.name )
         return super(ListUpdateView, self).form_valid(form)

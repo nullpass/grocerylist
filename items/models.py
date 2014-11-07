@@ -18,3 +18,6 @@ class Item(UltraModel):
     user  = models.ForeignKey(User,  related_name='item')
     store = models.ForeignKey(Store, related_name='item')
     isle  = models.ForeignKey(Isle,  related_name='item')
+
+    class Meta:
+        unique_together = (("store", "name"),)
