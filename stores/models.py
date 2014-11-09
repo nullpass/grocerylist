@@ -13,10 +13,10 @@ class Store(UltraModel):
     """
     
     """
-    name = models.CharField(max_length=64, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')])
+    name = models.CharField(max_length=128, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')])
     user = models.ForeignKey(User, related_name='store')
     address = models.CharField(max_length=1024, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')], unique=True)
-    slug = models.SlugField(max_length=64, blank=True)
+    slug = models.SlugField(max_length=256, blank=True)
 
     #class Meta:
     #    unique_together = (("name", "address"),)

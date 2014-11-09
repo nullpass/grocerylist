@@ -20,7 +20,7 @@
       <td></td>
     </tr>
       <td></td>
-      <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a></td>
+      <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
       <td class="danger font-align-right"><b>Delete? </b>{{ form.deleteme }}{{form.deleteme.errors}}</td>
     </tr>
   </table>

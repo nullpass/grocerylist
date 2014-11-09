@@ -63,21 +63,14 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     template_name = 'lists/ListDetailView.html'
 
     def get_context_data(self, **kwargs):
-        """
-        Invoke idiot magic to sort list by isle with headers.
-        """
+        """ Sort list by isle and calculate total price. """
         context = super(ListDetailView, self).get_context_data(**kwargs)
-        context['local_isles'] = {}
+        context['local_isles'] = list()
         context['total_cost'] = decimal.Decimal(0.00)
         for this in self.object.content.all():
             context['total_cost'] += this.price
-            if this.isle.id not in context['local_isles'].keys():
-                context['local_isles'][this.isle.id] = {
-                    'name' : this.isle.name,
-                    'notes' : this.isle.notes,
-                    'contains' : list()
-                }
-            context['local_isles'][this.isle.id]['contains'].append(this)
+            if this.isle not in context['local_isles']:
+                context['local_isles'].append(this.isle)
         return context
 
 
@@ -86,11 +79,11 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
     
-    def get_context_data(self, **kwargs):
-        """ Include all items that belong to the store that this list belongs to. """
-        context = super(ListUpdateView, self).get_context_data(**kwargs)
-        context['form'].base_fields['content'].queryset = Item.objects.filter(store=self.object.store.id)
-        return context
+    def get_form(self, form_class):
+        """ Limit choice of items to those that exist in the store this list is for """
+        q = super(ListUpdateView, self).get_form(form_class)
+        q.fields['content'].queryset = Item.objects.filter(store=self.object.store)
+        return q
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
