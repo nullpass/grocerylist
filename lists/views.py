@@ -63,11 +63,21 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     template_name = 'lists/ListDetailView.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Invoke idiot magic to sort list by isle with headers.
+        """
         context = super(ListDetailView, self).get_context_data(**kwargs)
-        context['localisles'] = Isle.objects.filter(store=self.object.store).order_by('name')
+        context['local_isles'] = {}
         context['total_cost'] = decimal.Decimal(0.00)
         for this in self.object.content.all():
             context['total_cost'] += this.price
+            if this.isle.id not in context['local_isles'].keys():
+                context['local_isles'][this.isle.id] = {
+                    'name' : this.isle.name,
+                    'notes' : this.isle.notes,
+                    'contains' : list()
+                }
+            context['local_isles'][this.isle.id]['contains'].append(this)
         return context
 
 
