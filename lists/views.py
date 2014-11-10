@@ -81,9 +81,9 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     
     def get_form(self, form_class):
         """ Limit choice of items to those that exist in the store this list is for """
-        q = super(ListUpdateView, self).get_form(form_class)
-        q.fields['content'].queryset = Item.objects.filter(store=self.object.store)
-        return q
+        form = super(ListUpdateView, self).get_form(form_class)
+        form.fields['content'].queryset = Item.objects.filter(store=self.object.store)
+        return form
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
