@@ -1,7 +1,5 @@
 # core/functions.py
 
-import re
-
 def navbar(request):
     """
     Return a dict containing all the things
@@ -18,9 +16,8 @@ def navbar(request):
         seperating things
     """
     nav_stores = [
-        ('Home'  ,         'index'),
+        ('Store List',     'index'),
         ('Search',         'index'),
-        ('Recent',         'index'),
         ('class_divider',  'class_divider'),
         ('Add A Store',    'create'),
         
@@ -29,7 +26,6 @@ def navbar(request):
         ('My Lists',       'lists:index'),
         ('class_divider',  'class_divider'),
         ('Search',         'index'),
-        ('Recent',         'index'),
     ]
     navbar = [
         ('Stores',   nav_stores),

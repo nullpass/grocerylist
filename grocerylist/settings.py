@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'items',
     'lists',
     'social.apps.django_app.default',
+    'recent',
 )
 
 MIDDLEWARE_CLASSES = (

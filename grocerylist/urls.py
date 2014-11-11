@@ -12,7 +12,7 @@ from isles.views import IsleCreateView, IsleUpdateView
 
 from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, StoreIndex
 
-from human.views import LogoutView
+from core.views import LogoutView
 
 item_patterns = patterns('',
     #
