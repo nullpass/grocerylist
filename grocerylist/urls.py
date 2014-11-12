@@ -12,6 +12,8 @@ from isles.views import IsleCreateView, IsleUpdateView
 
 from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, StoreIndex
 
+from recent.views import RecentDetailView, RecentIndex
+
 from core.views import LogoutView
 
 item_patterns = patterns('',
@@ -59,6 +61,15 @@ mylist_patterns = patterns('',
     url(r'^(?P<pk>\d+)/update/$', ListUpdateView.as_view(), name='update'),
 )
 
+recent_patterns = patterns('',
+    #
+    # /recent/
+    url(r'^$', RecentIndex.as_view(), name='index'),  ## Wait-- why the hell did I insist on a single urls file??
+    #
+    # /recent/<log pk>/
+    url(r'^(?P<pk>\d+)/$', RecentDetailView.as_view(), name='detail'),
+)
+
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     #
@@ -79,6 +90,9 @@ urlpatterns = patterns('',
     #
     # /i/
     url(r'^i/', include(item_patterns, namespace='items')),
+    #
+    # /recent/ 
+    url(r'^recent/', include(recent_patterns, namespace='recent')),
     #
     url(r'', include('social.apps.django_app.urls', namespace='social'))
 )

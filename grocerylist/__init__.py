@@ -2,6 +2,7 @@
 
 TODO:
 
+1. /recent/
 5. Make everything singular 
 6. List.Done == Convert to text block (flatten) so that future changes to data does not change completed lists.
 
@@ -13,9 +14,6 @@ lists.
     lists by store (not just related bubble)
     all lists should target=_blank
     
-/recent/
-    Not sure if I want to go the whole .logging() route or not, could probably
-    just cheat and give recent by object type
 
 /base/urls.py is a monster, keep her that way. kthnx
 
