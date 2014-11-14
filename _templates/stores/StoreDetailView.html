@@ -5,6 +5,8 @@
 {% block sectiontitle %}{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>{% endblock %}
 
 {% block linkbox %}
+    <a href="{% url 'stores:update' slug=object.slug %}">Edit this store</a>
+    <br>
     <a href="{% url 'index' %}">Store List</a><br>
     <br>
     <a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>

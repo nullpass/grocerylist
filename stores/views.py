@@ -6,7 +6,7 @@ from django.http import Http404
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
-from items.forms import ItemCreateForm, ItemForm
+from items.forms import ItemCreateForm
 from items.models import Item
 
 from isles.models import Isle
@@ -19,7 +19,7 @@ from .models import Store
 
 
 class StoreIndex(RequireUserMixin, generic.TemplateView):
-    """ The default view for /s/ ; a list of stores """
+    """ The default view for /s/ ; a list of your stores """
     form_class, model = StoreForm, Store
     template_name = 'stores/index.html'
     
@@ -31,8 +31,9 @@ class StoreIndex(RequireUserMixin, generic.TemplateView):
 
 
 class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
-    """ View a Store
-    And show a ton of dynamic data
+    """
+    View a Store
+    and allow user to create a grocery list for that store
     """
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreDetailView.html'
@@ -40,7 +41,7 @@ class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         # Items that belong to this store.
-        context['inventory'] = Item.objects.filter(store=self.object.id).order_by('isle')
+        context['inventory'] = Item.objects.filter(store=self.object.id).order_by('isle', 'name')
         # Isles that belong to this store
         local_isles = Isle.objects.filter(store=self.object.id)
         if local_isles:
