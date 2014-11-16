@@ -22,3 +22,6 @@ class Isle(UltraModel):
 
     def get_absolute_url(self):
         return reverse('stores:detail', kwargs={'slug' : self.store.slug})
+
+    def __str__(self):
+        return '{} ({})'.format(self.name,self.description)

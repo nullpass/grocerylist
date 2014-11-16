@@ -9,7 +9,7 @@ from core.mixins import RequireUserMixin, RequireOwnerMixin
 from stores.models import Store
 from isles.models import Isle
 
-from .forms import ItemCreateForm
+from .forms import ItemCreateForm, ItemForm
 from .models import Item
 
 
@@ -39,12 +39,12 @@ class ItemCreateView(RequireUserMixin, generic.CreateView):
 
 
 class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
-    """Edit a Item"""
-    form_class, model = ItemCreateForm, Item
+    """Edit an Item"""
+    form_class, model = ItemForm, Item
     template_name = 'items/ItemUpdateView.html'
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.success_url = self.object.store.get_absolute_url()
+        #self.object = form.save(commit=False)
+        #self.success_url = self.object.store.get_absolute_url()
         messages.success(self.request, 'Changes saved!')
         return super(ItemUpdateView, self).form_valid(form)

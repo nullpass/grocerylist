@@ -11,6 +11,7 @@ The last-change|created boxes on store.detailview are not clearly refering to th
     Or merge store.address, store.notes with born&changed into one info box.
 
 Add 'Edit this store' link on right during store.detailview, it's redundant but user-friendly.
+    ---CANCEL, just move all menu items to the header, we're getting rid of info boxes
 
 New isles are invisible until an item is added to them. Not sure how to fix that but it needs fixing.
 
@@ -48,6 +49,4 @@ In your next life when you do a full refactor of this program do this:
     3. make isle a submod of store
     4. make foor a submod of isle
     5. put core.* in ./grocerylist/ (basically trying to reduce the number of dirs at root)
-    
-
 """

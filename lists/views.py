@@ -67,7 +67,7 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         context = super(ListDetailView, self).get_context_data(**kwargs)
         context['local_isles'] = list()
         context['total_cost'] = decimal.Decimal(0.00)
-        for this in self.object.content.all():
+        for this in self.object.content.order_by('isle').all():
             context['total_cost'] += this.price
             if this.isle not in context['local_isles']:
                 context['local_isles'].append(this.isle)
