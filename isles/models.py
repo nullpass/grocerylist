@@ -24,4 +24,8 @@ class Isle(UltraModel):
         return reverse('stores:detail', kwargs={'slug' : self.store.slug})
 
     def __str__(self):
-        return '{} ({})'.format(self.name,self.description)
+        if len(self.notes) > 32:
+            notes = '{}...'.format(self.notes[:32])
+        else:
+            notes = self.notes[:32]
+        return '{} ({})'.format(self.name,notes)

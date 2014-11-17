@@ -96,7 +96,7 @@
 
         </div><!-- /.blog-main -->
         {# here we put read-only data like .created, .modified and environment.name for servers and shit #}
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar"><!-- 
             <div class="sidebar-module sidebar-module-inset">
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -104,8 +104,12 @@
                     </div>
                     <div class="panel-body">{% block linkbox %} {% endblock %}
                     </div>
-                </div> <!-- /.panel-primary -->
-            </div> <!-- /.sidebar-module-insert -->
+                </div> !-- /.panel-primary --
+            </div> !-- /.sidebar-module-insert -->
+
+{# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
+          {% block sidebox %}
+          {% endblock %}
 
 {# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
           {% if related_lists %}
@@ -127,34 +131,6 @@
           </div> <!-- /.sidebar-module -->
           {% endif %}
 
-{# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
-          {% if object.modified %}{% if object.modified != object.created %}
-          {# If the thing was just Created, don't show modified time, it's pointless #}
-          <div class="sidebar-module">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ renderdata.this }} last changed:</h3>
-                </div>
-                <div class="panel-body">
-                    {{ object.modified }}
-                </div>
-            </div> <!-- /.panel-primary -->
-          </div> <!-- /.sidebar-module -->
-          {% endif %}{% endif %}
-
-{# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
-          {% if object.created %}
-          <div class="sidebar-module">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ renderdata.this }} created:</h3>
-                </div>
-                <div class="panel-body">
-                    {{ object.created }}
-                </div>
-            </div> <!-- /.panel-primary -->
-          </div> <!-- /.sidebar-module -->
-          {% endif %}
 {# -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- #}
       </div><!-- /.row -->
 

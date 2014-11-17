@@ -4,8 +4,6 @@ TODO:
 
 /recent/
 
-On item.updateview show list of isles as select box with isle names. It's inconv to remember isle #:name
-
 The last-change|created boxes on store.detailview are not clearly refering to the store.
     Consider moving them to store.updateview, mouseover text or someplace generally less visible.
     Or merge store.address, store.notes with born&changed into one info box.
@@ -25,7 +23,7 @@ Idealy store.detailview should show isles in boxes  that scroll right on regular
     This probably means getting rid of the info boxes, putting all links in the top menu and spreading
     the store info box out to be a wide header, then putting all of the user-touchable stuff below (hehe)
     
-
+Remove isle.description, we only use isle.notes
 
 
 

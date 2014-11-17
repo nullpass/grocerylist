@@ -4,16 +4,28 @@
 
 {% block sectiontitle %}{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>{% endblock %}
 
-{% block linkbox %}
-    <a href="{% url 'stores:update' slug=object.slug %}">Edit this store</a>
-    <br>
-    <a href="{% url 'index' %}">Store List</a><br>
-    <br>
-    <a href="{% url 'stores:isle-create' slug=object.slug %}">Add an isle</a><br>
-{% endblock linkbox %}
 
-{% block rellists %}
-{% endblock rellists %}
+{% block sidebox %}
+    {% if isles %}
+          <div class="sidebar-module">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% if not inventory  %}No items found, add them here:{% else %}Up yours, I'm not a webdev!{% endif %}</h3>
+                </div>
+                <div class="panel-body text-right">
+            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
+                Item{{ ItemCreateForm.name }}<br>
+                ${{ ItemCreateForm.price }}<br>
+                {{ ItemCreateForm.isle }}<br>
+                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
+                {% csrf_token %}
+                </ul>
+            </form>
+                </div>
+            </div> <!-- /.panel-primary -->
+          </div> <!-- /.sidebar-module -->
+    {% endif %}
+{% endblock sidebox %}
     
 {% block content %}
     <p class="list-group-item"><i>{{ object.address }}</i></p>
@@ -37,31 +49,14 @@
                 </tr>
                 {% for this in inventory %}
                 <tr>
-                    <td><input class="action-select" name="content" type="checkbox" value="{{ this.id }}" />{{ this }}</td>
-                    <td><a href="{% url 'items:update' pk=this.id %}">${{ this.price }}</a></td>
-                    <td><a href="{% url 'stores:isle:update' slug=object.slug pk=this.isle.id %}">{{ this.isle }} ({{ this.isle.notes }})</a></td>
+                    <td><div class="checkbox"><label><input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}</label></div></td>
+                    <td><a href="{% url 'items:update' pk=this.id %}" style="font-family:monospace">${{ this.price }}</a></td>
+                    <td><a href="{% url 'stores:isle:update' slug=object.slug pk=this.isle.id %}">{{ this.isle }}</a></td>
                 </tr>
                 {% endfor %}
             </table>
             <input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
             {% csrf_token %}
         </form>
-    {% endif %}
-    
-    {% if isles and not Items %}
-        <center>No items found, add them here:</center>
-    {% endif %}
-    
-    {% if isles %}
-        <center>
-            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
-                Item Name:{{ ItemCreateForm.name }}
-                ${{ ItemCreateForm.price }}
-                {{ ItemCreateForm.isle }}
-                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
-                {% csrf_token %}
-            </form>
-        </center>
-        <hr width="75%">
     {% endif %}
 {% endblock content %}
