@@ -23,8 +23,7 @@ Idealy store.detailview should show isles in boxes  that scroll right on regular
     This probably means getting rid of the info boxes, putting all links in the top menu and spreading
     the store info box out to be a wide header, then putting all of the user-touchable stuff below (hehe)
     
-Remove isle.description, we only use isle.notes
-
+Add isle.create link back to store.detail.html
 
 
 List.Done == Convert to text block (flatten) so that future changes to data does not change completed lists.

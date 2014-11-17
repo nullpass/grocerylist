@@ -13,7 +13,6 @@ class Isle(UltraModel):
     """ Item -> ( Isle ) -> Store """
     name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
     user = models.ForeignKey(User, related_name='isle')
-    description = models.TextField(max_length=1024)
     store = models.ForeignKey(Store, related_name='isle')
 
     class Meta:
