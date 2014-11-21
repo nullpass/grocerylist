@@ -10,10 +10,13 @@ from core.models import UltraModel
 from stores.models import Store
 
 class Isle(UltraModel):
-    """ Item -> ( Isle ) -> Store """
+    """    """
     name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
     user = models.ForeignKey(User, related_name='isle')
     store = models.ForeignKey(Store, related_name='isle')
+    #
+    # Part of v4 refactor prep
+    ## content = models.ManyToManyField(Item, related_name='isle')
 
     class Meta:
         unique_together = (("name", "store"),)

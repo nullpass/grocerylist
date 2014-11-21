@@ -15,8 +15,12 @@ class List(UltraModel):
     name = models.CharField(max_length=64, blank=True, null=True) # in views defaults to self.created
     user = models.ForeignKey(User, related_name='list')
     store = models.ForeignKey(Store, related_name='list')
+    #
     done = models.BooleanField(default=False)
     deleteme = models.BooleanField(default=False)
+    #
+    #
+    # v4 refactor, change to Isle
     content = models.ManyToManyField(Item, related_name='list')
 
     def get_absolute_url(self):
