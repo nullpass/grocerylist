@@ -4,6 +4,27 @@ TODO:
 
 /recent/
 
+
+The V4 refactor will redo how we apporach Item objects. I am delaying the start until
+    I will have time to get a working rev out. For now I'm just letting the ideas cook.
+    
+    
+V4:
+    Remove FKeys from Item.models.
+    Isle.models now have M2M attr 'content' that links Item.models
+    List.content now points to Isle.models (instead of Item.models)
+        All of this allows us to easily present items grouped by isle which was the whole point all along.
+    Moving to newRoot.html which does away with info boxes in favor of a wider default view.
+    Links that used to be in info boxes get moved to the header menu.
+    Header menu will need to be refactored for dynamic updates.
+
+V5:
+    In code (not template)
+        Rename Item[s] to Food
+        Rename Isle[s] to Lane
+
+
+
 The last-change|created boxes on store.detailview are not clearly refering to the store.
     Consider moving them to store.updateview, mouseover text or someplace generally less visible.
     Or merge store.address, store.notes with born&changed into one info box.
@@ -12,6 +33,8 @@ Add 'Edit this store' link on right during store.detailview, it's redundant but 
     ---CANCEL, just move all menu items to the header, we're getting rid of info boxes
 
 New isles are invisible until an item is added to them. Not sure how to fix that but it needs fixing.
+
+Change isle.name from INT to VARCHAR(2) with same regex validator
 
 Change the item-isle relationship from item.fk>isle to isle.m2m>items
     then write a special "move item to different isle" method in item.updateview
