@@ -8,7 +8,7 @@ class ListForm(forms.ModelForm):
     class Meta:
         fields = (
             'name',
-            'content',
+            #'content',
             )
         model = models.List
         widgets = { 'content' : forms.CheckboxSelectMultiple() }
@@ -19,7 +19,7 @@ class ListUpdateForm(forms.ModelForm):
     class Meta:
         fields = (
             'name',
-            'content',
+            #'content',
             'done',
             'deleteme',
             )

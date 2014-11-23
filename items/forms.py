@@ -10,7 +10,6 @@ class ItemCreateForm(ModelForm):
         fields = (
             'name',
             'price',
-            'isle',
             )
         model = models.Item
         widgets = { 'item' : CheckboxSelectMultiple() }
@@ -22,7 +21,6 @@ class ItemForm(ModelForm):
         fields = (
             'name',
             'price',
-            'isle',
             )
         model = models.Item
         widgets = { 'item' : CheckboxSelectMultiple() }

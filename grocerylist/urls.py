@@ -6,7 +6,7 @@ admin.autodiscover()
 
 from lists.views import ListCreateView, ListUpdateView, ListDetailView, ListIndex
 
-from items.views import ItemCreateView, ItemUpdateView
+from items.views import ItemCreateView, ItemUpdateView, ItemIndex
 
 from isles.views import IsleCreateView, IsleUpdateView
 
@@ -32,6 +32,9 @@ store_patterns = patterns('',
     #
     # /s/<store slug>/
     url(r'^$',         StoreDetailView.as_view(), name='detail'),
+    #
+    #
+    url(r'^inventory/$',   ItemIndex.as_view(), name='inventory'),
     #
     # /s/<store slug>/generate/
     url(r'^generate/$',   ListCreateView.as_view(), name='generate'),

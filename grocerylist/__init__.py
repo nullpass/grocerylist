@@ -33,18 +33,13 @@ Add 'Edit this store' link on right during store.detailview, it's redundant but 
     ---CANCEL, just move all menu items to the header, we're getting rid of info boxes
 
 New isles are invisible until an item is added to them. Not sure how to fix that but it needs fixing.
-
+    Will be fixed in V4. Empty isles have their own box.
+    
 Change isle.name from INT to VARCHAR(2) with same regex validator
 
 Change the item-isle relationship from item.fk>isle to isle.m2m>items
     then write a special "move item to different isle" method in item.updateview
     Later, find some collapse css for isles
-
-Idealy store.detailview should show isles in boxes  that scroll right on regular monitors and scroll
-    down on mobile (Sorted numerically by isle number, obviously) and now just a flat list that gets
-    out of control with lists of any realistic size.
-    This probably means getting rid of the info boxes, putting all links in the top menu and spreading
-    the store info box out to be a wide header, then putting all of the user-touchable stuff below (hehe)
     
 Add isle.create link back to store.detail.html
 
@@ -57,6 +52,10 @@ lists.
     mark as done href (color coded by status)
     lists by store (not just related bubble)
     all lists should target=_blank
+
+
+Gotta do something about slugs. I don't want to force store name and address to be globally unique, but
+    manually uniquing slugs is a horror show
     
 
 /base/urls.py is a monster, keep her that way. kthnx
@@ -69,4 +68,5 @@ In your next life when you do a full refactor of this program do this:
     3. make isle a submod of store
     4. make foor a submod of isle
     5. put core.* in ./grocerylist/ (basically trying to reduce the number of dirs at root)
+
 """

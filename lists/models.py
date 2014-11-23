@@ -21,7 +21,7 @@ class List(UltraModel):
     #
     #
     # v4 refactor, change to Isle
-    content = models.ManyToManyField(Item, related_name='list')
+    #content = models.ManyToManyField(Item, related_name='list')
 
     def get_absolute_url(self):
         return reverse('lists:detail', kwargs={'pk' : self.pk})

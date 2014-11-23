@@ -41,17 +41,19 @@ class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(StoreDetailView, self).get_context_data(**kwargs)
         # Items that belong to this store.
-        context['inventory'] = Item.objects.filter(store=self.object.id).order_by('isle', 'name')
+        #context['inventory'] = Item.objects.filter(store=self.object.id).order_by('isle', 'name')
         # Isles that belong to this store
-        local_isles = Isle.objects.filter(store=self.object.id)
-        if local_isles:
-            context['isles'] = local_isles
-            context['ItemCreateForm'] = ItemCreateForm()
-            context['ItemCreateForm'].fields['isle'].queryset = local_isles
-            context['ItemCreateForm'].fields['isle'].initial = local_isles[0]
+        context['isles'] = Isle.objects.filter(store=self.object.id)
+        #local_isles = Isle.objects.filter(store=self.object.id)
+        #if local_isles:
+        #    context['isles'] = local_isles
+        #    context['ItemCreateForm'] = ItemCreateForm()
+            #context['ItemCreateForm'].fields['isle'].queryset = local_isles
+            #context['ItemCreateForm'].fields['isle'].initial = local_isles[0]
         #
         # My non-deleted Grocery Lists that reference this store, newest first
         context['related_lists'] = List.objects.filter(store=self.object.id).filter(deleteme=False).order_by('-pk')
+        context['fours'] = [4,8,12,16,20,24,28,32,36,40,44]
         return context
 
 

@@ -1,33 +1,84 @@
-{% extends "Root.html" %}
+{% extends "newRoot.html" %}
+
+{% block StoreView %}class="active"{% endblock %} 
 
 {% block pagetitle %}{{object}} @ {{ object.address }}{% endblock pagetitle %}
 
-{% block sectiontitle %}{{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>{% endblock %}
+{% block jumbotron %}
+    {{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>
+    <p class="list-group-item"><i>{{ object.address }}</i></p>
+    <p class="well">{{ object.notes|linebreaksbr }}</p>
+{% endblock %}
 
 
-{% block sidebox %}
-    {% if isles %}
-          <div class="sidebar-module">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{% if not inventory  %}No items found, add them here:{% else %}Up yours, I'm not a webdev!{% endif %}</h3>
-                </div>
-                <div class="panel-body text-right">
-            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
-                Item{{ ItemCreateForm.name }}<br>
-                ${{ ItemCreateForm.price }}<br>
-                {{ ItemCreateForm.isle }}<br>
-                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
-                {% csrf_token %}
-                </ul>
-            </form>
-                </div>
-            </div> <!-- /.panel-primary -->
-          </div> <!-- /.sidebar-module -->
-    {% endif %}
-{% endblock sidebox %}
     
 {% block content %}
+    
+<!--
+
+If isles:
+For this_isle in self.isles:
+    <div class="col-sm-3"><div class="panel panel-info"><div class="panel-heading"><h3 class="panel-title">
+    ___ISLE NAME___
+    </h3></div>
+    <div class="panel-body">
+    for this_food in this_isle.contents
+        ___ITEMS AS FORM____
+    </div></div></div>
+    
+else if not isle
+    There are no isles, add one here []
+-->
+<div class="row">
+{% for this_isle in isles %}
+    <div class="col-sm-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><a href="{% url 'stores:isle:update' slug=object.slug pk=this_isle.id %}">{{ this_isle }}</a></a></h3>
+            </div>
+            <div class="panel-body">
+                {% for this in this_isle.content.all %}
+                    <div class="checkbox">
+                        <label>
+                            <input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}
+                            <a href="{% url 'items:update' pk=this.id %}" target="_blank" style="font-family:monospace">${{ this.price }}</a>
+                        </label>
+                    </div>
+                {% endfor %}
+                </tr>
+            </div>
+        </div>
+    </div><!-- /.col-sm-4 -->
+    {% if forloop.counter in fours %}</div><div class="row">{% endif %}
+{% empty %}
+        <center>
+            This store does not have any isles defined. Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.
+        </center>
+        <hr width="75%">
+
+{% endfor %}
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block junk %}
     <p class="list-group-item"><i>{{ object.address }}</i></p>
     <p class="well">{{ object.notes|linebreaksbr }}</p>
 
@@ -59,4 +110,25 @@
             {% csrf_token %}
         </form>
     {% endif %}
-{% endblock content %}
+
+    {% if isles %}
+          <div class="sidebar-module">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{% if not inventory  %}No items found, add them here:{% else %}Up yours, I'm not a webdev!{% endif %}</h3>
+                </div>
+                <div class="panel-body text-right">
+            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
+                Item{{ ItemCreateForm.name }}<br>
+                ${{ ItemCreateForm.price }}<br>
+                {{ ItemCreateForm.isle }}<br>
+                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
+                {% csrf_token %}
+                </ul>
+            </form>
+                </div>
+            </div> <!-- /.panel-primary -->
+          </div> <!-- /.sidebar-module -->
+    {% endif %}
+
+{% endblock %}

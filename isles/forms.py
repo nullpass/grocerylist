@@ -1,7 +1,7 @@
 # isles/forms.py
 from __future__ import absolute_import
 #
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, CheckboxSelectMultiple
 
 from . import models
 
@@ -10,10 +10,14 @@ class IsleForm(ModelForm):
         fields = (
             'name',
             'notes',
+            'content',
             )
         model = models.Isle
-        widgets = { 'name' : TextInput() }
-
+        widgets = {
+            'name' : TextInput(), 
+            'content' : CheckboxSelectMultiple(),
+            }
+        
     def __init__(self, *args, **kwargs):
         super(IsleForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['size'] = 1

@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
+from items.models import Item
 from stores.models import Store
 
 from .forms import IsleForm

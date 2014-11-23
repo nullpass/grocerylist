@@ -1,0 +1,3 @@
+{% for this in object_list %}
+<a href="{% url 'items:update' pk=this.id %}">{{ this }} {{ this.isle.all }}</a><br>
+{% endfor %}

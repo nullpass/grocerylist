@@ -12,6 +12,16 @@ from isles.models import Isle
 from .forms import ItemCreateForm, ItemForm
 from .models import Item
 
+class ItemIndex(RequireUserMixin, generic.ListView):
+    """  """
+    form_class, model = ItemForm, Item
+    template_name = 'items/index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(ItemIndex, self).get_context_data(**kwargs)
+        context['items'] = Item.objects.filter(store=Store.objects.get(slug=self.kwargs.get('slug')))
+        return context
+
 
 class ItemCreateView(RequireUserMixin, generic.CreateView):
     """ Make a new Item
@@ -48,3 +58,5 @@ class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         #self.success_url = self.object.store.get_absolute_url()
         messages.success(self.request, 'Changes saved!')
         return super(ItemUpdateView, self).form_valid(form)
+
+

@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 
 from core.models import UltraModel
 
+from items.models import Item
 from stores.models import Store
 
 class Isle(UltraModel):
@@ -15,8 +16,8 @@ class Isle(UltraModel):
     user = models.ForeignKey(User, related_name='isle')
     store = models.ForeignKey(Store, related_name='isle')
     #
-    # Part of v4 refactor prep
-    ## content = models.ManyToManyField(Item, related_name='isle')
+    # V4 refactor:
+    content = models.ManyToManyField(Item, related_name='isle')
 
     class Meta:
         unique_together = (("name", "store"),)
