@@ -15,9 +15,7 @@ class Isle(UltraModel):
     name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
     user = models.ForeignKey(User, related_name='isle')
     store = models.ForeignKey(Store, related_name='isle')
-    #
-    # V4 refactor:
-    content = models.ManyToManyField(Item, related_name='isle')
+    content = models.ManyToManyField(Item, blank=True, related_name='isle')
 
     class Meta:
         unique_together = (("name", "store"),)

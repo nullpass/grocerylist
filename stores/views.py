@@ -6,7 +6,7 @@ from django.http import Http404
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
-from items.forms import ItemCreateForm
+from items.forms import EmbedtemForm, ItemForm
 from items.models import Item
 
 from isles.models import Isle
@@ -47,13 +47,19 @@ class StoreDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         #local_isles = Isle.objects.filter(store=self.object.id)
         #if local_isles:
         #    context['isles'] = local_isles
-        #    context['ItemCreateForm'] = ItemCreateForm()
-            #context['ItemCreateForm'].fields['isle'].queryset = local_isles
-            #context['ItemCreateForm'].fields['isle'].initial = local_isles[0]
+        #    context['EmbedtemForm'] = EmbedtemForm()
+            #context['EmbedtemForm'].fields['isle'].queryset = local_isles
+            #context['EmbedtemForm'].fields['isle'].initial = local_isles[0]
         #
         # My non-deleted Grocery Lists that reference this store, newest first
-        context['related_lists'] = List.objects.filter(store=self.object.id).filter(deleteme=False).order_by('-pk')
+        #context['related_lists'] = List.objects.filter(store=self.object.id).filter(deleteme=False).order_by('-pk')
         context['fours'] = [4,8,12,16,20,24,28,32,36,40,44]
+        #
+        #
+        #a = Item.objects.get(id=10).isle.all()
+        #messages.info(self.request, a)
+        #
+        #
         return context
 
 

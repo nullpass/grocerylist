@@ -41,7 +41,7 @@ else if not isle
                     <div class="checkbox">
                         <label>
                             <input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}
-                            <a href="{% url 'items:update' pk=this.id %}" target="_blank" style="font-family:monospace">${{ this.price }}</a>
+                            <a href="{% url 'items:update' pk=this.id %}" style="font-family:monospace">${{ this.price }}</a>
                         </label>
                     </div>
                 {% endfor %}
@@ -119,9 +119,9 @@ else if not isle
                 </div>
                 <div class="panel-body text-right">
             <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
-                Item{{ ItemCreateForm.name }}<br>
-                ${{ ItemCreateForm.price }}<br>
-                {{ ItemCreateForm.isle }}<br>
+                Item{{ EmbedtemForm.name }}<br>
+                ${{ EmbedtemForm.price }}<br>
+                {{ EmbedtemForm.isle }}<br>
                 <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
                 {% csrf_token %}
                 </ul>

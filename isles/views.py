@@ -39,6 +39,13 @@ class IsleUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'
 
+    def get_form(self, form_class):
+        """ Limit choice of items to those that exist in the store this object is for """
+        form = super(IsleUpdateView, self).get_form(form_class)
+        this_store = Store.objects.get(slug=self.kwargs.get('slug'))
+        form.fields['content'].queryset = Item.objects.filter(store=this_store.id)
+        return form
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.success_url = self.object.store.get_absolute_url()

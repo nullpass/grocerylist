@@ -1,22 +1,12 @@
 # items/forms.py
 
-from django.forms import ModelForm, CheckboxSelectMultiple
+from django.forms import ModelForm, CheckboxSelectMultiple, RadioSelect
 
 from . import models
 
-class ItemCreateForm(ModelForm):
+class EmbedtemForm(ModelForm):
     """ """
-    class Meta:
-        fields = (
-            'name',
-            'price',
-            )
-        model = models.Item
-        #widgets = { 'item' : CheckboxSelectMultiple() }
-
-
-class ItemForm(ModelForm):
-    """ """
+    
     class Meta:
         fields = (
             'name',
@@ -24,4 +14,16 @@ class ItemForm(ModelForm):
             'from_isle',
             )
         model = models.Item
-        widgets = { 'from_isle' : CheckboxSelectMultiple() }
+
+
+class ItemForm(ModelForm):
+    """ """
+    
+    class Meta:
+        fields = (
+            'name',
+            'price',
+            'from_isle',
+            )
+        model = models.Item
+        widgets = { 'from_isle' : RadioSelect() }
