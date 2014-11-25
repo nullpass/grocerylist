@@ -13,6 +13,7 @@ class Item(UltraModel):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     user  = models.ForeignKey(User,  related_name='item')
     store = models.ForeignKey(Store, related_name='item')
+    from_isle  = models.ForeignKey('isles.Isle', related_name='item')
     
     class Meta:
         unique_together = (("store", "name"),)
