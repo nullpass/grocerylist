@@ -1,35 +1,19 @@
 # recent/views.py
 
 from django.views import generic
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
-from core.mixins import RequireUserMixin
+from core.mixins import RequireUserMixin, RequireOwnerMixin
 
-from . import models
+from .models import Log
 
 class RecentIndex(RequireUserMixin, generic.ListView):
-    model = models.Log
+    model = Log
     template_name = 'recent/index.html'
     
     def get_queryset(self):
-        return models.Log.objects.filter(user=self.request.user).all()
+        return Log.objects.filter(user=self.request.user).order_by('-pk').all()[:50]
 
 
-class RecentDetailView(RequireUserMixin, generic.DetailView):
-    model = models.Log
+class RecentDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
+    model = Log
     template_name = 'recent/LogDetail.html'
-
-"""
-
-recent_patterns = patterns('',
-    #
-    # /recent/
-    url(r'^$', RecentIndex.as_view(), name='index'), 
-    #
-    # /recent/<log pk>/
-    url(r'^(?P<pk>\d+)/$', RecentDetailView.as_view(), name='detail'),
-)
-
-"""

@@ -12,7 +12,8 @@ from stores.models import Store
 
 class Isle(UltraModel):
     """    """
-    name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
+    #name = models.PositiveSmallIntegerField(validators=[RegexValidator('^[0-9]{1,2}$')]) # I hate you.
+    name = models.CharField(max_length=2, validators=[RegexValidator('^[A-Za-z0-9a-z]+$')]) # I still hate you.
     user = models.ForeignKey(User, related_name='isle')
     store = models.ForeignKey(Store, related_name='isle')
     content = models.ManyToManyField(Item, blank=True, related_name='isle')

@@ -6,10 +6,12 @@ from django.contrib import messages
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
+from recent.functions import log_form_valid
+
 from stores.models import Store
 from isles.models import Isle
 
-from .forms import EmbedtemForm, ItemForm
+from .forms import EmbedItemForm, ItemForm
 from .models import Item
 
 class ItemIndex(RequireUserMixin, generic.ListView):
@@ -20,6 +22,7 @@ class ItemIndex(RequireUserMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(ItemIndex, self).get_context_data(**kwargs)
         context['items'] = Item.objects.filter(store=Store.objects.get(slug=self.kwargs.get('slug')))
+        context['store'] = Store.objects.get(slug=self.kwargs.get('slug'))
         return context
 
 
@@ -29,7 +32,7 @@ class ItemCreateView(RequireUserMixin, generic.CreateView):
     invalid it will redirect here, so give a standard
     form
     """
-    form_class, model = EmbedtemForm, Item
+    form_class, model = ItemForm, Item
     template_name = 'items/ItemCreateView.html'
 
     def get_context_data(self, **kwargs):
@@ -56,6 +59,7 @@ class ItemCreateView(RequireUserMixin, generic.CreateView):
         ii = Isle.objects.get(id=self.object.from_isle.id)
         newitem = Item.objects.get(id=self.object.id)
         ii.content.add(newitem)
+        log_form_valid(self, form)
         return super(ItemCreateView, self).form_valid(form)
 
 
@@ -68,6 +72,11 @@ class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         """ Limit choice of items to those that exist in the store this object is for """
         form = super(ItemUpdateView, self).get_form(form_class)
         form.fields['from_isle'].queryset = Isle.objects.filter(store=self.object.store)
+        #
+        #
+        # This is a temp hack to lazily fix the data corruption done by deleting then
+        # adding back the idea of tracking isle in item.models.
+        form.initial['from_isle'] = Isle.objects.filter(content=self.object.id).get()
         return form
 
     def form_valid(self, form):
@@ -75,13 +84,14 @@ class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         self.success_url = self.object.store.get_absolute_url()
         #
         # Remove existing item->isle relation(s) in Isle.content
-        old_relations = Isle.objects.filter(content=self.object.id).all()
-        for this_relation in old_relations:
+        for this_relation in Isle.objects.filter(content=self.object.id).all():
             this_relation.content.remove(self.object.id)
         #
         # Create one item->isle relation in Isle.content
-        ii = Isle.objects.get(id=self.object.from_isle.id)
-        ii.content.add(self.object.id)
+        # ( make Item.from_isle equal Isle.content )
+        new_relation = Isle.objects.get(id=self.object.from_isle.id)
+        new_relation.content.add(self.object.id)
         #
         messages.success(self.request, 'Changes saved!')
+        log_form_valid(self, form)
         return super(ItemUpdateView, self).form_valid(form)

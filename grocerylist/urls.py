@@ -14,7 +14,7 @@ from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, Stor
 
 from recent.views import RecentDetailView, RecentIndex
 
-from core.views import LogoutView
+from core.views import LogoutView, HelpView
 
 item_patterns = patterns('',
     #
@@ -79,8 +79,13 @@ urlpatterns = patterns('',
     # /
     url(r'^$', StoreIndex.as_view(), name='index'),
     #
+    # 
     url(r'^auth3p$', TemplateView.as_view(template_name='auth3p.html'), name='auth3p'), # Choose your auth, Twitter/Google/Etc
     url(r'^logout$', LogoutView.as_view(), name='logout'), 
+    #
+    # Dynamic help view
+    url(r'/help/$', HelpView.as_view(), name='help'), #  http://hostname/x/y-z/help/
+    url(r'^help/$', HelpView.as_view(), name='help'), #  http://hostname/help/
     #
     # /create/ 
     url(r'^create/', StoreCreateView.as_view(), name='create'),

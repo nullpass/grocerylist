@@ -1,134 +1,90 @@
-{% extends "newRoot.html" %}
+{% extends "Root.html" %}
 
-{% block StoreView %}class="active"{% endblock %} 
+{% block StoreView %} active {% endblock %} 
 
 {% block pagetitle %}{{object}} @ {{ object.address }}{% endblock pagetitle %}
 
-{% block jumbotron %}
-    {{ object.name }} <a href="{% url 'stores:update' slug=object.slug %}" class="btn btn-xs btn-success">Edit</a>
-    <p class="list-group-item"><i>{{ object.address }}</i></p>
-    <p class="well">{{ object.notes|linebreaksbr }}</p>
-{% endblock %}
-
-
-    
 {% block content %}
-    
-<!--
+<div class="row"> <!-- content-header -->
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p class="list-group-item">
+                    {{ store.name }}<br>
+                    <i>{{ store.address }}</i>
+                </p>
+                {% if store.notes %}<p class="list-group-item"" style="background: #f5f5f5;">{{ store.notes|linebreaksbr }}</p>{% endif %}
+                <a href="{% url 'stores:update' slug=store.slug %}" class="btn btn-xs btn-success">Edit Store Info</a> 
+                {% if isles %}<a href="{% url 'stores:isle-create' slug=store.slug %}" class="btn btn-xs btn-success">Add Isle</a>{% endif %}
 
-If isles:
-For this_isle in self.isles:
-    <div class="col-sm-3"><div class="panel panel-info"><div class="panel-heading"><h3 class="panel-title">
-    ___ISLE NAME___
-    </h3></div>
-    <div class="panel-body">
-    for this_food in this_isle.contents
-        ___ITEMS AS FORM____
-    </div></div></div>
-    
-else if not isle
-    There are no isles, add one here []
--->
-<div class="row">
-{% for this_isle in isles %}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        {% if isles %}
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
+                    <table class="table table-striped">
+                        <tr><td colspan="2">Name</td><td>{{ EmbedItemForm.name }}</td></tr>
+                        <tr><td>Price</td><td class="text-right"> $</td><td>{{ EmbedItemForm.price }}</td></tr>
+                        <tr><td colspan="2">Isle</td><td>{{ EmbedItemForm.from_isle }}</td></tr>
+                        <tr><td colspan="2"></td><td cclass="text-right">{% csrf_token %}<input type="submit" class="btn btn-sm btn-info" value="Add Item to Store" /></td></tr>
+                    </table>
+                </form>
+        {% else %}
+        <div class="panel panel-danger">
+            <div class="panel-body bg-warning">
+                <!-- Dey ain't no friggin isles!<br -->
+                <p>This store does not have any isles defined.</p>
+                <p>Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.</p>
+        {% endif %}
+            </div>
+        </div>
+    </div>
+</div> <!-- /content-header -->
+<div class="row"><!-- content-body -->
+    <form action="{% url 'stores:generate' slug=object.slug %}" method="post">
+    {% for this_isle in isles %}
     <div class="col-sm-3">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title"><a href="{% url 'stores:isle:update' slug=object.slug pk=this_isle.id %}">{{ this_isle }}</a></a></h3>
+                <h3 class="panel-title"><a href="{% url 'stores:isle:update' slug=object.slug pk=this_isle.id %}">{{ this_isle }}</a></h3>
             </div>
             <div class="panel-body">
+                <table class="table table-striped">
                 {% for this in this_isle.content.all %}
-                    <div class="checkbox">
-                        <label>
-                            <input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-right">
                             <a href="{% url 'items:update' pk=this.id %}" style="font-family:monospace">${{ this.price }}</a>
-                        </label>
-                    </div>
+                        </td>
+                    </tr>
                 {% endfor %}
+                </table>
                 </tr>
             </div>
         </div>
-    </div><!-- /.col-sm-4 -->
+    </div>
     {% if forloop.counter in fours %}</div><div class="row">{% endif %}
-{% empty %}
-        <center>
-            This store does not have any isles defined. Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.
-        </center>
-        <hr width="75%">
-
-{% endfor %}
+    {% endfor %}
+{% if inventory and isles %}{# inventory is now items.count #}
+<div class="col-sm-4">
+    <div class="panel panel-success">
+        <div class="panel-body">
+            <p>Once you've selected all the items you want to put in a new grocery list hit the button below. </p>
+            <p class="text-center"><input type="submit" class="btn btn-sm btn-success" value="Generate List!" /></p>
+            <p class="text-center"><small>Don't worry, you can always change it later!</small></p>
+            {% csrf_token %}</form>
+        </div>
+    </div>
 </div>
-{% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% block junk %}
-    <p class="list-group-item"><i>{{ object.address }}</i></p>
-    <p class="well">{{ object.notes|linebreaksbr }}</p>
-
-    {% if not isles %}
-        <center>
-            This store does not have any isles defined. Click <a href="{% url 'stores:isle-create' slug=object.slug %}">here</a> to add one.
-        </center>
-        <hr width="75%">
-    {% endif %}
-    
-    {% if inventory %}
-        <hr width="80%">
-        <form action="{% url 'stores:generate' slug=object.slug %}" method="post">
-            <table class="table table-striped">
-                <tr>
-                    <th>Item</th>
-                    <th>Cost</th>
-                    <th>Isle</th>
-                </tr>
-                {% for this in inventory %}
-                <tr>
-                    <td><div class="checkbox"><label><input class="action-select" name="content" type="checkbox" value="{{ this.id }}" /> {{ this }}</label></div></td>
-                    <td><a href="{% url 'items:update' pk=this.id %}" style="font-family:monospace">${{ this.price }}</a></td>
-                    <td><a href="{% url 'stores:isle:update' slug=object.slug pk=this.isle.id %}">{{ this.isle }}</a></td>
-                </tr>
-                {% endfor %}
-            </table>
-            <input type="submit" class="btn btn-sm btn-info" value="Generate List!" />
-            {% csrf_token %}
-        </form>
-    {% endif %}
-
-    {% if isles %}
-          <div class="sidebar-module">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{% if not inventory  %}No items found, add them here:{% else %}Up yours, I'm not a webdev!{% endif %}</h3>
-                </div>
-                <div class="panel-body text-right">
-            <form action="{% url 'stores:item-create' slug=object.slug %}" method="post">
-                Item{{ EmbedtemForm.name }}<br>
-                ${{ EmbedtemForm.price }}<br>
-                {{ EmbedtemForm.isle }}<br>
-                <input type="submit" class="btn btn-sm btn-info" value="Add Item" />
-                {% csrf_token %}
-                </ul>
-            </form>
-                </div>
-            </div> <!-- /.panel-primary -->
-          </div> <!-- /.sidebar-module -->
-    {% endif %}
-
+{% endif %}
+</div><!-- /content-body -->
 {% endblock %}

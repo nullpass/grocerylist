@@ -1,19 +1,15 @@
 {% extends "Root.html" %}
-{% block pagetitle %}Create a Store{% endblock %}
-{% block sectiontitle %}Create a Store{% endblock %}
 
-{% block linkbox %}
-  <a href="{% url 'index' %}">Store List</a><br>
-  <hr>
-  <a href="{% url 'lists:index' %}">My Lists</a><br>
-{% endblock linkbox %}
+{% block pagetitle %}Create a Store{% endblock %}
+
 
 {% block content %}
+    <h2>Add a Store!</h2>
     <form action="" method="post">
-      <ul>
-      {{ form.as_ul }}
-      </ul>
-      {% csrf_token %}
-      <input type="submit" class="btn btn-sm btn-info" value="Create!" />
+        <table class="table table-striped">
+        {{ form.as_table }}
+        <tr><td></td><td><input type="submit" class="btn btn-sm btn-info" value="Create!" /></td></tr>
+        </table>
+        {% csrf_token %}
     </form>
 {% endblock %}

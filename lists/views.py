@@ -7,6 +7,8 @@ from django.contrib import messages
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
+from recent.functions import log_form_valid
+
 from stores.models import Store
 from isles.models import Isle
 from items.models import Item
@@ -54,6 +56,7 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         self.object.store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
+        log_form_valid(self, form)
         return super(ListCreateView, self).form_valid(form)
 
 
@@ -91,4 +94,5 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
             self.success_url = self.object.store.get_absolute_url()
             self.object.deleteme = True
             messages.success(self.request, 'List "%s" deleted!' % self.object.name )
+        log_form_valid(self, form)
         return super(ListUpdateView, self).form_valid(form)

@@ -2,14 +2,6 @@
 
 {% block pagetitle %}Store List{% endblock %}
 
-{% block sectiontitle %}Store List{% endblock %}
-
-{% block linkbox %}
-    <a href="{% url 'create' %}">Create Store</a><br>
-    <hr>
-    <a href="{% url 'lists:index' %}">My Lists</a><br>
-{% endblock linkbox %}
-
 {% block content %}
 <ul>
 {% for this_store in stores %}

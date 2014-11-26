@@ -2,21 +2,13 @@
 
 {% block pagetitle %}Create Isle{% endblock %}
 
-{% block sectiontitle %}Create Isle{% endblock %}
-
-
-{% block linkbox %}
-    <a href="{% url 'index' %}">Store List</a><br>
-{% endblock linkbox %}
-
 {% block content %}
-    <form action="" method="post">
-      <b>Isle #: </b>{{ form.name }}{{form.name.errors}} (1-99) <br>
-      <br>
-      <i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}
+  <h4>Add an isle:</h4>
+  <table class="table table-striped">
+    <form action="" method="post">{{ form.as_table}}
       {% csrf_token %}<br>
-      <br>
-      <input type="submit" class="btn btn-sm btn-info" value="New Isle" />
-        <a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a>
+      <tr><td></td><td><input type="submit" class="btn btn-sm btn-info" value="Create" /><a class="btn btn-sm btn-default" href="{% url 'stores:detail' slug=store.slug %}">Cancel</a></td></tr>
+      
     </form>
+  </table>
 {% endblock %}

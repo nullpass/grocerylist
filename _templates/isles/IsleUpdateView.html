@@ -2,30 +2,13 @@
 
 {% block pagetitle %}Update Isle {{ object }}{% endblock %}
 
-{% block sectiontitle %}Update Isle {{ object }}{% endblock %}
-
-{% block linkbox %}
-    <a href="{% url 'index' %}">Store List</a><br>
-{% endblock linkbox %}
-
-{% block contentX %}
-    <form action="" method="post">
-      <b>Isle #: </b>{{ form.name }}{{form.name.errors}} (1-99) <br>
-      <br>
-      <i>Notes: </i><br>{{ form.notes }}{{form.notes.errors}}
-      {% csrf_token %}<br>
-      <br>
-      <input type="submit" class="btn btn-sm btn-info" value="Save" />
-        <a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a>
-    </form>
-{% endblock %}
-
-
 {% block content %}
-    <form action="" method="post">{{ form.as_p }}
-      {% csrf_token %}<br>
-      <br>
-      <input type="submit" class="btn btn-sm btn-info" value="Save" />
-        <a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a>
-    </form>
+    <h3>Update isle:</h3>
+    <table class="table table-striped">
+        <form action="" method="post">
+        {{ form.as_table }}
+        <tr><th>&nbsp;</th><td>{% csrf_token %}<input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td></tr>
+        </form>
+        <tr><td colspan="2" class="well text-right">You added this isle on <strong>{{ object.created }}</strong>, and last changed it <strong>{{ object.modified }}</strong></td></tr>
+    </table>
 {% endblock %}

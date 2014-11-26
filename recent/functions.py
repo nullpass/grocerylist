@@ -1,10 +1,23 @@
 # recent/functions.py
 
+"""
+Example:
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Changes saved!')
+        log_form_valid(self, form)
+        return super(ThingUpdateView, self).form_valid(form)
+
+"""
+
 from .models import Log
 
 def log_form_valid(s, form):
     """
-    Stolen from nullpass/ksdj
+    Put near the end of a form_valid override and call like this:
+        log_form_valid(self, form)
+    
+    Really only useful on generic UpdateView and CreateView classes.
     """
     #
     # 
@@ -27,10 +40,6 @@ def log_form_valid(s, form):
     except Exception as e:
         view_name = e
     #
-    #
-    # Get object's name and its database ID
-    # new  = 'hostname'
-    # edit = 'hostname[id]'
     try:
         object_name = s.object.name
     except Exception:
@@ -38,30 +47,27 @@ def log_form_valid(s, form):
             object_name = s.request.POST.get('name').lower()
         except Exception as e:
             object_name = e
-    try:
-        dbid = '[{}]'.format(s.object.id) # Getting Real 
-        #dbid = '[' + s.object.id + ']'   # Tired of 
-        #dbid = '[%s]' % s.object.id      # Your Sht 
-    except AttributeError:
-        dbid = ''
     #
     # 
     try:
-        post = s.request.POST
+        post = ''
+        for k,v in s.request.POST.items():
+            if 'middlewaretoken' not in k:
+                post += '\n{} => "{}"\n'.format(k,v)
     except Exception as e:
         post = e
     #
     #
-    if 'UpdateView' in model_name:
-        object_name = model_name.rstrip('UpdateView').lower()
-        model_name = 'changed'
-
-    if 'CreateView' in model_name:
-        object_name = model_name.rstrip('CreateView').lower()
-        model_name = 'created'
+    if 'UpdateView' in view_name:
+        model_name = model_name.replace('UpdateView','').lower()
+        view_name = 'changed'
     
+    if 'CreateView' in view_name:
+        model_name = model_name.replace('CreateView','').lower()
+        view_name = 'created'
+    #
     D_B = Log(
-        user_name=user_name,
+        user=user_name,
         view_name=view_name,
         model_name=model_name,
         object_name=object_name,

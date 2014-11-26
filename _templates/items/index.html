@@ -1,3 +1,43 @@
-{% for this in object_list %}
-<a href="{% url 'items:update' pk=this.id %}">{{ this }} {{ this.isle.all }}</a><br>
-{% endfor %}
+{% extends "Root.html" %}
+
+{% block StoreView %} active {% endblock %} 
+
+{% block pagetitle %}Inventory - {{ store }}{% endblock pagetitle %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>During the V4 refactor we lost a ton of relations that linked items to isles. </p>
+                <p>I created this page, among other things, to help identify items that needed to be repaired.</p>
+                <p>The "Isle.content" column shows which isle(s) the item appears in, (should only be 1)</p>
+                <p>The "item.from_isle" column shows which isle the item thinks it is in (should match Isle.content)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p class="list-group-item">
+                    {{ store.name }}<br>
+                    <i>{{ store.address }}</i>
+                </p>
+                {% if store.notes %}<p class="list-group-item"" style="background: #f5f5f5;">{{ store.notes|linebreaksbr }}</p>{% endif %}
+                <a href="{% url 'stores:update' slug=store.slug %}" class="btn btn-xs btn-success">Edit Store Info</a> 
+                <a href="{% url 'stores:isle-create' slug=store.slug %}" class="btn btn-xs btn-success">Add Isle</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-striped">
+        <tr><td>Item</td><td>Isle.content</td><td>item.from_isle</td></tr>
+        {% for this in object_list %}
+            <tr><td><a href="{% url 'items:update' pk=this.id %}">{{ this }}</a></td><td>{{ this.isle.all }}</td><td>{{ this.from_isle }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
