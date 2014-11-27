@@ -1,21 +1,21 @@
 # lists/forms.py
-from django import forms
+from django.forms import ModelForm, CheckboxSelectMultiple, BooleanField
 
-from . import models
+from .models import List
 
-class ListForm(forms.ModelForm):
+class ListForm(ModelForm):
     """ """
     class Meta:
         fields = (
             'name',
             #'content',
             )
-        model = models.List
-        widgets = { 'content' : forms.CheckboxSelectMultiple() }
+        model = List
+        widgets = { 'content' : CheckboxSelectMultiple() }
 
-class ListUpdateForm(forms.ModelForm):
+class ListUpdateForm(ModelForm):
     """ """
-    deleteme = forms.BooleanField(required=False)
+    deleteme = BooleanField(required=False)
     class Meta:
         fields = (
             'name',
@@ -23,5 +23,16 @@ class ListUpdateForm(forms.ModelForm):
             'done',
             'deleteme',
             )
-        model = models.List
-        widgets = { 'content' : forms.CheckboxSelectMultiple() }
+        model = List
+        widgets = { 'content' : CheckboxSelectMultiple() }
+        
+        
+        
+class EmbedListForm(ModelForm):
+    """ """
+    content = CheckboxSelectMultiple()
+    class Meta:
+        fields = (
+            'name',
+            )
+        model = List

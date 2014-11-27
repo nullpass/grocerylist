@@ -1,6 +1,7 @@
 # lists/views.py
 import decimal
 import time
+from collections import OrderedDict
 
 from django.views import generic
 from django.contrib import messages
@@ -13,8 +14,8 @@ from stores.models import Store
 from isles.models import Isle
 from items.models import Item
 
-from .models import List
-from .forms import ListForm, ListUpdateForm
+from .models import List, Tobuy
+from .forms import ListForm, ListUpdateForm, EmbedListForm
 
 class ListIndex(RequireUserMixin, generic.TemplateView):
     """ The default view for /mylists/ ; a list of lists """
@@ -24,20 +25,13 @@ class ListIndex(RequireUserMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ListIndex, self).get_context_data(**kwargs)
         context['mylists'] = List.objects.filter(user=self.request.user).filter(deleteme=False)
-        context['stores'] = Store.objects.filter(user=self.request.user)
+        context['stores'] = Store.objects.filter(user=self.request.user).order_by('pk')
         return context
 
 
 class ListCreateView(RequireUserMixin, generic.CreateView):
-    """
-    Make a new grocery list!
-    
-    LCV is presented in two different ways. First it is included in StoreDetailView to let a user
-    easily create a list while viewing a store. Second it has its on CreateView template which is
-    usually used if there is an error in the form included on StoreDetailView (for example if a
-    user hits 'genereate list' without checking any items.)
-    """
-    form_class, model = ListForm, List
+    """    """
+    form_class, model = EmbedListForm, List
     template_name = 'lists/ListCreateView.html'
 
     def get_context_data(self, **kwargs):
@@ -46,16 +40,27 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         return context
 
     def form_valid(self, form):
-        """
-        By default we do not present form.name
-        to the user in StoreDetailView, so if it is
-        empty then set it to Today.
-        """
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
+        #
+        # You're a messy night coder, but this end works, fix it Thursday.
+        item_list = self.request.POST.getlist('content', False)
+        if not item_list:
+            messages.error(self.request, 'No items were selected.', extra_tags='danger')
+            return super(ListCreateView, self).form_invalid(form)
+        for this_item in item_list:
+            """
+            For each item the user checked create a new Tobuy object,
+            then link that new object to the List they are creating.
+            """
+            item_match = Item.objects.get(id=this_item)
+            new_tobuy = Tobuy(name=item_match, quantity=1, user=self.request.user)
+            new_tobuy.save()
+            self.object.save()
+            self.object.content.add(new_tobuy)
         log_form_valid(self, form)
         return super(ListCreateView, self).form_valid(form)
 
@@ -66,14 +71,16 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     template_name = 'lists/ListDetailView.html'
 
     def get_context_data(self, **kwargs):
-        """ Sort list by isle and calculate total price. """
         context = super(ListDetailView, self).get_context_data(**kwargs)
-        context['local_isles'] = list()
+        context['isles'] = Isle.objects.filter(store=self.object.store).order_by('name').all()
+        d = OrderedDict()
         context['total_cost'] = decimal.Decimal(0.00)
-        for this in self.object.content.order_by('isle').all():
-            context['total_cost'] += this.price
-            if this.isle not in context['local_isles']:
-                context['local_isles'].append(this.isle)
+        for this in context['isles']:
+            d[this] = list()
+        for item in self.object.content.all():
+            context['total_cost'] += item.name.price
+            d[item.name.from_isle].append(item)
+        context['d'] = d
         return context
 
 

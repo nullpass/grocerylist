@@ -66,7 +66,6 @@ TEMPLATE_DIRS = (
     )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'core.functions.navbar',
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     'django.core.context_processors.request',

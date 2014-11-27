@@ -13,7 +13,7 @@
                     {{ store.name }}<br>
                     <i>{{ store.address }}</i>
                 </p>
-                {% if store.notes %}<p class="list-group-item"" style="background: #f5f5f5;">{{ store.notes|linebreaksbr }}</p>{% endif %}
+                {% if store.notes %}<p class="list-group-item" style="background: #f5f5f5;">{{ store.notes|linebreaksbr }}</p>{% endif %}
                 <a href="{% url 'stores:update' slug=store.slug %}" class="btn btn-xs btn-success">Edit Store Info</a> 
                 {% if isles %}<a href="{% url 'stores:isle-create' slug=store.slug %}" class="btn btn-xs btn-success">Add Isle</a>{% endif %}
 
@@ -68,7 +68,6 @@
                     </tr>
                 {% endfor %}
                 </table>
-                </tr>
             </div>
         </div>
     </div>

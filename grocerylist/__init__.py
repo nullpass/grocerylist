@@ -3,19 +3,22 @@
 TODO:
     (Somewhat sorted by priority)
 
-/*/
-    Add maxs to everything
-
 
 /lists/
-    **fix listview, content doesn't exist in form anymore
-    lists.models needs new class like the old list_item which can handle quantity
-    mark as done href (color coded by status)
-    lists by store (not just related bubble)
-    all lists should target=_blank
+    DetailView rewrite done
+    Next up, UpdateView (groan)
+        Standard edit lets user change quantity.
+        Tobuy delete is handled with a [X] url
+        Create area on page that lists all items not in list,
+            selecting one will make new Tobuy and .add to List.
     Add back related gLists somewhere
-    List.Done == Convert to text block (flatten) so that future changes to data does not change completed lists.
+    Add (is in my cart) link to each Tobuy item (and add field to model)
+        Color code item in List to match (if in-cart then class = foo)
+    Add "home form shopping" link that will convert the List object to a multi-
+        line string and store it in List.archive.
 
+Tobuy:
+    Auto-clean up orphaned tobuy objects.
 
 /isle/    
     Change isle.name from INT to VARCHAR(2) with same regex validator
@@ -27,6 +30,9 @@ TODO:
 /store/
     Gotta do something about slugs. I don't want to force store name and address to be globally unique, but
         manually uniquing slugs is a horror show
+
+/*/
+    Add maxs to everything
 
 
 /help/

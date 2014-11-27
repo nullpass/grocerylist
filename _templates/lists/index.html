@@ -2,33 +2,26 @@
 
 {% block pagetitle %}My Grocery Lists{% endblock %}
 
-{% block sectiontitle %}<center>My Grocery Lists</center>{% endblock %}
-
-{% block linkbox %}
-    <a href="{% url 'index' %}">Store List</a><br>
-{% endblock linkbox %}
-
 {% block content %}
-{% for S in stores %}
-    <h4>{{ S }}</h4>
-    <ul>
-    {% for this_list in mylists %}
-        {% if this_list.store == S %}
-            <li class="bg-{% if this_list.done %}success{% else %}danger{% endif %}">
-            <a href="{% url 'lists:detail' pk=this_list.pk %}">{{ this_list }}</a>
-            (<i>{{ this_list.created|date:"M d `y" }}</i>)
-            {% if this_list.done %}
-                [<b>Done!</b>]
+    {% for S in stores %}
+        <h4>{{ S }}</h4>
+        <ul>
+        {% for this_list in mylists %}
+            {% if this_list.store == S %}
+                <li class="bg-{% if this_list.done %}success{% else %}warning{% endif %}">
+                    <a href="{% url 'lists:detail' pk=this_list.pk %}">{{ this_list }}</a>
+                    (<i>{{ this_list.created|date:"M d `y" }}</i>)
+                    {% if this_list.done %}
+                        [<b>Done!</b>]
+                    {% endif %}
+                </li><br>
             {% endif %}
-            </li>
-            <br>
-        {% endif %}
-    {% empty %}  {# mylists #}
-        <p class="text-center">No grocery lists found.</p>
-    {% endfor %}  {# mylists #}
-    </ul>
-    <hr>
-{% empty %}  {# stores #}
-    No stores found.
-{% endfor %}  {# stores #}
+        {% empty %}  {# mylists #}
+            <p class="text-center">No grocery lists found.</p>
+        {% endfor %}  {# mylists #}
+        </ul>
+        <hr>
+    {% empty %}  {# stores #}
+        <p class="text-center">No stores found.</p>
+    {% endfor %}  {# stores #}
 {% endblock content %} 
