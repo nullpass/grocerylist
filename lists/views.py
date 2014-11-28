@@ -5,6 +5,9 @@ from collections import OrderedDict
 
 from django.views import generic
 from django.contrib import messages
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.forms.models import modelformset_factory
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
@@ -15,7 +18,7 @@ from isles.models import Isle
 from items.models import Item
 
 from .models import List, Tobuy
-from .forms import ListForm, ListUpdateForm, EmbedListForm
+from .forms import ListForm, ListUpdateForm, EmbedListForm, TobuyForm
 
 class ListIndex(RequireUserMixin, generic.TemplateView):
     """ The default view for /mylists/ ; a list of lists """
@@ -49,8 +52,8 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
         # You're a messy night coder, but this end works, fix it Thursday.
         item_list = self.request.POST.getlist('content', False)
         if not item_list:
-            messages.error(self.request, 'No items were selected.', extra_tags='danger')
-            return super(ListCreateView, self).form_invalid(form)
+            messages.error(self.request, 'Failed to create new grocery list. No items were selected.', extra_tags='danger')
+            return redirect(self.object.store.get_absolute_url())
         for this_item in item_list:
             """
             For each item the user checked create a new Tobuy object,
@@ -78,22 +81,77 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         for this in context['isles']:
             d[this] = list()
         for item in self.object.content.all():
-            context['total_cost'] += item.name.price
+            context['total_cost'] += ( item.name.price * item.quantity )
             d[item.name.from_isle].append(item)
         context['d'] = d
         return context
 
-
 class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
-    """ Edit a grocery list """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
     
-    def get_form(self, form_class):
-        """ Limit choice of items to those that exist in the store this list is for """
-        form = super(ListUpdateView, self).get_form(form_class)
-        form.fields['content'].queryset = Item.objects.filter(store=self.object.store)
-        return form
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('inc'):
+            try:
+                this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('inc'))
+                this_tobuy.quantity += 1
+                this_tobuy.save()
+                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+            except Exception as e:
+                print(e)
+        elif request.GET.get('dec'):
+            try:
+                this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('dec'))
+                this_tobuy.quantity -= 1
+                this_tobuy.save()
+                if this_tobuy.quantity < 1:
+                    this_tobuy.delete()
+                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+            except Exception as e:
+                print(e)
+        elif request.GET.get('insert'):
+            try:
+                # Get item from db
+                item_match = Item.objects.filter(user=self.request.user).get(id=request.GET.get('insert'))
+                #
+                # Create a new Tobuy object with that item
+                new_tobuy = Tobuy(name=item_match, quantity=1, user=self.request.user)
+                new_tobuy.save()
+                #
+                # find current List
+                this_list = List.objects.filter(user=self.request.user).get(id=kwargs.get('pk'))
+                #
+                # Attach new Item to List.content
+                this_list.content.add(new_tobuy)
+                this_list.save()
+                #
+                # Go back to /mylists/PK/update
+                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+            except Exception as e:
+                print(e)
+        # all-else
+        else:
+            return super(ListUpdateView, self).get(self, request, *args, **kwargs)
+
+
+    
+    def get_context_data(self, **kwargs):
+        context = super(ListUpdateView, self).get_context_data(**kwargs)
+        #
+        can_add = list()
+        #
+        local_tobuys = self.object.content.values_list('name', flat=True)
+        inventory = Item.objects.filter(store=self.object.store).filter(user=self.request.user).all()
+        for this_item in inventory:
+            if this_item.id not in local_tobuys:
+                can_add.append(this_item)
+        context['can_add'] = can_add
+        #
+        #TobuyFormset = modelformset_factory(Tobuy, fields=('quantity',), extra=0)
+        #formset = TobuyFormset(queryset=self.object.content.all())
+        #context['formset'] = formset
+        #
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

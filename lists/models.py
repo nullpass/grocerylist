@@ -36,6 +36,8 @@ class Tobuy(UltraModel):
     quantity = models.PositiveIntegerField(max_length=32, default=1)
     user = models.ForeignKey(User, related_name='tobuy')
     #in_cart = models.BooleanField(default=False)
+    class Meta:
+        ordering = ('name',)
 
 """
 class Archive(UltraModel):

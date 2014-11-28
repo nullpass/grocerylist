@@ -61,7 +61,7 @@ mylist_patterns = patterns('',
     url(r'^(?P<pk>\d+)/$', ListDetailView.as_view(), name='detail'),
     #
     # /mylists/<item pk>/update/
-    url(r'^(?P<pk>\d+)/update/$', ListUpdateView.as_view(), name='update'),
+    url(r'^(?P<pk>\d+)/update/', ListUpdateView.as_view(), name='update'),
 )
 
 recent_patterns = patterns('',

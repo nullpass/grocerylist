@@ -1,7 +1,7 @@
 # lists/forms.py
 from django.forms import ModelForm, CheckboxSelectMultiple, BooleanField
 
-from .models import List
+from .models import List, Tobuy
 
 class ListForm(ModelForm):
     """ """
@@ -24,7 +24,7 @@ class ListUpdateForm(ModelForm):
             'deleteme',
             )
         model = List
-        widgets = { 'content' : CheckboxSelectMultiple() }
+        #widgets = { 'content' : CheckboxSelectMultiple() }
         
         
         
@@ -36,3 +36,11 @@ class EmbedListForm(ModelForm):
             'name',
             )
         model = List
+
+
+class TobuyForm(ModelForm):
+    class Meta:
+        fields = (
+            'quantity',
+        )
+        model = Tobuy

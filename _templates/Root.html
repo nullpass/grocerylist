@@ -89,6 +89,13 @@ If so, awesome! Please submit your ideas!
                 {% endfor %}
             </div>
         {% endif %}
+        {% if form.non_field_errors %}
+            <div class="blog-header">
+                {% for en in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ en }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
             {% block content %}{% endblock %}
         </div> <!-- /container theme-showcase -->
         
