@@ -107,6 +107,9 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
         return context
 
 class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
+    """
+    
+    """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
     
@@ -150,30 +153,35 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
             except Exception as e:
                 print(e)
         # all-else
-        else:
-            return super(ListUpdateView, self).get(self, request, *args, **kwargs)
+        return super(ListUpdateView, self).get(self, request, *args, **kwargs)
 
 
     
     def get_context_data(self, **kwargs):
+        """
+        Generate a list of items that belong to this list's store
+            but that are not already in this list.
+        
+        """
         context = super(ListUpdateView, self).get_context_data(**kwargs)
         #
-        can_add = list()
+        # New iterable for Items we can add to this Grocery List
+        context['can_add'] = list()
         #
+        # What we currently have in this Grocery List
         local_tobuys = self.object.content.values_list('name', flat=True)
-        inventory = Item.objects.filter(store=self.object.store).filter(user=self.request.user).all()
-        for this_item in inventory:
-            if this_item.id not in local_tobuys:
-                can_add.append(this_item)
-        context['can_add'] = can_add
         #
-        #TobuyFormset = modelformset_factory(Tobuy, fields=('quantity',), extra=0)
-        #formset = TobuyFormset(queryset=self.object.content.all())
-        #context['formset'] = formset
+        # If item in inventory not in this Grocery List, add to 'can_add'
+        for this_item in Item.objects.filter(store=self.object.store).filter(user=self.request.user).all():
+            if this_item.id not in local_tobuys:
+                context['can_add'].append(this_item)
         #
         return context
 
     def form_valid(self, form):
+        """
+        
+        """
         self.object = form.save(commit=False)
         if form.cleaned_data['deleteme']:
             self.success_url = self.object.store.get_absolute_url()

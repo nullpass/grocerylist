@@ -4,26 +4,33 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-7">
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table table-striped">
                     <tr>
-                        <td><form action="" method="post">{% csrf_token %}<b>Name:{{ form.name.errors }}</b></td>
-                        <td>{{ form.name }} <input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
+                        <td class="text-right"><form action="" method="post">{% csrf_token %}<b>Name:{{ form.name.errors }}</b></td>
+                        <td>{{ form.name }}</td>
                         <td class="success font-align-right"><b>Done? </b>{{ form.done }}{{form.items.errors}}</td>
                     </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Back</a></td>
+                        <td class="danger font-align-right"><b>Delete? </b>{{ form.deleteme }}{{form.deleteme.errors}}</form></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-striped">
                     <tr><th>Quantity</th><th>Name</th><th>Price</th></tr>
                     {% for tobuy in object.content.all %}
                     <tr>
                         <td>
-                            <a href="?inc={{ tobuy.id }}" class="btn btn-success btn-md" role="button">
-                              +
-                            </a>
-                            {{ tobuy.quantity }}
-                            <a href="?dec={{ tobuy.id }}" class="btn btn-danger btn-md" role="button">
-                              -
-                            </a>
+                            <a href="?inc={{ tobuy.id }}" class="btn btn-success btn-xs" role="button">➕</a>
+                            <strong>&nbsp;{{ tobuy.quantity }}&nbsp;</strong>
+                            <a href="?dec={{ tobuy.id }}" class="btn btn-danger btn-xs" role="button">➖</a>
                         </td>
                         <td>
                             {{ tobuy }}
@@ -33,16 +40,11 @@
                         </td>
                     </tr>
                     {% endfor %}
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td class="danger font-align-right"><b>Delete? </b>{{ form.deleteme }}{{form.deleteme.errors}}</form></td>
-                    </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <div class="panel panel-default">
             <div class="panel-body">
                 <h3 class="text-center">Items available to add to your list:</h3>
@@ -68,10 +70,3 @@
     </div>
 </div>
 {% endblock %}
-<!--
-                        {{ formset.management_form }}
-                        {% for f in formset %}
-                            {{ f.quantity }} {{ f.id }} {{ f.instance.name }} {{ f.instance.name.price }}<br>
-                        {% endfor %}
-
--->

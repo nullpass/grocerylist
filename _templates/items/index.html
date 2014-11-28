@@ -34,7 +34,7 @@
 </div>
 <div class="row">
     <table class="table table-striped">
-        <tr><td>Item</td><td>Isle.content</td><td>item.from_isle</td></tr>
+        <tr><th>Item</th><th>Isle.content</th><th>item.from_isle</th></tr>
         {% for this in object_list %}
             <tr><td><a href="{% url 'items:update' pk=this.id %}">{{ this }}</a></td><td>{{ this.isle.all }}</td><td>{{ this.from_isle }}</td></tr>
         {% endfor %}

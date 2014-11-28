@@ -18,24 +18,33 @@
         <![endif]-->
     </head>
     <body>
-        {% if messages %}<div class="blog-header">{% for message in messages %}<div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}</div>{% endif %}
         <div class="container">
             <div class="col-md-4">
-                <h2 class="text-center">{{ object.name }}</h2>
+                {% if messages %}{% for message in messages %}<p class="text-right">{{ message }}</p>{% endfor %}{% endif %}
+                <h2 class="text-center"><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></h2>
                 <p class="text-right">(${{ total_cost }})</p>
                 <a href="{{ object.store.get_absolute_url }}"><em>{{ object.store }}</em></a><br>
                 <table class="table table-hover table-bordered">
                 {% for isle,content in d.items %}
                         <tr><th colspan="4" class="info text-right">{{ isle }}</th></tr>
                         {% for tobuy in content %}
-                            <tr{% if tobuy.in_cart %} class="bg-success"{% endif %}><td>{{ tobuy.quantity }}</td><td><a href="{% url 'items:update' pk=tobuy.name.id %}?next={{ object.get_absolute_url }}">{{ tobuy }}</a></td><td class="text-right">${{ tobuy.name.price }}</td>
-                            <td>
-                                {% if tobuy.in_cart %} 
-                                <a href="?undo={{ tobuy.id }}" title="Put Back"> 🔙 </a>
-                                {% else %}
-                                <a href="?done={{ tobuy.id }}" title="In Cart"> ✅ </a>
-                                {% endif %}
-                            </td>
+                            <tr{% if tobuy.in_cart %} class="bg-success"{% endif %}>
+                                <td>
+                                    {{ tobuy.quantity }}
+                                </td>
+                                <td>
+                                    <a href="{% url 'items:update' pk=tobuy.name.id %}?next={{ object.get_absolute_url }}">{{ tobuy }}</a>
+                                </td>
+                                <td class="text-right">
+                                    ${{ tobuy.name.price }}
+                                </td>
+                                <td>
+                                    {% if tobuy.in_cart %} 
+                                    <a href="?undo={{ tobuy.id }}" title="Put Back"> 🔙 </a>
+                                    {% else %}
+                                    <a href="?done={{ tobuy.id }}" title="Put In Cart"> 📥 </a>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         <tr><td colspan="4"></td></tr>
