@@ -2,6 +2,7 @@
 
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import redirect
 from django.contrib import messages
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
@@ -94,4 +95,7 @@ class ItemUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         #
         messages.success(self.request, 'Changes saved!')
         log_form_valid(self, form)
+        if self.request.GET.get('next'):
+            self.object.save()
+            return redirect(self.request.GET.get('next'))
         return super(ItemUpdateView, self).form_valid(form)

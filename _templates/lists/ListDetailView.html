@@ -24,14 +24,23 @@
                 <h2 class="text-center">{{ object.name }}</h2>
                 <p class="text-right">(${{ total_cost }})</p>
                 <a href="{{ object.store.get_absolute_url }}"><em>{{ object.store }}</em></a><br>
+                <table class="table table-hover table-bordered">
                 {% for isle,content in d.items %}
-                    <table class="table table-striped table-bordered">
-                        <tr><th colspan=3 class="info text-right">{{ isle }}</th></tr>
+                        <tr><th colspan="4" class="info text-right">{{ isle }}</th></tr>
                         {% for tobuy in content %}
-                            <tr><td>{{ tobuy.quantity }}</td><td><a href="">{{ tobuy }}</a></td><td class="text-right">${{ tobuy.name.price }}</td></tr>
+                            <tr{% if tobuy.in_cart %} class="bg-success"{% endif %}><td>{{ tobuy.quantity }}</td><td><a href="{% url 'items:update' pk=tobuy.name.id %}?next={{ object.get_absolute_url }}">{{ tobuy }}</a></td><td class="text-right">${{ tobuy.name.price }}</td>
+                            <td>
+                                {% if tobuy.in_cart %} 
+                                <a href="?undo={{ tobuy.id }}" title="Put Back"> 🔙 </a>
+                                {% else %}
+                                <a href="?done={{ tobuy.id }}" title="In Cart"> ✅ </a>
+                                {% endif %}
+                            </td>
+                            </tr>
                         {% endfor %}
-                    </table>
-                {% endfor %}            
+                        <tr><td colspan="4"></td></tr>
+                {% endfor %}
+                </table>
                 <p class="small text-center"><em>{{ object.modified }}</em> - <a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-xs btn-info">Edit</a></p>
             </div>
         </div><!-- /.container -->
