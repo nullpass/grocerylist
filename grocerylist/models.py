@@ -1,4 +1,4 @@
-# core/models.py
+# grocerylist/models.py
 
 from django.db import models
 

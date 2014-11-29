@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 from django.core.validators import RegexValidator
 
-from core.models import UltraModel
+from grocerylist.models import UltraModel
 
 class Store(UltraModel):
     """

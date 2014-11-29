@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy, reverse
 
-from core.mixins import RequireUserMixin, RequireOwnerMixin
+from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 
 from recent.functions import log_form_valid
 

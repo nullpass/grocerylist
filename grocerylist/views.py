@@ -1,4 +1,4 @@
-# core/views.py
+# grocerylist/views.py
 
 from django.views import generic
 from django.contrib import messages
@@ -14,6 +14,7 @@ class LogoutView(generic.RedirectView):
         logout(request)
         messages.info(self.request, 'You have logged out!')
         return super(LogoutView, self).get(request, *args, **kwargs)
+
 
 class HelpView(generic.TemplateView):
     """

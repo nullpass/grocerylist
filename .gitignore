@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -38,3 +39,4 @@ Icon
 db.*
 *.pyc
 [0-9][0-9][0-9]*.py
+

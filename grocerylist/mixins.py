@@ -1,9 +1,10 @@
-# core/mixins.py
+# grocerylist/mixins.py
 
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.http import Http404
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+
 
 class RequireUserMixin(object):
     """ Require user logged in """

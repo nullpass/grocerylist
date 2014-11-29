@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 
-from core.models import UltraModel
+from grocerylist.models import UltraModel
 
 from items.models import Item
 from stores.models import Store

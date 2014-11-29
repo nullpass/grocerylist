@@ -2,7 +2,7 @@
 
 from django.views import generic
 
-from core.mixins import RequireUserMixin, RequireOwnerMixin
+from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 
 from .models import Log
 

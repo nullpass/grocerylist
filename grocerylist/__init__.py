@@ -46,8 +46,6 @@ TODO:
 V5 refactor:
     _. Start moving every view to its own file. Yes we are at that point; past it, actually.
     a. Audit urls. maximize urls per page to minimize chance of user getting psudo-lost
-    2. make all object names singular (items>item, stores>store, etc...)
-    5. put core.* in ./grocerylist/ 
 
 
 V6 refactor:
@@ -55,6 +53,5 @@ V6 refactor:
     2. Update user, add arbitrary dialog flags
     3. Add new user dialogs. X to dismiss, can reset them in user profile.
     4. Add delete views for everything.
-
 
 """

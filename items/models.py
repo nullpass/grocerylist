@@ -3,7 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from core.models import UltraModel
+from grocerylist.models import UltraModel
 
 from stores.models import Store
 

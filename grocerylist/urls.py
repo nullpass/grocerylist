@@ -14,7 +14,7 @@ from stores.views import StoreCreateView, StoreDetailView, StoreUpdateView, Stor
 
 from recent.views import RecentDetailView, RecentIndex
 
-from core.views import LogoutView, HelpView
+from grocerylist.views import LogoutView, HelpView
 
 item_patterns = patterns('',
     #
