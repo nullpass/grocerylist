@@ -79,12 +79,6 @@ class StoreCreateView(RequireUserMixin, generic.CreateView):
     form_class, model = StoreForm, Store
     template_name = 'stores/StoreCreateView.html'
 
-    def get(self, request, *args, **kwargs):
-        if Store.objects.filter(user=self.request.user).count() > 32:
-            messages.error(self.request, 'Sorry, you have too many stores already!', extra_tags='danger')
-            return redirect(reverse('index'))
-        return super(StoreCreateView, self).get(request, *args, **kwargs)
-
     def form_valid(self, form):
         if Store.objects.filter(user=self.request.user).count() > 32:
             messages.error(self.request, 'Sorry, you have too many stores already!', extra_tags='danger')

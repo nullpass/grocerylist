@@ -7,6 +7,7 @@ TODO:
 
 **I would really like it if the next refactor didn't require a db migration. Baby Jesus is already so very sad. 
 
+
 /store/
     |Edit|Add-Isle|Add-Item|List-Lists| can all be tabs on the top of the Store-Info box, just
         gotta remember where I saw that css. WTB a WebDev.
@@ -15,10 +16,8 @@ TODO:
 
 
 /lists/
-    ListDetailView - That 'edit' button is at the bottom of the page,
-        we need to keep discussing that, there has to be a better
-        place for it. 
-    Add back related gLists somewhere
+    related-grocery-lists: Add back when you impliment tabs, and use bages to show how
+        many lists there are for that store.
     Add "home form shopping" link that will convert the List object to a multi-
         line string and store it in List.archive.
     I gutted the messages div on ListDetailView, it was too obnoxious on that view.
@@ -26,22 +25,18 @@ TODO:
     ListUpdateView: Still very unhappy with how the save/cancel/done/delete elements
         look after the V4 refactor. 
 
-Tobuy:
-    Auto-clean up orphaned tobuy objects.
 
-/isle/    
-    Change isle.name from INT to VARCHAR(2) with same regex validator
-        a weak hack to support things like "registers" or "stuff on the back wall that isn't itself an isle"
-        ya know, isles that don't have numbers, 'cause hippies.
-    Add isle.create link back to store.detail.html
+.____________.__________.___________________.__________.
+| edit store | add isle | grocery lists (2) | foo-bar  |
+|            |          |                   |          |
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+  Store name
+  store address.address.address zip code etc
+  notes about store notes notes notes
+  
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
-/*/
-    Add maxs to everything
-
-/-/
-    [AFTER V5], start making delete views for everything.
 
 /help/
     write dynamic help module that will try to generate help based on whatever is in the url
@@ -53,5 +48,13 @@ V5 refactor:
     a. Audit urls. maximize urls per page to minimize chance of user getting psudo-lost
     2. make all object names singular (items>item, stores>store, etc...)
     5. put core.* in ./grocerylist/ 
+
+
+V6 refactor:
+    1. There is no 'try'; there is only do-and-fail-loudly. Fix that, this is code, not the force.
+    2. Update user, add arbitrary dialog flags
+    3. Add new user dialogs. X to dismiss, can reset them in user profile.
+    4. Add delete views for everything.
+
 
 """

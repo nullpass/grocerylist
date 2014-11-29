@@ -3,12 +3,19 @@
 {% block pagetitle %}Create Isle{% endblock %}
 
 {% block content %}
-  <h4>Add an isle:</h4>
-  <table class="table table-striped">
-    <form action="" method="post">{{ form.as_table}}
-      {% csrf_token %}<br>
-      <tr><td></td><td><input type="submit" class="btn btn-sm btn-info" value="Create" /><a class="btn btn-sm btn-default" href="{% url 'stores:detail' slug=store.slug %}">Cancel</a></td></tr>
-      
-    </form>
-  </table>
+    <h4>Add an isle:</h4>
+    <table class="table table-striped">
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_table}}
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <input type="submit" class="btn btn-sm btn-info" value="Create" />
+                    <a class="btn btn-sm btn-default" href="{% url 'stores:detail' slug=store.slug %}">Cancel</a>
+                </td>
+            </tr>
+        </form>
+    </table>
 {% endblock %}

@@ -7,8 +7,19 @@
     <table class="table table-striped">
         <form action="" method="post">
         {{ form.as_table }}
-        <tr><th>&nbsp;</th><td>{% csrf_token %}<input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.store.get_absolute_url }}">Cancel</a></td></tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                {% csrf_token %}
+                <input type="submit" class="btn btn-sm btn-info" value="Save" />
+                <a class="btn btn-sm btn-default" href="{{ back }}">Cancel</a>
+            </td>
+        </tr>
         </form>
-        <tr><td colspan="2" class="well text-right">You added this item on <strong>{{ object.created }}</strong>, and last changed it <strong>{{ object.modified }}</strong></td></tr>
+        <tr>
+            <td colspan="2" class="well text-right">
+                You added this item on <strong>{{ object.created }}</strong>, and last changed it <strong>{{ object.modified }}</strong>
+            </td>
+        </tr>
     </table>
 {% endblock %}

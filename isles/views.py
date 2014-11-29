@@ -27,16 +27,9 @@ class IsleCreateView(RequireUserMixin, generic.CreateView):
         context['store'] = Store.objects.get(slug=self.kwargs.get('slug'))
         return context
 
-    def get(self, request, *args, **kwargs):
-        calling_store = Store.objects.get(slug=self.kwargs.get('slug'))
-        if Isle.objects.filter(user=self.request.user).filter(store=calling_store).count() > 99:
-            messages.error(self.request, 'Sorry, this store already has the maximum number of isles.', extra_tags='danger')
-            return redirect(calling_store.get_absolute_url())
-        return super(IsleCreateView, self).get(request, *args, **kwargs)
-
     def form_valid(self, form):
         calling_store = Store.objects.get(slug=self.kwargs.get('slug'))
-        if Isle.objects.filter(user=self.request.user).filter(store=calling_store).count() > 99:
+        if Isle.objects.filter(user=self.request.user).filter(store=calling_store).count() > 64:
             messages.error(self.request, 'Sorry, this store already has the maximum number of isles.', extra_tags='danger')
             return super(IsleCreateView, self).form_invalid(form)
         self.object = form.save(commit=False)
@@ -52,12 +45,6 @@ class IsleUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """ Edit an Isle """
     form_class, model = IsleForm, Isle
     template_name = 'isles/IsleUpdateView.html'
-
-    #def get_form(self, form_class):
-    #    form = super(IsleUpdateView, self).get_form(form_class)
-    #    this_store = Store.objects.get(slug=self.kwargs.get('slug'))
-    #    form.fields['content'].queryset = Item.objects.filter(store=this_store.id)
-    #    return form
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

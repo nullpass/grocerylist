@@ -7,7 +7,6 @@ from django.views import generic
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.forms.models import modelformset_factory
 
 from core.mixins import RequireUserMixin, RequireOwnerMixin
 
@@ -29,36 +28,46 @@ class ListIndex(RequireUserMixin, generic.TemplateView):
         context = super(ListIndex, self).get_context_data(**kwargs)
         context['mylists'] = List.objects.filter(user=self.request.user).filter(deleteme=False)
         context['stores'] = Store.objects.filter(user=self.request.user).order_by('pk')
+        #
+        # Report orphaned Tobuy objects.
+        # OG: http://stackoverflow.com/questions/10609699/efficiently-delete-orphaned-m2m-objects-tags-in-django
+        for this in Tobuy.objects.filter(
+            pk__in=list(
+                set(Tobuy.objects.values_list('pk', flat=True))
+                -
+                set(List.content.through.objects.values_list('tobuy', flat=True))
+                )
+            ):
+            print('!!! - Orphan Tobuy ID {}, name {}'.format(this.id,this.name))
+        #
         return context
 
 
 class ListCreateView(RequireUserMixin, generic.CreateView):
-    """    """
     form_class, model = EmbedListForm, List
-    template_name = 'lists/ListCreateView.html'
+    template_name = 'stores/StoreDetailView.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(ListCreateView, self).get_context_data(**kwargs)
-        context['store'] = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
-        return context
+    def get(self, request, *args, **kwargs):
+        # Only valid POST requests work on this view, if GET redirect back to store.
+        store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
+        return redirect(store.get_absolute_url())
 
     def form_valid(self, form):
+        if List.objects.filter(user=self.request.user).count() > 2:
+            messages.error(self.request, 'Sorry, you have too many lists already!', extra_tags='danger')
+            return super(ListCreateView, self).form_invalid(form)
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.store = Store.objects.filter(user=self.request.user).filter(slug=self.kwargs.get('slug')).get()
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
-        #
-        # You're a messy night coder, but this end works, fix it Thursday.
         item_list = self.request.POST.getlist('content', False)
         if not item_list:
             messages.error(self.request, 'Failed to create new grocery list. No items were selected.', extra_tags='danger')
             return redirect(self.object.store.get_absolute_url())
         for this_item in item_list:
-            """
-            For each item the user checked create a new Tobuy object,
-            then link that new object to the List they are creating.
-            """
+            # For each item the user checked create a new Tobuy object,
+            # then link that new object to the List they are creating.
             item_match = Item.objects.get(id=this_item)
             new_tobuy = Tobuy(name=item_match, quantity=1, user=self.request.user)
             new_tobuy.save()
@@ -69,7 +78,6 @@ class ListCreateView(RequireUserMixin, generic.CreateView):
 
 
 class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
-    """ View a grocery list in a mobile-friendly way """
     form_class, model = ListForm, List
     template_name = 'lists/ListDetailView.html'
 
@@ -96,20 +104,16 @@ class ListDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(ListDetailView, self).get_context_data(**kwargs)
         context['isles'] = Isle.objects.filter(store=self.object.store).order_by('name').all()
-        d = OrderedDict()
+        context['d'] = OrderedDict()
         context['total_cost'] = decimal.Decimal(0.00)
         for this in context['isles']:
-            d[this] = list()
+            context['d'][this] = list()
         for item in self.object.content.all():
             context['total_cost'] += ( item.name.price * item.quantity )
-            d[item.name.from_isle].append(item)
-        context['d'] = d
+            context['d'][item.name.from_isle].append(item)
         return context
 
 class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
-    """
-    
-    """
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
     
@@ -158,11 +162,8 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
 
     
     def get_context_data(self, **kwargs):
-        """
-        Generate a list of items that belong to this list's store
-            but that are not already in this list.
-        
-        """
+        # Generate a list of items that belong to this list's store
+        # but that are not already in this list.
         context = super(ListUpdateView, self).get_context_data(**kwargs)
         #
         # New iterable for Items we can add to this Grocery List
@@ -179,9 +180,6 @@ class ListUpdateView(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         return context
 
     def form_valid(self, form):
-        """
-        
-        """
         self.object = form.save(commit=False)
         if form.cleaned_data['deleteme']:
             self.success_url = self.object.store.get_absolute_url()
