@@ -1,27 +1,36 @@
 {% extends "Root.html" %}
 
+{% block ListView %}active{% endblock %}
+
 {% block pagetitle %}My Grocery Lists{% endblock %}
 
 {% block content %}
-    {% for S in stores %}
-        <h4>{{ S }}</h4>
-        <ul>
-        {% for this_list in mylists %}
-            {% if this_list.store == S %}
-                <li class="bg-{% if this_list.done %}success{% else %}warning{% endif %}">
-                    <a href="{% url 'lists:detail' pk=this_list.pk %}">{{ this_list }}</a>
-                    (<i>{{ this_list.created|date:"M d `y" }}</i>)
-                    {% if this_list.done %}
-                        [<b>Done!</b>]
-                    {% endif %}
-                </li><br>
-            {% endif %}
-        {% empty %}  {# mylists #}
-            <p class="text-center">No grocery lists found.</p>
-        {% endfor %}  {# mylists #}
-        </ul>
-        <hr>
-    {% empty %}  {# stores #}
-        <p class="text-center">No stores found.</p>
-    {% endfor %}  {# stores #}
+<div class="row"> <!-- content-header -->
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <ul class="nav nav-tabs">
+                <li role="presentation"><a href="{% url 'stores:detail' slug=store.slug %}">Store</a></li>
+                <li role="presentation"><a href="{% url 'stores:update' slug=store.slug %}">Edit</a></li>
+                <li role="presentation"><a href="{% url 'stores:isle-create' slug=store.slug %}">Add Isle</a></li>
+                <li role="presentation"><a href="{% url 'stores:item-create' slug=store.slug %}">Add Item</a></li>
+                <li role="presentation" class="active"><a href="{% url 'stores:grocery-lists' slug=store.slug %}">Grocery Lists <span class="badge">{{ glist_count }}</span></a></li>
+            </ul>
+            <div class="panel-body">
+                <h4>{{ store }}</h4>
+                <p>Open grocery lists:</p>
+                <ul>
+                {% for list in lists %}
+                    <li class="bg-{% if list.done %}success{% else %}warning{% endif %}">
+                        <a href="{{ list.get_absolute_url }}" title="Created {{ list.created }}">{{ list }}</a>
+                        (<i>{{ list.modified|date:"M d `y" }}</i>)
+                        {% if list.done %}[<b>Done!</b>]{% endif %}
+                    </li>
+                {% empty %}
+                    <li>No lists for this store.</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> <!-- /content-header -->
 {% endblock content %} 

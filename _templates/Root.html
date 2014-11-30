@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="{% static 'ico/favicon.ico' %}">
+        <!-- link rel="icon" href="{% static 'ico/favicon.ico' %}" -->
         <title>{% block pagetitle %} {% endblock pagetitle %}</title>
         
         <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
@@ -38,28 +38,21 @@ If so, awesome! Please submit your ideas!
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{% url 'index' %}">Home</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+                        <li class="{% block HomeView %}{% endblock %}">
+                            <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+                        </li>
                         <li class="dropdown{% block StoreView %}{% endblock %}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Stores <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{% url 'index' %}">My Stores</a></li>
                                 <li><a href="{% url 'create' %}">Add a Store</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{% url 'index' %}">Search</a></li>
-                                <li><a href="{% url 'index' %}">Recent</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown{% block ListView %}{% endblock %}">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lists <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'lists:index' %}">My Lists</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{% url 'lists:index' %}">Search</a></li>
-                                <li><a href="{% url 'lists:index' %}">Recent</a></li>
-                            </ul>
+                        <li class="{% block ListView %}{% endblock %}">
+                            <a href="{% url 'index' %}"> My Lists </a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -74,12 +67,12 @@ If so, awesome! Please submit your ideas!
                         </li>
                         {% endif %}
                         <li class="{% block HelpView %}{% endblock %}">
-                            <a href="help/" target="_blank"> Help </a> <!-- get help for current url -->
+                            <a href="/help" target="_blank"> Help </a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+            </div><!-- /container -->
+        </nav><!-- /navbar navbar-inverse navbar-fixed-top -->
 
         <div class="container theme-showcase" role="main">
         {% if messages %}
@@ -91,18 +84,16 @@ If so, awesome! Please submit your ideas!
         {% endif %}
         {% if form.non_field_errors %}
             <div class="blog-header">
-                {% for en in form.non_field_errors %}
-                    <div class="alert alert-danger">{{ en }}</div>
+                {% for non_field_error in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ non_field_error }}</div>
                 {% endfor %}
             </div>
         {% endif %}
             {% block content %}{% endblock %}
         </div> <!-- /container theme-showcase -->
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.min.js' %}"></script><!-- Placed at the end of the document so the pages load faster -->        
+        <script src="{% static 'js/bootstrap.min.js' %}"></script><!-- Bootstrap core JavaScript -->
         <script src="{% static 'js/docs.min.js' %}"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+        <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script><!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     </body>
 </html>

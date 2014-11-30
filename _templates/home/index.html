@@ -1,0 +1,35 @@
+{% extends "Root.html" %}
+
+{% block HomeView %}active{% endblock %}
+
+{% block pagetitle %}Home - My Grocery Lists{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for store,lists in content.items %}
+        <div class="col-sm-4">
+             <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><a href="{{ store.get_absolute_url }}" title="Last updated {{ store.modified }}">{{ store }}</a></h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                    {% for list in lists %}
+                        <li class="bg-{% if list.done %}success{% else %}warning{% endif %}">
+                            <a href="{{ list.get_absolute_url }}" title="Created {{ list.created }}">{{ list }}</a>
+                            (<i>{{ list.modified|date:"M d `y" }}</i>)
+                            {% if list.done %}[<b>Done!</b>]{% endif %}
+                        </li>
+                    {% empty %}
+                        <li>No lists for this store.</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+              </div>
+        </div>
+        {% if forloop.counter in threes %}</div><div class="row">{% endif %}
+    {% empty %}
+        <p>You have not created any stores, click <a href="{% url 'create' %}">here</a> to get started!</p>
+    {% endfor %}
+</div>
+{% endblock content %} 

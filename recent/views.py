@@ -11,7 +11,7 @@ class RecentIndex(RequireUserMixin, generic.ListView):
     template_name = 'recent/index.html'
     
     def get_queryset(self):
-        return Log.objects.filter(user=self.request.user).order_by('-pk').all()[:50]
+        return Log.objects.filter(user=self.request.user).order_by('-pk')[:50]
 
 
 class RecentDetailView(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
