@@ -22,5 +22,5 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         self.object = form.save(commit=False)
         self.success_url = self.object.store.get_absolute_url()
         messages.success(self.request, 'Changes saved!')
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='update')
         return super(do, self).form_valid(form)

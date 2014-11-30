@@ -53,7 +53,7 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         new_relation.content.add(self.object.id)
         #
         messages.success(self.request, 'Changes saved!')
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='update')
         if self.request.GET.get('next'):
             self.object.save()
             return redirect(self.request.GET.get('next'))

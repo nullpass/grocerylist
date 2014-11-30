@@ -22,7 +22,12 @@
                             <td>{% csrf_token %}<input type="submit" class="btn btn-sm btn-info" value="Save" /><a class="btn btn-sm btn-default" href="{{ object.get_absolute_url }}">Cancel</a></td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="well text-right">You added this store on <strong>{{ object.created }}</strong>, and last changed it <strong>{{ object.modified }}</strong></td>
+                            <td class="well text-left">
+                                <a href="{% url 'stores:delete' slug=object.slug %}" class="btn btn-xs btn-danger">delete</a>
+                            </td>
+                            <td class="well text-right">
+                                You added this store on <strong>{{ object.created }}</strong>, and last changed it <strong>{{ object.modified }}</strong>
+                            </td>
                         </tr>
                     </table>
                 </form>

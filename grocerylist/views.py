@@ -48,7 +48,7 @@ class HomeView(RequireUserMixin, generic.TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['threes'] = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99]
         context['content'] = OrderedDict()
-        for this_store in Store.objects.filter(user=self.request.user).order_by('-pk'):
+        for this_store in Store.objects.filter(user=self.request.user).order_by('-modified'):
             context['content'][this_store] = List.objects.filter(user=self.request.user).filter(store=this_store).order_by('modified')
         return context
 

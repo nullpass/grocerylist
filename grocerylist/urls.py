@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from isles.view.create import do as IsleCreateView
+from isles.view.delete import do as IsleDeleteView
 from isles.view.update import do as IsleUpdateView
 
 from items.view.create import do as ItemCreateView
@@ -13,11 +14,13 @@ from items.view.index  import do as ItemIndex
 from items.view.update import do as ItemUpdateView
 
 from lists.view.create import do as ListCreateView
+from lists.view.delete import do as ListDeleteView
 from lists.view.detail import do as ListDetailView
 from lists.view.index  import do as ListIndex
 from lists.view.update import do as ListUpdateView
 
 from stores.view.create import do as StoreCreateView
+from stores.view.delete import do as StoreDeleteView
 from stores.view.detail import do as StoreDetailView
 from stores.view.update import do as StoreUpdateView
 
@@ -29,15 +32,19 @@ item_patterns = patterns('',
     #
     # /i/<item pk>/update/
     url(r'^(?P<pk>\d+)/update/$', ItemUpdateView.as_view(), name='update'),
-    # /i/<item pk>/update/
+    #
+    # /i/<item pk>/delete/
     url(r'^(?P<pk>\d+)/delete/$', ItemDeleteView.as_view(), name='delete'),
-
 )
 
 isle_patterns = patterns('',
     #
-    # /s/<store slug>/<isle id>/update
+    # /s/<store slug>/<isle id>/update/
     url(r'^update/$',  IsleUpdateView.as_view(), name='update'),
+    #
+    # /s/<store slug>/<isle id>/delete/
+    url(r'^delete/$',  IsleDeleteView.as_view(), name='delete'),
+
 )
 
 store_patterns = patterns('',
@@ -53,6 +60,9 @@ store_patterns = patterns('',
     #
     # /s/<store slug>/update/    
     url(r'^update/$',  StoreUpdateView.as_view(), name='update'),
+    #
+    # /s/<store slug>/delete/
+    url(r'^delete/$',  StoreDeleteView.as_view(), name='delete'),
     #
     # /s/<store slug>/<isle id>/
     url(r'^(?P<pk>[\d]+)/', include(isle_patterns, namespace='isle')),
@@ -74,6 +84,9 @@ mylist_patterns = patterns('',
     #
     # /mylists/<item pk>/update/
     url(r'^(?P<pk>\d+)/update/', ListUpdateView.as_view(), name='update'),
+    #
+    # /mylists/<item pk>/delete/
+    url(r'^(?P<pk>\d+)/delete/', ListDeleteView.as_view(), name='delete'),
 )
 
 recent_patterns = patterns('',

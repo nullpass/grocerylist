@@ -82,8 +82,6 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         if form.cleaned_data['deleteme']:
-            self.success_url = self.object.store.get_absolute_url()
-            self.object.deleteme = True
-            messages.success(self.request, 'List "%s" deleted!' % self.object.name )
-        log_form_valid(self, form)
+            return redirect(reverse('lists:delete', kwargs={ 'pk' : self.object.pk }))
+        log_form_valid(self, form, action='update')
         return super(do, self).form_valid(form)

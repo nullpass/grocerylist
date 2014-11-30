@@ -51,5 +51,5 @@ class do(RequireUserMixin, generic.CreateView):
             new_tobuy.save()
             self.object.save()
             self.object.content.add(new_tobuy)
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='create')
         return super(do, self).form_valid(form)

@@ -30,5 +30,5 @@ class do(RequireUserMixin, generic.CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         messages.success(self.request, 'Store "{}" added!'.format(form.cleaned_data['name']) )
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='create')
         return super(do, self).form_valid(form)

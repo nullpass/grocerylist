@@ -61,5 +61,5 @@ class do(RequireUserMixin, generic.CreateView):
         target_isle.content.add(newitem)
         #
         messages.success(self.request, 'Item "%s" added!' % form.cleaned_data['name'])
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='create')
         return super(do, self).form_valid(form)

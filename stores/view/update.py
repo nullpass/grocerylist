@@ -18,5 +18,5 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
 
     def form_valid(self, form):
         messages.success(self.request, 'Changes saved!')
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='update')
         return super(do, self).form_valid(form)

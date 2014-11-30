@@ -15,7 +15,6 @@ from isles.forms import IsleForm
 from isles.models import Isle
 
 
-
 class do(RequireUserMixin, generic.CreateView):
     """ Make a new Isle """
     form_class, model = IsleForm, Isle
@@ -37,5 +36,5 @@ class do(RequireUserMixin, generic.CreateView):
         self.success_url = self.object.store.get_absolute_url()
         self.object.user = self.request.user
         messages.success(self.request, 'Isle %s added!' % form.cleaned_data['name'])
-        log_form_valid(self, form)
+        log_form_valid(self, form, action='create')
         return super(do, self).form_valid(form)

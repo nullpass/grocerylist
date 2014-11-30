@@ -1,4 +1,4 @@
-# items/view/delete.py
+# lists/view/delete.py
 
 from django.views import generic
 from django.contrib import messages
@@ -8,25 +8,25 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 from recent.functions import log_delete
 
-from items.forms import ItemForm
-from items.models import Item
+from lists.forms import ListForm
+from lists.models import List
 
 
 class do(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
     """
-    Delete an Item!
-        Magically this seems to properly
-        dispose of the through relationships.
+    Delete a List!
+        By default this does leave Tobuy orphans, so I've
+        added a delete override to handle it.
     """
-    form_class, model = ItemForm, Item
-    template_name = 'item/ItemDeleteView.html'
+    form_class, model = ListForm, List
+    template_name = 'lists/ListDeleteView.html'
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_url = reverse('index')
-        if self.request.GET.get('next'):
-            success_url = self.request.GET.get('next')
+        success_url = self.object.store.get_absolute_url()
+        for tobuy in self.object.content.all():
+            tobuy.delete()
         log_delete(self)
         self.object.delete()
-        messages.success(self.request, 'Item Deleted!')
+        messages.success(self.request, 'List Deleted!')
         return redirect(success_url)

@@ -18,26 +18,20 @@ TODO:
     When making a QuerySet, always make the first .filter() user.
     ALWAYS filter by user, especially when it's silly.
     Prefer get|404 to a simple get().
+    If something is ugly but I don't have a fix, ignore it. 
     
 
 /store/
     Nav tabs are great but it's a ton of repeated code, need to fix that.
 
 
-/lists/
-    Add "home form shopping" link that will convert the List object to a multi-
-        line string and store it in List.archive.
-    I gutted the messages div on ListDetailView, it was too obnoxious on that view.
-        Might need to adjust it again in the future.
-    ListUpdateView: Still very unhappy with how the save/cancel/done/delete elements
-        look after the V4 refactor. 
-
 /recent/
-    V5 broke the name magic in log_form_valid, fit it plox
+    action is fixed, but it looks like we don't need the form argument and I can merge
+        both functions. I wonder if form is an artifact from ksdj; the current ksdj
+        doesn't use form either. 
+
 
 V6 refactor:
-    4. Add delete views for everything.
-    s. Rename the directories singular
     1. There is no 'try'; there is only do-and-fail-loudly. Fix that, this is code, not the force.
     2. Update user, add arbitrary dialog flags
     3. Add new user dialogs. X to dismiss, can reset them in user profile.
@@ -45,6 +39,7 @@ V6 refactor:
 
 /filter|search/
     Do the old java style needle-as-argument. Like my inventory app only better.
+
 
 /maintenance/
     Garbage collection, orphan cleanup.
