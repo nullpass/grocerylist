@@ -19,10 +19,6 @@ TODO:
     ALWAYS filter by user, especially when it's silly.
     Prefer get|404 to a simple get().
     If something is ugly but I don't have a fix, ignore it. 
-    
-
-/store/
-    Nav tabs are great but it's a ton of repeated code, need to fix that.
 
 
 /recent/
@@ -31,17 +27,8 @@ TODO:
         doesn't use form either. 
 
 
-V6 refactor:
-    1. There is no 'try'; there is only do-and-fail-loudly. Fix that, this is code, not the force.
-    2. Update user, add arbitrary dialog flags
-    3. Add new user dialogs. X to dismiss, can reset them in user profile.
-
-
 /filter|search/
     Do the old java style needle-as-argument. Like my inventory app only better.
 
-
-/maintenance/
-    Garbage collection, orphan cleanup.
 
 """
