@@ -1,4 +1,5 @@
 # grocerylist/urls.py
+from cfggrocerylist import LOCAL_ADMIN_URL
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
@@ -99,7 +100,6 @@ recent_patterns = patterns('',
 )
 
 urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
     #
     # /
     url(r'^$', HomeView.as_view(), name='index'),
@@ -129,5 +129,8 @@ urlpatterns = patterns('',
     # /recent/ 
     url(r'^recent/', include(recent_patterns, namespace='recent')),
     #
-    url(r'', include('social.apps.django_app.urls', namespace='social'))
+    #
+    url(LOCAL_ADMIN_URL, include(admin.site.urls)),
+    #
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
 )

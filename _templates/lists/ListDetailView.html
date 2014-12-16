@@ -30,7 +30,7 @@
                         {% for tobuy in content %}
                             <tr{% if tobuy.in_cart %} class="bg-success"{% endif %}>
                                 <td>
-                                    {{ tobuy.quantity }}
+                                    <a id="{{ tobuy.id }}">{{ tobuy.quantity }}</a>
                                 </td>
                                 <td>
                                     <a href="{% url 'items:update' pk=tobuy.name.id %}?next={{ object.get_absolute_url }}">{{ tobuy }}</a>

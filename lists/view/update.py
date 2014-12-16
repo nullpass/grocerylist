@@ -53,7 +53,7 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
                 this_list.save()
                 #
                 # Go back to /mylists/PK/update
-                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+                return redirect(reverse('lists:update', kwargs={'pk' : kwargs.get('pk')}))
             except Exception as e:
                 print(e)
         # all-else
