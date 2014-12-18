@@ -26,11 +26,11 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
                 this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('done'))
                 this_tobuy.in_cart = True
                 this_tobuy.save()
-                resval = '{0}#{1}'.format(
+                retval = '{0}#{1}'.format(
                     reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
                     this_tobuy.id
                     )
-                return redirect(resval)
+                return redirect(retval)
             except Exception as e:
                 print(e)
         elif request.GET.get('undo'):
@@ -38,11 +38,11 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
                 this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('undo'))
                 this_tobuy.in_cart = False
                 this_tobuy.save()
-                resval = '{0}#{1}'.format(
+                retval = '{0}#{1}'.format(
                     reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
                     this_tobuy.id
                     )
-                return redirect(resval)
+                return redirect(retval)
 
             except Exception as e:
                 print(e)
