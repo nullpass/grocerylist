@@ -31,12 +31,12 @@ class do(RequireUserMixin, generic.CreateView):
         return redirect(store.get_absolute_url())
 
     def form_valid(self, form):
-        if List.objects.filter(user=self.request.user).count() > 2:
-            messages.error(self.request, 'Sorry, you have too many lists already!', extra_tags='danger')
-            return super(do, self).form_invalid(form)
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.store = get_object_or_404(Store, user=self.request.user, slug=self.kwargs.get('slug'))
+        if List.objects.filter(user=self.request.user).count() > 25:
+            messages.error(self.request, 'Sorry, you have too many lists already!', extra_tags='danger')
+            return redirect(self.object.store.get_absolute_url())
         if not self.object.name:
             self.object.name = str( time.strftime("%a %b %d %Y", time.localtime()) )
         item_list = self.request.POST.getlist('content', False)
