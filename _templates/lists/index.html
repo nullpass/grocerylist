@@ -17,7 +17,6 @@
             </ul>
             <div class="panel-body">
                 <h4>{{ store }}</h4>
-                <p>Open grocery lists:</p>
                 <ul>
                 {% for list in lists %}
                     <li class="bg-{% if list.done %}success{% else %}warning{% endif %}">
