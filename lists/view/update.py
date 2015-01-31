@@ -23,7 +23,11 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
                 this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('inc'))
                 this_tobuy.quantity += 1
                 this_tobuy.save()
-                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+                retval = '{0}#{1}'.format(
+                    reverse('lists:update', kwargs={'pk' : kwargs.get('pk')}),
+                    this_tobuy.id
+                    )
+                return redirect(retval)
             except Exception as e:
                 print(e)
         elif request.GET.get('dec'):
@@ -31,9 +35,13 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
                 this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('dec'))
                 this_tobuy.quantity -= 1
                 this_tobuy.save()
+                retval = '{0}#{1}'.format(
+                    reverse('lists:update', kwargs={'pk' : kwargs.get('pk')}),
+                    this_tobuy.id
+                    )
                 if this_tobuy.quantity < 1:
                     this_tobuy.delete()
-                return redirect(reverse('lists:update',kwargs={'pk' : kwargs.get('pk')}))
+                return redirect(retval)
             except Exception as e:
                 print(e)
         elif request.GET.get('insert'):

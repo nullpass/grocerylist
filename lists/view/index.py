@@ -25,6 +25,5 @@ class do(RequireUserMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(do, self).get_context_data(**kwargs)
         context['store'] = get_object_or_404(Store, user=self.request.user, slug=self.kwargs.get('slug'))
-        context['lists'] = List.objects.filter(user=self.request.user).filter(store=context['store']).filter(deleteme=False)
+        context['lists'] = List.objects.filter(user=self.request.user).filter(store=context['store']).filter(deleteme=False).order_by('-modified')
         return context
-

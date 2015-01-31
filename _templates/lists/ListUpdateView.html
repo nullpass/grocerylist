@@ -30,7 +30,7 @@
                     {% for tobuy in object.content.all %}
                     <tr>
                         <td>
-                            <a href="?inc={{ tobuy.id }}" class="btn btn-success btn-xs" role="button">➕</a>
+                            <a id="{{ tobuy.id }}" href="?inc={{ tobuy.id }}" class="btn btn-success btn-xs" role="button">➕</a>
                             <strong>&nbsp;{{ tobuy.quantity }}&nbsp;</strong>
                             <a href="?dec={{ tobuy.id }}" class="btn btn-danger btn-xs" role="button">➖</a>
                         </td>
