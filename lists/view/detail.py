@@ -22,30 +22,36 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         if request.GET.get('done'):
-            try:
-                this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('done'))
-                this_tobuy.in_cart = True
-                this_tobuy.save()
-                retval = '{0}#{1}'.format(
-                    reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
-                    this_tobuy.id
-                    )
-                return redirect(retval)
-            except Exception as e:
-                print(e)
+            this_tobuy = get_object_or_404(Tobuy, user=self.request.user, id=request.GET.get('done'))
+            this_tobuy.in_cart = True
+            this_tobuy.save()
+            #
+            # If all items are in cart then mark grocery list as done
+            parent = this_tobuy.list.get()
+            if parent.content.all().filter(in_cart=False).count() is 0:
+                parent.done = True
+                parent.save()
+            #
+            retval = '{0}#{1}'.format(
+                reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
+                this_tobuy.id
+                )
+            return redirect(retval)
         elif request.GET.get('undo'):
-            try:
-                this_tobuy = Tobuy.objects.filter(user=self.request.user).get(id=request.GET.get('undo'))
-                this_tobuy.in_cart = False
-                this_tobuy.save()
-                retval = '{0}#{1}'.format(
-                    reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
-                    this_tobuy.id
-                    )
-                return redirect(retval)
-
-            except Exception as e:
-                print(e)
+            this_tobuy = get_object_or_404(Tobuy, user=self.request.user, id=request.GET.get('undo'))
+            this_tobuy.in_cart = False
+            this_tobuy.save()
+            #
+            # When putting an item back make sure grocery list is NOT set to done.
+            parent = this_tobuy.list.get()
+            parent.done = False
+            parent.save()
+            #
+            retval = '{0}#{1}'.format(
+                reverse('lists:detail', kwargs={'pk' : kwargs.get('pk')}),
+                this_tobuy.id
+                )
+            return redirect(retval)
         # all-else
         return super(do, self).get(self, request, *args, **kwargs)
 

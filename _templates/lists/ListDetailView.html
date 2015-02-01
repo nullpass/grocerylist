@@ -50,7 +50,7 @@
                         <tr><td colspan="4"></td></tr>
                 {% endfor %}
                 </table>
-                <p class="small text-center"><em>{{ object.modified }}</em> - <a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-xs btn-info">Edit</a></p>
+                <p class="small text-center"><a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-md btn-info">Edit</a></p>
             </div>
         </div><!-- /.container -->
         <!-- Bootstrap core JavaScript

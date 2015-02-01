@@ -23,10 +23,6 @@ Put done lists in their own view, make only open lists visible on main pages.
     Prefer get|404 to a simple get().
     If something is ugly but I don't have a fix, ignore it. 
 
-
-/lists/
-    If all items done then set list done.
-
 /recent/
     action is fixed, but it looks like we don't need the form argument and I can merge
         both functions. I wonder if form is an artifact from ksdj; the current ksdj
