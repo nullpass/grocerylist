@@ -9,6 +9,7 @@ from items.models import Item
 
 from . import models
 
+
 class StoreForm(ModelForm):
     class Meta:
         fields = (

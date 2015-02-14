@@ -11,6 +11,7 @@ from recent.functions import log_form_valid
 from stores.forms import StoreForm
 from stores.models import Store
 
+
 class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     """Edit a Store"""
     form_class, model = StoreForm, Store

@@ -14,6 +14,7 @@ from isles.models import Isle
 from items.models import Item
 from lists.models import List
 
+
 class do(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
     """
     Delete an Isle!
@@ -32,6 +33,8 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
             self.object.delete()
             messages.success(self.request, 'Isle Deleted!')
         else:
-            messages.error(self.request, 'Unable to delete! There are still items linked to this isle.', extra_tags='danger')
+            messages.error(self.request,
+                           'Unable to delete! There are still items linked to this isle.',
+                           extra_tags='danger')
         #
         return redirect(success_url)

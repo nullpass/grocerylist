@@ -2,6 +2,7 @@
 
 from django.db import models
 
+
 class UltraModel(models.Model):
     """
     A wrapper model. All models should inherit this. 
@@ -12,7 +13,7 @@ class UltraModel(models.Model):
     # These are optional fields, but should be valid for
     # nearly everything.
     doc_url = models.URLField(blank=True, null=True)   # A URL to external/wiki documentatoin about the object.
-    notes   = models.TextField(blank=True, null=True)  # Comments/notes about the object
+    notes = models.TextField(blank=True, null=True)    # Comments/notes about the object
     
     class Meta:
         abstract = True

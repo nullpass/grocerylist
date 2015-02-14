@@ -52,6 +52,7 @@ class HomeView(RequireUserMixin, generic.TemplateView):
             context['content'][this_store] = List.objects.filter(user=self.request.user).filter(store=this_store).filter(done=False).order_by('modified')
         return context
 
+
 class MaintenanceView(RequireUserMixin, generic.TemplateView):
     """
     """

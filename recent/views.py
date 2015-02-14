@@ -6,6 +6,7 @@ from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 
 from .models import Log
 
+
 class RecentIndex(RequireUserMixin, generic.ListView):
     model = Log
     template_name = 'recent/index.html'

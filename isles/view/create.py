@@ -29,7 +29,9 @@ class do(RequireUserMixin, generic.CreateView):
     def form_valid(self, form):
         calling_store = get_object_or_404(Store, user=self.request.user, slug=self.kwargs.get('slug'))
         if Isle.objects.filter(user=self.request.user).filter(store=calling_store).count() > 64:
-            messages.error(self.request, 'Sorry, this store already has the maximum number of isles.', extra_tags='danger')
+            messages.error(self.request,
+                           'Sorry, this store already has the maximum number of isles.',
+                           extra_tags='danger')
             return super(do, self).form_invalid(form)
         self.object = form.save(commit=False)
         self.object.store = get_object_or_404(Store, user=self.request.user, slug=self.kwargs.get('slug'))

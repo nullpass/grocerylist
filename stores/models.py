@@ -8,6 +8,7 @@ from django.core.validators import RegexValidator
 from grocerylist.models import UltraModel
 from grocerylist.functions import UltraSlug
 
+
 class Store(UltraModel):
     """
     
@@ -16,9 +17,6 @@ class Store(UltraModel):
     user = models.ForeignKey(User, related_name='store')
     address = models.CharField(max_length=1024, validators=[RegexValidator('^[A-Za-z0-9a-z\.,\- ]+$')], unique=True)
     slug = models.SlugField(max_length=256, blank=True, unique=True)
-
-    #class Meta:
-    #    unique_together = (("name", "address"),)
 
     def save(self, *args, **kwargs):
         temp = '{} {}'.format(self.name, self.address)

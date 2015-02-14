@@ -16,6 +16,7 @@ from isles.models import Isle
 from lists.models import List, Tobuy
 from lists.forms import ListForm
 
+
 class do(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
     form_class, model = ListForm, List
     template_name = 'lists/ListDetailView.html'

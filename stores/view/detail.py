@@ -29,11 +29,11 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(do, self).get_context_data(**kwargs)
-        context['inventory']   = Item.objects.filter(user=self.request.user).filter(store=self.object.id).count()
+        context['inventory'] = Item.objects.filter(user=self.request.user).filter(store=self.object.id).count()
         g = List.objects.filter(user=self.request.user).filter(store=self.object.id).filter(done=False).count()
         if g > 0:
             context['glist_count'] = g
-        context['isles']       = Isle.objects.filter(user=self.request.user).filter(store=self.object.id)
+        context['isles'] = Isle.objects.filter(user=self.request.user).filter(store=self.object.id)
         #
         if context['isles']:
             context['EmbedItemForm'] = EmbedItemForm()

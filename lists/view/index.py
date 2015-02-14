@@ -12,6 +12,7 @@ from stores.models import Store
 from lists.models import List, Tobuy
 from lists.forms import ListForm
 
+
 class do(RequireUserMixin, generic.TemplateView):
     """
     This now shows all grocery lists that exist that belong to store kwargs.slug

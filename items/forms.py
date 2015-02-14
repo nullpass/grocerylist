@@ -4,6 +4,7 @@ from django.forms import ModelForm, CheckboxSelectMultiple, RadioSelect
 
 from . import models
 
+
 class EmbedItemForm(ModelForm):
     """ The item-add form that is embedded in StoreDetailView.html """
     
@@ -32,7 +33,7 @@ class ItemForm(ModelForm):
             'from_isle',
             )
         model = models.Item
-        widgets = { 'from_isle' : RadioSelect() }
+        widgets = {'from_isle': RadioSelect() }
 
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)

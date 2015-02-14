@@ -3,6 +3,7 @@
 from django.db import IntegrityError
 from django.template.defaultfilters import slugify
 
+
 def UltraSlug(string, s):
     """
     This is another point that Django lets me down.

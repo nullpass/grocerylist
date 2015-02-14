@@ -19,6 +19,7 @@ Example:
 
 from .models import Log
 
+
 def log_form_valid(s, form, action='__UNKNOWN__'):
     """
     Put near the end of a form_valid override and call like this:
@@ -81,6 +82,7 @@ def log_form_valid(s, form, action='__UNKNOWN__'):
         verbose=post,
         )
     D_B.save()
+
 
 def log_delete(s):
     """

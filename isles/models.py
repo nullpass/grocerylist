@@ -11,6 +11,7 @@ from grocerylist.models import UltraModel
 from items.models import Item
 from stores.models import Store
 
+
 class Isle(UltraModel):
     """    """
     name = models.CharField(max_length=2, validators=[RegexValidator('^[A-Za-z0-9a-z]+$')])
@@ -23,14 +24,14 @@ class Isle(UltraModel):
         ordering = ["name"]
 
     def get_absolute_url(self):
-        return reverse('stores:detail', kwargs={'slug' : self.store.slug})
+        return reverse('stores:detail', kwargs={'slug': self.store.slug})
 
     def __str__(self):
         if len(self.notes) > 32:
             notes = '{}...'.format(self.notes[:32])
         else:
             notes = self.notes[:32]
-        return '{} ({})'.format(self.name,notes)
+        return '{} ({})'.format(self.name, notes)
 
     def save(self, *args, **kwargs):
         """

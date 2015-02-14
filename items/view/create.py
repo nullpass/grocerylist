@@ -14,6 +14,7 @@ from isles.models import Isle
 from items.forms import ItemForm
 from items.models import Item
 
+
 class do(RequireUserMixin, generic.CreateView):
     """ Make a new Item
     If the form that is embedded in storeDetailView is

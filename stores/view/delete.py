@@ -15,6 +15,7 @@ from items.models import Item
 from isles.models import Isle
 from lists.models import List
 
+
 class do(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
     """
     Delete a Store!

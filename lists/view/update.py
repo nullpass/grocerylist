@@ -13,6 +13,7 @@ from items.models import Item
 from lists.models import List, Tobuy
 from lists.forms import ListUpdateForm
 
+
 class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
     form_class, model = ListUpdateForm, List
     template_name = 'lists/ListUpdateView.html'
@@ -67,8 +68,6 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.UpdateView):
         # all-else
         return super(do, self).get(self, request, *args, **kwargs)
 
-
-    
     def get_context_data(self, **kwargs):
         # Generate a list of items that belong to this list's store
         # but that are not already in this list.

@@ -16,6 +16,7 @@ from items.models import Item
 from lists.models import List, Tobuy
 from lists.forms import EmbedListForm
 
+
 class do(RequireUserMixin, generic.CreateView):
     form_class, model = EmbedListForm, List
     template_name = 'stores/StoreDetailView.html'
