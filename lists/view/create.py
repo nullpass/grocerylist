@@ -5,14 +5,11 @@ import time
 from django.views import generic
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
-from django.core.urlresolvers import reverse_lazy, reverse
 
-from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
+from grocerylist.mixins import RequireUserMixin
 from recent.functions import log_form_valid
-
 from stores.models import Store
 from items.models import Item
-
 from lists.models import List, Tobuy
 from lists.forms import EmbedListForm
 

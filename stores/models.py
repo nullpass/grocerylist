@@ -19,7 +19,7 @@ class Store(UltraModel):
     slug = models.SlugField(max_length=256, blank=True, unique=True)
 
     def save(self, *args, **kwargs):
-        temp = '{} {}'.format(self.name, self.address)
+        temp = '{0} {1}'.format(self.name, self.address)
         self.slug = UltraSlug(temp, self)
         super(Store, self).save(*args, **kwargs)
 

@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 
 from grocerylist.models import UltraModel
-
 from items.models import Item
 from stores.models import Store
 
@@ -28,10 +27,10 @@ class Isle(UltraModel):
 
     def __str__(self):
         if len(self.notes) > 32:
-            notes = '{}...'.format(self.notes[:32])
+            notes = '{0}...'.format(self.notes[:32])
         else:
             notes = self.notes[:32]
-        return '{} ({})'.format(self.name, notes)
+        return '{0} ({1})'.format(self.name, notes)
 
     def save(self, *args, **kwargs):
         """
@@ -42,5 +41,5 @@ class Isle(UltraModel):
             Guess which route I've gone.
         """
         if re.search('^[0-9]$', self.name):
-            self.name = '0{}'.format(self.name)
+            self.name = '0{0}'.format(self.name)
         super(Isle, self).save(*args, **kwargs)

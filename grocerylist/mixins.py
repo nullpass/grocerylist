@@ -14,7 +14,7 @@ class RequireUserMixin(object):
         if not request.user.is_authenticated():
             if self.mixin_messages:
                 messages.warning(request, 'Unable to comply, please log in.')
-            return redirect('{}?next={}'.format(reverse('auth3p'),request.path))
+            return redirect('{0}?next={1}'.format(reverse('auth3p'), request.path))
         return super(RequireUserMixin, self).dispatch(request, *args, **kwargs)
 
 

@@ -9,7 +9,6 @@ from django.core.urlresolvers import reverse_lazy
 
 from lists.models import List, Tobuy
 from stores.models import Store
-
 from .mixins import RequireUserMixin
 
 class LogoutView(generic.RedirectView):
@@ -75,5 +74,5 @@ class MaintenanceView(RequireUserMixin, generic.TemplateView):
                 orphans.append(this.id)
                 #this.delete()
             if orphans:
-                messages.warning(self.request, 'Tobuy orphans: {}'.format(orphans))
+                messages.warning(self.request, 'Tobuy orphans: {0}'.format(orphans))
         return super(MaintenanceView, self).get(self, request, *args, **kwargs)

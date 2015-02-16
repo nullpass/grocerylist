@@ -2,12 +2,10 @@
 
 from django.views import generic
 from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import redirect
 
 from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 from recent.functions import log_delete
-
 from lists.forms import ListForm
 from lists.models import List
 

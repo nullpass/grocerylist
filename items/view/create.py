@@ -2,15 +2,12 @@
 
 from django.views import generic
 from django.contrib import messages
-from django.shortcuts import redirect, get_object_or_404
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
 
-from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
+from grocerylist.mixins import RequireUserMixin
 from recent.functions import log_form_valid
-
 from stores.models import Store
 from isles.models import Isle
-
 from items.forms import ItemForm
 from items.models import Item
 

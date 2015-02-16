@@ -1,7 +1,5 @@
 # stores/forms.py
 
-from __future__ import absolute_import
-
 from django.forms import ModelForm, Form, CheckboxSelectMultiple
 from django.db.models import BooleanField, ManyToManyField
 

@@ -29,6 +29,6 @@ def UltraSlug(string, s):
         #
         if try_this_one not in slug_list:
             return try_this_one
-        try_this_one = '{}-{}'.format(string,i)
-    print('I failed to create a unique slug from {}'.format(string))
+        try_this_one = '{0}-{1}'.format(string,i)
+    print('I failed to create a unique slug from {0}'.format(string))
     raise IntegrityError

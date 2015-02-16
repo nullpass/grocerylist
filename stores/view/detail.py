@@ -1,20 +1,12 @@
 # stores/views.py
 
 from django.views import generic
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
-from recent.functions import log_form_valid
-
 from items.forms import EmbedItemForm
 from items.models import Item
-
 from isles.models import Isle
-
 from lists.models import List
-
 from stores.forms import StoreForm
 from stores.models import Store
 

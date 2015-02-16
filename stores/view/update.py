@@ -2,12 +2,9 @@
 
 from django.views import generic
 from django.contrib import messages
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 from grocerylist.mixins import RequireUserMixin, RequireOwnerMixin
 from recent.functions import log_form_valid
-
 from stores.forms import StoreForm
 from stores.models import Store
 

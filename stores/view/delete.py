@@ -29,12 +29,14 @@ class do(RequireUserMixin, RequireOwnerMixin, generic.DeleteView):
         success_url = reverse('index')
 
         if Item.objects.filter(user=self.request.user).filter(store=self.object.id).count() == 0 \
-        and Isle.objects.filter(user=self.request.user).filter(store=self.object.id).count() == 0 \
-        and List.objects.filter(user=self.request.user).filter(store=self.object.id).count() == 0:
+                and Isle.objects.filter(user=self.request.user).filter(store=self.object.id).count() == 0 \
+                and List.objects.filter(user=self.request.user).filter(store=self.object.id).count() == 0:
             log_delete(self)
             self.object.delete()
             messages.success(self.request, 'Store Deleted!')
             return redirect(success_url)
-        else:
-            messages.error(self.request, 'Unable to delete! There are still items, isles or grocery lists associated with this store.',extra_tags='danger')
-            return redirect(self.object.get_absolute_url())
+        # all-else
+        messages.error(self.request,
+                       'Unable to delete! There are still items, isles or grocery lists associated with this store.',
+                       extra_tags='danger')
+        return redirect(self.object.get_absolute_url())

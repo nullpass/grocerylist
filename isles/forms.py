@@ -19,7 +19,7 @@ class IsleForm(ModelForm):
             )
         model = Isle
         widgets = {
-            'name' : TextInput(), 
+            'name': TextInput(),
             }
         
     def __init__(self, *args, **kwargs):
