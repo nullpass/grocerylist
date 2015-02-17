@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.template.defaultfilters import slugify
 
 
-def UltraSlug(string, s):
+def UltraSlug(string, model):
     """
     This is another point that Django lets me down.
     Why make a slugify function if there's no built-
@@ -21,14 +21,13 @@ def UltraSlug(string, s):
 
     """
     try_this_one = string = slugify(string[:32])
-    slug_list = s.__class__.objects.exclude(id=s.id).values_list('slug', flat=True).all()
-    for i in range(256):
+    slug_list = model.__class__.objects.exclude(id=model.id).values_list('slug', flat=True).all()
+    for index in range(256):
         #
         # I will try 256 times to find a unique slug,
         # after that, it's the dev's problem.
         #
         if try_this_one not in slug_list:
             return try_this_one
-        try_this_one = '{0}-{1}'.format(string,i)
-    print('I failed to create a unique slug from {0}'.format(string))
-    raise IntegrityError
+        try_this_one = '{0}-{1}'.format(string, index)
+    raise IntegrityError('Failed to create a unique slug from {0}'.format(string))
