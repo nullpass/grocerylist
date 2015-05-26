@@ -22,10 +22,13 @@
             <div class="col-md-4">
                 {% if messages %}{% for message in messages %}<p class="text-right">{{ message }}</p>{% endfor %}{% endif %}
                 <h2 class="text-center"><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></h2>
-                <p class="text-right">(${{ total_cost }})</p>
-                <a href="{{ object.store.get_absolute_url }}"><em>{{ object.store }}</em></a><br>
+                <p class="text-center">(${{ total_cost }})</p>
+                <p class="text-center">
+                    <a href="{{ object.store.get_absolute_url }}" class="btn btn-md btn-success"><em>View Store</em></a>
+                    <a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-md btn-info">Edit List</a>
+                </p>
                 <table class="table table-hover table-bordered">
-                {% for isle,content in d.items %}
+                    {% for isle,content in d.items %}
                         <tr><th colspan="4" class="info text-right">{{ isle }}</th></tr>
                         {% for tobuy in content %}
                             <tr{% if tobuy.in_cart %} class="bg-success"{% endif %}>
@@ -48,9 +51,11 @@
                             </tr>
                         {% endfor %}
                         <tr><td colspan="4"></td></tr>
-                {% endfor %}
+                    {% endfor %}
                 </table>
-                <p class="small text-center"><a href="{% url 'lists:update' pk=object.pk %}" class="btn btn-md btn-info">Edit</a></p>
+                <p class="text-center">
+                    <!-- a href="{% url 'list.mark_as_done' pk=object %}" class="btn btn-md btn-warning">Mark List as Done</a -->
+                </p>
             </div>
         </div><!-- /.container -->
         <!-- Bootstrap core JavaScript

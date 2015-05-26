@@ -13,21 +13,27 @@
                 <li role="presentation"><a href="{% url 'stores:update' slug=store.slug %}">Edit</a></li>
                 <li role="presentation"><a href="{% url 'stores:isle-create' slug=store.slug %}">Add Isle</a></li>
                 <li role="presentation"><a href="{% url 'stores:item-create' slug=store.slug %}">Add Item</a></li>
-                <li role="presentation" class="active"><a href="{% url 'stores:grocery-lists' slug=store.slug %}">Grocery Lists <span class="badge">{{ glist_count }}</span></a></li>
+                <li role="presentation" class="active">
+                    <a href="{% url 'stores:grocery-lists' slug=store.slug %}">Grocery Lists
+                        <span class="badge">{{ glist_count }}</span>
+                    </a>
+                </li>
             </ul>
             <div class="panel-body">
                 <h4>{{ store }}</h4>
-                <ul>
                 {% for list in lists %}
-                    <li class="bg-{% if list.done %}success{% else %}warning{% endif %}">
-                        <a href="{{ list.get_absolute_url }}" title="Created {{ list.created }}">{{ list }}</a>
+                <p class="text-left">
+                    <a href="{{ list.get_absolute_url }}"
+                       class="btn btn-md btn-{% if list.done %}success{% else %}warning{% endif %}"
+                       title="Created {{ list.created }}">
+                        {{ list }}
                         (<i>{{ list.modified|date:"M d `y" }}</i>)
                         {% if list.done %}[<b>Done!</b>]{% endif %}
-                    </li>
+                    </a>
+                </p>
                 {% empty %}
-                    <li>No lists for this store.</li>
+                    <p class="text-center bg-warning">No lists for this store.</p>
                 {% endfor %}
-                </ul>
             </div>
         </div>
     </div>

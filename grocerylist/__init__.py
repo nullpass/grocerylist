@@ -6,7 +6,7 @@ TODO:
 Put done lists in their own view, make only open lists visible on main pages.
 
 
-***Don't forget to update /static/ if you changed css files. Just cause it's in git doesn't mean it gets updated on `pull`.
+***If /static/ changes remember to copy them over to the static server in prod.
 
 **I would really like it if the next refactor didn't require a db migration. Baby Jesus is already so very sad. 
 
@@ -32,5 +32,5 @@ Put done lists in their own view, make only open lists visible on main pages.
 /filter|search/
     Do the old java style needle-as-argument. Like my inventory app only better.
 
-
 """
+    
