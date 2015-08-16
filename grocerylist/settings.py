@@ -3,20 +3,13 @@ import os
 
 from django.conf import global_settings
 
-import cfggrocerylist
+from cfggrocerylist import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_URLCONF = 'grocerylist.urls'
 WSGI_APPLICATION = 'grocerylist.wsgi.application'
-FORCE_SCRIPT_NAME = cfggrocerylist.FORCE_SCRIPT_NAME
 
-SECRET_KEY = cfggrocerylist.SECRET_KEY
-SOCIAL_AUTH_TWITTER_KEY = cfggrocerylist.SOCIAL_AUTH_TWITTER_KEY
-SOCIAL_AUTH_TWITTER_SECRET = cfggrocerylist.SOCIAL_AUTH_TWITTER_SECRET
-
-DEBUG = cfggrocerylist.DEBUG
 TEMPLATE_DEBUG = DEBUG
-ALLOWED_HOSTS = cfggrocerylist.ALLOWED_HOSTS
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -47,8 +40,6 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-DATABASES = cfggrocerylist.DATABASES
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
