@@ -33,6 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'sslify.middleware.SSLifyMiddleware',  # use `SSLIFY_DISABLE = True` in dev
 )
 
 AUTHENTICATION_BACKENDS = (
