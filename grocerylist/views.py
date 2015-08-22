@@ -11,6 +11,7 @@ from lists.models import List, Tobuy
 from stores.models import Store
 from .mixins import RequireUserMixin
 
+
 class LogoutView(generic.RedirectView):
     """ Blindly log out any request that hits this url with a GET """
     url = reverse_lazy('index')
